@@ -16,7 +16,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -31,7 +30,7 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Run JUnit tests with Maven
       run: mvn test
-    -name: Run Java Checkstyle
+    - name: Run Java Checkstyle
       # You may pin to the exact commit or the version.
       # uses: nikitasavinov/checkstyle-action@79490c0fdcc3ab5dd2b50a0e82a5bfc4fe63f0a9
       uses: nikitasavinov/checkstyle-action@0.6.0
