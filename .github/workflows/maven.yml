@@ -32,9 +32,18 @@ jobs:
       run: mvn test
     - name: Run Java Checkstyle
       # You may pin to the exact commit or the version.
-      # uses: nikitasavinov/checkstyle-action@79490c0fdcc3ab5dd2b50a0e82a5bfc4fe63f0a9
-      uses: nikitasavinov/checkstyle-action@0.6.0
+      # uses: iwata-n/actions-checkstyle@540ec621f4c1fd765d45784b10cf262a2e19f08d
+      uses: iwata-n/actions-checkstyle@v1.0.0
       with:
+        rule: # optional, default is /checkstyle_rule.xml
+        result: # optional, default is ./checkstyle_result.xml
+        workdir: # optional, default is .
+        filter: # optional, default is *.java
+    
+      # You may pin to the exact commit or the version.
+      # uses: nikitasavinov/checkstyle-action@79490c0fdcc3ab5dd2b50a0e82a5bfc4fe63f0a9
+#      uses: nikitasavinov/checkstyle-action@0.6.0
+#      with:
         # GITHUB_TOKEN.
         #github_token: # optional, default is ${{ github.token }}
         # Report level for reviewdog [info,warning,error]
