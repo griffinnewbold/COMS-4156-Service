@@ -55,7 +55,7 @@ jobs:
         # Exit code for reviewdog when errors are found [true,false] Default is `false`.
         #fail_on_error: # optional, default is false
         # Checkstyle config file
-        checkstyle_config: # default is google_checks.xml
+        # checkstyle_config: # default is google_checks.xml
         # Checkstyle version
         #checkstyle_version: # optional, default is 10.3
         # Working directory relative to the root directory.
