@@ -37,12 +37,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Run check style
-      uses: nikitasavinov/checkstyle-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        reporter: 'github-pr-check'
-        tool_name: 'testtool'
+    - name: Java Checkstyle Annotations Uploader
+      # You may pin to the exact commit or the version.
+      # uses: kiancross/checkstyle-annotations-action@16cac2b2825757b1fd66d804d885ad41a8c5f393
+      uses: kiancross/checkstyle-annotations-action@v1.0.0
     
       # You may pin to the exact commit or the version.
       # uses: nikitasavinov/checkstyle-action@79490c0fdcc3ab5dd2b50a0e82a5bfc4fe63f0a9
