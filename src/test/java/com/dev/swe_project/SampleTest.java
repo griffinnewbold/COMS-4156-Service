@@ -6,6 +6,6 @@ import org.junit.jupiter.api.Test;
 public class SampleTest {
     @Test
     void samplePassingTest() {
-        Assertions.assertEquals(2 + 3, 4);
+        Assertions.assertEquals(2 + 2, 4);
     }
 }
