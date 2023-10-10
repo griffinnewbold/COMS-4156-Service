@@ -1,7 +1,9 @@
 package com.dev.swe_project;
 
+import com.google.firebase.FirebaseApp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class SweProjectApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SweProjectApplication.class, args);
+
+
+		// Initialize the Spring application context
+		ApplicationContext context = SpringApplication.run(SweProjectApplication.class, args);
+
+		// Get an instance of the FirebaseDatabaseService from the context
+		FirebaseDBService firebaseDatabaseService = context.getBean(FirebaseDBService.class);
+
+		// Execute the methods to add and remove data
+		firebaseDatabaseService.addData("exampleKey", "exampleValue");
+
 	}
 
 	@GetMapping("/hello")
