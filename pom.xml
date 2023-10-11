@@ -50,4 +50,43 @@
 		</plugins>
 	</build>
 
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.7</version>
+				<!-- Config options source: https://www.mojohaus.org/cobertura-maven-plugin/usage.html -->
+				<configuration>
+					<instrumentation>
+						<ignores>
+							<!-- Class to be ignored goes here -->
+						</ignores>
+						<excludes>
+							<!-- Class to be excluded goes here -->
+						</excludes>
+					</instrumentation>
+					<check>
+						<haltOnFailure>true</haltOnFailure>  <!-- Halt build on failure of check conditions -->
+						<branchRate>85</branchRate>
+						<lineRate>85</lineRate>
+						<totalBranchRate>85</totalBranchRate>
+						<totalLineRate>85</totalLineRate>
+						<packageLineRate>85</packageLineRate>
+						<packageBranchRate>85</packageBranchRate>
+					</check>
+				</configuration>
+				<!-- Exec options source: https://www.mojohaus.org/cobertura-maven-plugin/usage.html -->
+				<executions>
+					<execution>
+						<goals>
+							<goal>clean</goal>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+  </reporting>
+
 </project>
