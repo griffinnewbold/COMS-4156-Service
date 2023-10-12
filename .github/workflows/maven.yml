@@ -25,7 +25,10 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+        maven-version: '3.9.5'
         cache: maven
+    - name: Clear Maven Cache
+      run: mvn dependency:purge-local-repository
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - name: Run JUnit tests with Maven
