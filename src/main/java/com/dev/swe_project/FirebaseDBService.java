@@ -14,16 +14,36 @@ public class FirebaseDBService {
 
     private final FirebaseApp firebaseApp;
 
+    /**
+     * Creates a instance of the Firebase Databases
+     *
+     *
+     * @param firebaseApp FirebaseApp object
+     */
     @Autowired
     public FirebaseDBService(FirebaseApp firebaseApp) {
         this.firebaseApp = firebaseApp;
     }
 
+    /**
+     * Returns a reference to the database, if multiple clients are using this
+     * should give back the same instance.
+     *
+     * @return A reference to the Firebase realtime Database.
+     */
     public DatabaseReference getDatabaseReference() {
         FirebaseDatabase database = FirebaseDatabase.getInstance(firebaseApp);
         return database.getReference();
     }
 
+    /**
+     * Adds an entry to the specified collection with
+     * the key : value association provided.
+     *
+     * @param collection A String denoting which collection this belongs to
+     * @param key A String denoting the key for the association
+     * @param value An object representing the value
+     */
     public void addEntry(String collection, String key, Object value) {
         DatabaseReference databaseReference = getDatabaseReference();
         DatabaseReference collectionReference = databaseReference.child(collection);
@@ -36,6 +56,13 @@ public class FirebaseDBService {
         });
     }
 
+    /**
+     * Removes an entry to the specified collection with
+     * the key : value association provided.
+     *
+     * @param collection A String denoting which collection this belongs to
+     * @param key A String denoting the key for the association
+     */
     public void removeEntry(String collection, String key) {
         DatabaseReference databaseReference = getDatabaseReference();
         DatabaseReference collectionReference = databaseReference.child(collection);
@@ -48,6 +75,12 @@ public class FirebaseDBService {
         });
     }
 
+    /**
+     * Creates a collection for the Database
+     *
+     * @param collection A String representing the name
+     * of the collection
+     */
     public void createCollection(String collection) {
         DatabaseReference databaseReference = getDatabaseReference();
         Map<String, Object> collectionData = new HashMap<>();
@@ -61,6 +94,12 @@ public class FirebaseDBService {
         });
     }
 
+    /**
+     * Deletes a collection from the Database
+     *
+     * @param collection A String representing the name
+     * of the collection
+     */
     public void deleteCollection(String collection) {
         DatabaseReference databaseReference = getDatabaseReference();
         DatabaseReference collectionReference = databaseReference.child(collection);
@@ -79,6 +118,14 @@ public class FirebaseDBService {
         });
     }
 
+    /**
+     * Updates an entry to the specified collection with
+     * the key : value association provided.
+     *
+     * @param collection A String denoting which collection this belongs to
+     * @param key A String denoting the key for the association
+     * @param newValue An object representing the newValue to be assigned
+     */
     public void updateEntry(String collection, String key, Object newValue){
         DatabaseReference databaseReference = getDatabaseReference();
         DatabaseReference collectionReference = databaseReference.child(collection);
@@ -92,5 +139,4 @@ public class FirebaseDBService {
             }
         });
     }
-
 }
