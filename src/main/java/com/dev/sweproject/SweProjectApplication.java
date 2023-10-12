@@ -27,7 +27,7 @@ public class SweProjectApplication {
 		FirebaseService firebaseDatabaseService = context.getBean(FirebaseService.class);
 
 		//Testing DB methods
-		//firebaseDatabaseService.createCollection("test-network");
+		// firebaseDatabaseService.createCollection("test-network");
 
 		//firebaseDatabaseService.addEntry("test-network", "name", "Griffin");
 		//firebaseDatabaseService.updateEntry("test-network", "name", "Jeannie");
