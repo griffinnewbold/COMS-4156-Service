@@ -1,4 +1,4 @@
-package com.dev.swe_project;
+package com.dev.sweproject;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

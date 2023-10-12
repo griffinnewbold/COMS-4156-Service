@@ -1,4 +1,4 @@
-package com.dev.swe_project;
+package com.dev.sweproject;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
