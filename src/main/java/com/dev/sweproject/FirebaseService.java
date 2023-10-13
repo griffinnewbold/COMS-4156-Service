@@ -11,6 +11,12 @@ import java.util.concurrent.CompletableFuture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/*
+CompletableFuture<Object> is a class in Java that represents a future result of
+an asynchronous computation. Part of the java.util.concurrent package and
+Used when you want to retrieve a result once it's available or handle an error if the operation
+fails. https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html
+ */
 
 /**
  * Has all service methods related to the DB.
@@ -44,107 +50,147 @@ public class FirebaseService {
   }
 
   /**
-   * Adds an entry to the specified collection with
-   * the key : value association provided.
+   * Add an entry to the specified collection with the key : value association provided.
    *
    * @param collection A String denoting which collection this belongs to
    * @param key A String denoting the key for the association
    * @param value An object representing the value
+   * @return A CompletableFuture that completes with the value upon successful addition
+   * or an error message
    */
-  public void addEntry(String collection, String key, Object value) {
+  public CompletableFuture<Object> addEntry(String collection, String key, Object value) {
     DatabaseReference databaseReference = getDatabaseReference();
     DatabaseReference collectionReference = databaseReference.child(collection);
+
+    CompletableFuture<Object> resultFuture = new CompletableFuture<>();
+
     collectionReference.child(key).setValue(value, (error, ref) -> {
       if (error != null) {
-        System.out.println("Data could not be saved: " + error.getMessage());
+        String errorMessage = "Data could not be added: " + error.getMessage();
+        System.out.println(errorMessage);
+        resultFuture.completeExceptionally(new RuntimeException(errorMessage));
       } else {
-        System.out.println("Data saved successfully.");
+        System.out.println("Data added successfully.");
+        resultFuture.complete(value);
       }
     });
+
+    return resultFuture;
   }
 
   /**
-   * Removes an entry to the specified collection with
-   * the key : value association provided.
+   * Remove an entry from the specified collection with the given key.
    *
-   * @param collection A String denoting which collection this belongs to
-   * @param key A String denoting the key for the association
+   * @param collection A String denoting which collection this entry belongs to
+   * @param key A String denoting the key for the entry to be removed
+   * @return A CompletableFuture that completes with a success message upon successful removal
+   * or an error message
    */
-  public void removeEntry(String collection, String key) {
+  public CompletableFuture<String> removeEntry(String collection, String key) {
     DatabaseReference databaseReference = getDatabaseReference();
     DatabaseReference collectionReference = databaseReference.child(collection);
+
+    CompletableFuture<String> resultFuture = new CompletableFuture<>();
+
     collectionReference.child(key).removeValue((error, ref) -> {
       if (error != null) {
-        System.out.println("Data could not be removed: " + error.getMessage());
+        String errorMessage = "Data could not be removed: " + error.getMessage();
+        System.out.println(errorMessage);
+        resultFuture.completeExceptionally(new RuntimeException(errorMessage));
       } else {
-        System.out.println("Data removed successfully.");
+        String successMessage = "Data removed successfully.";
+        System.out.println(successMessage);
+        resultFuture.complete(successMessage);
       }
     });
+
+    return resultFuture;
   }
 
   /**
-   * Creates a collection for the Database.
+   * Create a collection in the database.
    *
-   * @param collection A String representing the name
-   *     of the collection
+   * @param collection A String representing the name of the collection
+   * @return A CompletableFuture that completes with the collection name upon successful
+   * creation or an error message
    */
-  public void createCollection(String collection) {
+  public CompletableFuture<String> createCollection(String collection) {
     DatabaseReference databaseReference = getDatabaseReference();
     Map<String, Object> collectionData = new HashMap<>();
     collectionData.put(collection, ""); // Create an empty entry for the collection
+
+    CompletableFuture<String> resultFuture = new CompletableFuture<>();
+
     databaseReference.updateChildren(collectionData, (error, ref) -> {
       if (error != null) {
-        System.out.println("Collection could not be created: " + error.getMessage());
+        String errorMessage = "Collection could not be created: " + error.getMessage();
+        System.out.println(errorMessage);
+        resultFuture.completeExceptionally(new RuntimeException(errorMessage));
       } else {
         System.out.println("Collection created successfully: " + collection);
+        resultFuture.complete(collection);
       }
     });
+
+    return resultFuture;
   }
 
   /**
-   * Deletes a collection from the Database.
+   * Delete a collection from the database.
    *
-   * @param collection A String representing the name
-   *     of the collection
+   * @param collection A String representing the name of the collection
+   * @return A CompletableFuture that completes with the collection name upon successful
+   * deletion or an error message
    */
-  public void deleteCollection(String collection) {
+  public CompletableFuture<String> deleteCollection(String collection) {
     DatabaseReference databaseReference = getDatabaseReference();
     DatabaseReference collectionReference = databaseReference.child(collection);
+
+    CompletableFuture<String> resultFuture = new CompletableFuture<>();
+
     collectionReference.removeValue((error, ref) -> {
       if (error != null) {
-        System.out.println("Error deleting documents in collection: " + error.getMessage());
+        String errorMessage = "Error deleting documents in collection: " + error.getMessage();
+        System.out.println(errorMessage);
+        resultFuture.completeExceptionally(new RuntimeException(errorMessage));
       } else {
-        collectionReference.removeValue((error1, ref1) -> {
-          if (error1 != null) {
-            System.out.println("Error deleting collection: " + error1.getMessage());
-          } else {
-            System.out.println("Collection deleted successfully: " + collection);
-          }
-        });
+        // CollectionReference is already deleted, no need to delete it again
+        System.out.println("Collection deleted successfully: " + collection);
+        resultFuture.complete(collection);
       }
     });
+
+    return resultFuture;
   }
 
   /**
-   * Updates an entry to the specified collection with
-   * the key : value association provided.
+   * Update an entry in the specified collection with the key : value association provided.
    *
-   * @param collection A String denoting which collection this belongs to
+   * @param collection A String denoting which collection this entry belongs to
    * @param key A String denoting the key for the association
-   * @param newValue An object representing the newValue to be assigned
+   * @param newValue An object representing the new value to be assigned
+   * @return A CompletableFuture that completes with the new value upon successful update
+   * or an error message
    */
-  public void updateEntry(String collection, String key, Object newValue) {
+  public CompletableFuture<Object> updateEntry(String collection, String key, Object newValue) {
     DatabaseReference databaseReference = getDatabaseReference();
     DatabaseReference collectionReference = databaseReference.child(collection);
     DatabaseReference entryReference = collectionReference.child(key);
 
+    CompletableFuture<Object> resultFuture = new CompletableFuture<>();
+
     entryReference.setValue(newValue, (error, ref) -> {
       if (error != null) {
-        System.out.println("Value could not be changed: " + error.getMessage());
+        String errorMessage = "Value could not be changed: " + error.getMessage();
+        System.out.println(errorMessage);
+        resultFuture.completeExceptionally(new RuntimeException(errorMessage));
       } else {
         System.out.println("Value was changed successfully: " + newValue);
+        resultFuture.complete(newValue);
       }
     });
+
+    return resultFuture;
   }
 
 
@@ -180,30 +226,20 @@ public class FirebaseService {
 
     return future;
   }
- /*
-  public static String generateNetworkId() {
+
+  public String generateNetworkId() {
+    String timestamp = String.valueOf(System.currentTimeMillis());
+    String netId = "";
     Random random = new Random();
-    boolean isCollision = true;
-    String validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    String networkId = "";
 
-    while(!isCollision) {
-
-      while(networkId.length() != NETWORK_ID_LENGTH) {
-        networkId += validChars.charAt(random.nextInt(validChars.length()));
-      }
-
-      DatabaseReference collectionReference = getDatabaseReference().child(collectionName);
-
-      DataSnapshot dataSnapshot = collectionReference.get().getResult(); // Synchronous fetch
-
-      if (dataSnapshot == null || !dataSnapshot.exists()) {
-
-      }
-
+    for(int i = 0; i < NETWORK_ID_LENGTH; i++) {
+      netId += "ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(random.nextInt(26));
     }
-
-    return networkId;
+    return netId + timestamp;
   }
-  */
+
+
+
+
+
 }
