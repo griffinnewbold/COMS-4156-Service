@@ -156,7 +156,7 @@ public class Document {
   }
 
   /**
-   * Converts the JSON format to a Document object
+   * Converts the JSON format to a Document object.
    *
    * @param map A hashmap containing the key value pairs
    * @return A Document wrapper type
@@ -167,7 +167,7 @@ public class Document {
     String docId = (String) map.get("docId");
     String title = (String) map.get("title");
     File file = (File) map.get("file");
-    int wordCount = ((Long)map.get("wordCount")).intValue();
+    int wordCount = ((Long) map.get("wordCount")).intValue();
 
     return new Document(clientId, file, docId, title, type, wordCount);
   }

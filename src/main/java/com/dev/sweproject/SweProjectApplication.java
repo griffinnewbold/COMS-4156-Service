@@ -34,26 +34,6 @@ public class SweProjectApplication {
 				            SweProjectApplication.class, args);
 
 		FirebaseService firebaseDatabaseService = context.getBean(FirebaseService.class);
-
-		//Testing DB methods
-		firebaseDatabaseService.createCollection("test-network/users");
-
-		firebaseDatabaseService.addEntry("test-network/users", "testDoc",
-				new Document("1", null, "012", "the first doc", "txt", 0));
-		firebaseDatabaseService.updateEntry("null", "test", null);
-		/*
-		try {
-			CompletableFuture<Object> resultFuture = firebaseDatabaseService.getEntry("test-network", "testDoc");
-			HashMap<String, Object> map = (HashMap<String, Object>) resultFuture.get();
-			Document value = Document.convertToDocument(map);
-			System.out.println("Retrieved value: " + value);
-		} catch (InterruptedException | ExecutionException e) {
-			System.out.println("Error while retrieving data: " + e.getMessage());
-		}
-		//firebaseDatabaseService.updateEntry("test-network", "name", "Jeannie");
-		//firebaseDatabaseService.removeEntry("test-network", "name");
-
-		 */
 	}
 
 	/**

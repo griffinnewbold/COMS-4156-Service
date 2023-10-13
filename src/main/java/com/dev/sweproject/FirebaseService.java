@@ -16,6 +16,9 @@ CompletableFuture<Object> is a class in Java that represents a future result of
 an asynchronous computation. Part of the java.util.concurrent package and
 Used when you want to retrieve a result once it's available or handle an error if the operation
 fails. https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html
+
+The Firebase API for Java used to mainly run off of Tasks which have since been deprecated
+CompletableFuture was one of the recommended alternatives.
  */
 
 /**
@@ -117,7 +120,7 @@ public class FirebaseService {
   public CompletableFuture<String> createCollection(String collection) {
     DatabaseReference databaseReference = getDatabaseReference();
     Map<String, Object> collectionData = new HashMap<>();
-    collectionData.put(collection, ""); // Create an empty entry for the collection
+    collectionData.put(collection, "");
 
     CompletableFuture<String> resultFuture = new CompletableFuture<>();
 
@@ -154,7 +157,6 @@ public class FirebaseService {
         System.out.println(errorMessage);
         resultFuture.completeExceptionally(new RuntimeException(errorMessage));
       } else {
-        // CollectionReference is already deleted, no need to delete it again
         System.out.println("Collection deleted successfully: " + collection);
         resultFuture.complete(collection);
       }
@@ -227,19 +229,19 @@ public class FirebaseService {
     return future;
   }
 
+  /**
+   * Generates a unique id for a network to use.
+   *
+   * @return A String containing the unique network id
+   */
   public String generateNetworkId() {
     String timestamp = String.valueOf(System.currentTimeMillis());
     String netId = "";
     Random random = new Random();
 
-    for(int i = 0; i < NETWORK_ID_LENGTH; i++) {
+    for (int i = 0; i < NETWORK_ID_LENGTH; i++) {
       netId += "ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(random.nextInt(26));
     }
     return netId + timestamp;
   }
-
-
-
-
-
 }
