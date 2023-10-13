@@ -236,11 +236,11 @@ public class FirebaseService {
    */
   public String generateNetworkId() {
     String timestamp = String.valueOf(System.currentTimeMillis());
-    String netId = "";
+    StringBuilder netId = new StringBuilder();
     Random random = new Random();
 
     for (int i = 0; i < NETWORK_ID_LENGTH; i++) {
-      netId += "ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(random.nextInt(26));
+      netId.append("ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(random.nextInt(26)));
     }
     return netId + timestamp;
   }
