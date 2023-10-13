@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.print.Doc;
 import java.util.HashMap;
@@ -80,5 +81,46 @@ public class SweProjectApplication {
 
 		ObjectMapper om = new ObjectMapper();
 		return om.writeValueAsString(new RegisterClientResponse(network_id));
+	}
+
+	@PostMapping(value = "/upload-doc")
+	public void uploadDoc(@RequestParam(value = "network-id", required = true) String networkId,
+						  @RequestParam(value = "document-name", required = true) String documentName,
+						  @RequestBody MultipartFile contents) {
+		// TODO: upload the document to the database
+	}
+
+	@GetMapping(value = "/download-doc", produces = MediaType.APPLICATION_JSON_VALUE)
+	public String downloadDoc(@RequestParam(value = "network-id", required = true) String networkId,
+							  @RequestParam(value = "document-name", required = true) String documentName)
+			throws com.fasterxml.jackson.core.JsonProcessingException {
+		DownloadDocResponse docsResponse = new DownloadDocResponse();
+
+		// TODO: get the document version(s) from the DB, and use it to populate docsResponse
+
+		ObjectMapper om = new ObjectMapper();
+		return om.writeValueAsString(docsResponse);
+	}
+
+	@PostMapping(value = "/delete-doc")
+	public void deleteDoc(@RequestParam(value = "network-id", required = true) String networkId,
+						  @RequestParam(value = "document-name", required = true) String documentName) {
+		// TODO: delete the document
+	}
+//	#### GET /check-for-doc
+//* This API checks if a specified document exists, and, if it does, returns how many versions are stored.
+//* Input: network-id (string), document-name (string)
+//* Output: document-exists (boolean), version-count (integer)
+	@GetMapping(value = "/check-for-doc", produces = MediaType.APPLICATION_JSON_VALUE)
+	public String checkForDoc(@RequestParam(value = "network-id", required = true) String networkId,
+							  @RequestParam(value = "document-name", required = true) String documentName)
+			throws com.fasterxml.jackson.core.JsonProcessingException {
+		CheckForDocResponse response = new CheckForDocResponse(false, 0);
+
+		// TODO: query the DB to see if the document exists, and, if so, how many versions there are.
+		//       then, use those fields to populate the response
+
+		ObjectMapper om = new ObjectMapper();
+		return om.writeValueAsString(response);
 	}
 }
