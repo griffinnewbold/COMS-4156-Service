@@ -1,10 +1,13 @@
 package com.dev.sweproject;
 
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.*;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -142,4 +145,42 @@ public class FirebaseService {
       }
     });
   }
+
+
+  /**
+   * Retrieves the value associated with the specified collection and key.
+   *
+   * @param collection A String denoting which collection this belongs to
+   * @param key A String denoting the key for the association
+   * @return A CompletableFuture that will be completed with the retrieved value
+   */
+  public CompletableFuture<Object> getEntry(String collection, String key) {
+    CompletableFuture<Object> future = new CompletableFuture<>();
+
+    DatabaseReference databaseReference = getDatabaseReference();
+    DatabaseReference collectionReference = databaseReference.child(collection);
+    DatabaseReference entryReference = collectionReference.child(key);
+
+    entryReference.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        Object value = dataSnapshot.getValue();
+        if (value != null) {
+          future.complete(value);
+        } else {
+          future.completeExceptionally(new RuntimeException("Value not found."));
+        }
+      }
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+        future.completeExceptionally(new RuntimeException(databaseError.getMessage()));
+      }
+    });
+
+    return future;
+  }
+
+
+
+
 }

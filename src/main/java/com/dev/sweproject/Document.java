@@ -2,6 +2,7 @@ package com.dev.sweproject;
 
 
 import java.io.File;
+import java.util.HashMap;
 
 /**
  * Document class contains information about a document.
@@ -144,5 +145,32 @@ public class Document {
   public void setWordCount(int wordCount) {
     this.wordCount = wordCount;
   }
+
+  /**
+   * Gives a String representation of the object.
+   *
+   * @return a string.
+   */
+  public String toString() {
+    return title + ": " + wordCount;
+  }
+
+  /**
+   * Converts the JSON format to a Document object
+   *
+   * @param map A hashmap containing the key value pairs
+   * @return A Document wrapper type
+   */
+  public static Document convertToDocument(HashMap<String, Object> map) {
+    String clientId = (String) map.get("clientId");
+    String type = (String) map.get("type");
+    String docId = (String) map.get("docId");
+    String title = (String) map.get("title");
+    File file = (File) map.get("file");
+    int wordCount = ((Long)map.get("wordCount")).intValue();
+
+    return new Document(clientId, file, docId, title, type, wordCount);
+  }
+
 
 }
