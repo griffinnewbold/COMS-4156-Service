@@ -1,26 +1,21 @@
 package com.dev.sweproject;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.dev.sweproject.FirebaseService;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = SweProjectApplication.class)
 public class FirebaseServiceTest {
 
+  @Autowired
   private FirebaseService firebaseService;
 
-  @BeforeEach
-  public void setup() {
-    ApplicationContext context = SpringApplication.run(
-        SweProjectApplication.class, "");
-
-    this.firebaseService = context.getBean(FirebaseService.class);
-  }
 
 
   @Test
