@@ -215,6 +215,7 @@ public class FirebaseService {
       public void onDataChange(DataSnapshot dataSnapshot) {
         Object value = dataSnapshot.getValue();
         if (value != null) {
+          System.out.println("The value has been successfully retrieved");
           future.complete(value);
         } else {
           future.completeExceptionally(new RuntimeException("Value not found."));

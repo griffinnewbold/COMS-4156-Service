@@ -1,6 +1,9 @@
 package com.dev.sweproject;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,18 +15,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SweProjectApplication.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class FirebaseServiceTest {
 
   @Autowired
   private FirebaseService firebaseService;
 
+  private final String collectionName = "testCollection";
+
   /**
    * Tests the successful creation of a network
    */
   @Test
+  @Order(1)
   public void testCreateCollectionSuccessfully() {
-    String collectionName = "testCollection";
-
     assertDoesNotThrow(() -> {
       String result = firebaseService.createCollection(collectionName).get();
       assertEquals(collectionName, result);
@@ -34,12 +39,13 @@ public class FirebaseServiceTest {
    * Tests for successful adding to the database
    */
   @Test
-  public void testAddEntrySuccess() {
-    String collection = "testCollection";
+  @Order(2)
+  public void testAddEntrySuccess() throws InterruptedException {
+    Thread.sleep(2000);
     String key = "testKey";
     String value = "testValue";
 
-    CompletableFuture<Object> result = firebaseService.addEntry(collection, key, value);
+    CompletableFuture<Object> result = firebaseService.addEntry(collectionName, key, value);
 
     try {
       String resultValue = (String)result.get();
@@ -54,17 +60,18 @@ public class FirebaseServiceTest {
    * Tests for successful adding to the database
    */
   @Test
-  public void testAddEntrySuccess2() {
-    String collection = "testCollection";
+  @Order(3)
+  public void testAddEntrySuccess2() throws InterruptedException {
+    Thread.sleep(2000);
     String key = "testKey2";
-    String value = "testValue";
+    String value = "testValue2";
 
-    CompletableFuture<Object> result = firebaseService.addEntry(collection, key, value);
+    CompletableFuture<Object> result = firebaseService.addEntry(collectionName, key, value);
 
     try {
       String resultValue = (String)result.get();
       assertNotNull(resultValue);
-      assertEquals("testValue", resultValue);
+      assertEquals("testValue2", resultValue);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -74,11 +81,12 @@ public class FirebaseServiceTest {
    * Tests for successful removal from DB
    */
   @Test
-  public void testRemoveEntrySuccess() {
-    String collection = "testCollection";
+  @Order(4)
+  public void testRemoveEntrySuccess() throws InterruptedException {
+    Thread.sleep(2000);
     String key = "testKey2";
 
-    CompletableFuture<String> result = firebaseService.removeEntry(collection, key);
+    CompletableFuture<String> result = firebaseService.removeEntry(collectionName, key);
 
     try {
       String resultValue = result.get();
@@ -93,12 +101,13 @@ public class FirebaseServiceTest {
    * Tests for successful update
    */
   @Test
-  public void testUpdateEntrySuccess() {
-    String collection = "testCollection";
+  @Order(5)
+  public void testUpdateEntrySuccess() throws InterruptedException {
+    Thread.sleep(2000);
     String key = "testKey";
     String newValue = "newTestValue";
 
-    CompletableFuture<Object> result = firebaseService.updateEntry(collection, key, newValue);
+    CompletableFuture<Object> result = firebaseService.updateEntry(collectionName, key, newValue);
 
     try {
       Object resultValue = result.get();
@@ -113,11 +122,12 @@ public class FirebaseServiceTest {
    * Tests for successful get
    */
   @Test
-  public void testGetEntrySuccess() {
-    String collection = "testCollection";
+  @Order(6)
+  public void testGetEntrySuccess() throws InterruptedException {
+    Thread.sleep(2000);
     String key = "testKey";
 
-    CompletableFuture<Object> result = firebaseService.getEntry(collection, key);
+    CompletableFuture<Object> result = firebaseService.getEntry(collectionName, key);
     try {
       Object resultValue = result.get();
       assertNotNull(resultValue);
@@ -126,4 +136,5 @@ public class FirebaseServiceTest {
       e.printStackTrace();
     }
   }
+
 }
