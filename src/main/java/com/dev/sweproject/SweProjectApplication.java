@@ -4,17 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-<<<<<<< HEAD
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
-=======
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.springframework.web.bind.annotation.RestController;
->>>>>>> 8a6ffe3d2ddf1ca64a835a1e16a56fb25e841464
 
 import javax.print.Doc;
 import java.util.HashMap;
