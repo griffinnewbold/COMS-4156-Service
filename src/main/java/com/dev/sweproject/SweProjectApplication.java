@@ -107,10 +107,7 @@ public class SweProjectApplication {
 						  @RequestParam(value = "document-name", required = true) String documentName) {
 		// TODO: delete the document
 	}
-//	#### GET /check-for-doc
-//* This API checks if a specified document exists, and, if it does, returns how many versions are stored.
-//* Input: network-id (string), document-name (string)
-//* Output: document-exists (boolean), version-count (integer)
+
 	@GetMapping(value = "/check-for-doc", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String checkForDoc(@RequestParam(value = "network-id", required = true) String networkId,
 							  @RequestParam(value = "document-name", required = true) String documentName)
