@@ -5,8 +5,8 @@ import com.google.firebase.database.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 public class FirebaseService {
 
   private final FirebaseApp firebaseApp;
+  public static final int NETWORK_ID_LENGTH = 3;
 
   /**
    * Creates an instance of the Firebase Databases.
@@ -179,8 +180,30 @@ public class FirebaseService {
 
     return future;
   }
+ /*
+  public static String generateNetworkId() {
+    Random random = new Random();
+    boolean isCollision = true;
+    String validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    String networkId = "";
 
+    while(!isCollision) {
 
+      while(networkId.length() != NETWORK_ID_LENGTH) {
+        networkId += validChars.charAt(random.nextInt(validChars.length()));
+      }
 
+      DatabaseReference collectionReference = getDatabaseReference().child(collectionName);
 
+      DataSnapshot dataSnapshot = collectionReference.get().getResult(); // Synchronous fetch
+
+      if (dataSnapshot == null || !dataSnapshot.exists()) {
+
+      }
+
+    }
+
+    return networkId;
+  }
+  */
 }

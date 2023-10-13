@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.print.Doc;
 import java.util.HashMap;
 
 
@@ -37,11 +34,12 @@ public class SweProjectApplication {
 		FirebaseService firebaseDatabaseService = context.getBean(FirebaseService.class);
 
 		//Testing DB methods
-		firebaseDatabaseService.createCollection("test-network");
+		firebaseDatabaseService.createCollection("test-network/users");
 
-		firebaseDatabaseService.addEntry("test-network", "testDoc",
+		firebaseDatabaseService.addEntry("test-network/users", "testDoc",
 				new Document("1", null, "012", "the first doc", "txt", 0));
-
+		firebaseDatabaseService.updateEntry("null", "test", null);
+		/*
 		try {
 			CompletableFuture<Object> resultFuture = firebaseDatabaseService.getEntry("test-network", "testDoc");
 			HashMap<String, Object> map = (HashMap<String, Object>) resultFuture.get();
@@ -52,6 +50,8 @@ public class SweProjectApplication {
 		}
 		//firebaseDatabaseService.updateEntry("test-network", "name", "Jeannie");
 		//firebaseDatabaseService.removeEntry("test-network", "name");
+
+		 */
 	}
 
 	/**
