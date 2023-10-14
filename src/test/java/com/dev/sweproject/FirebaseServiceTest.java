@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -130,7 +131,17 @@ public class FirebaseServiceTest {
   @Test
   @Order(7)
   public void testGetEntryFailure() {
-
+    String key = "testKey3";
+    CompletableFuture<Object> result = firebaseService.getEntry(collectionName, key);
+    try {
+      Object resultValue = result.get();
+      assertNotNull(resultValue);
+      assertEquals(new RuntimeException("Value not found."), resultValue);
+    } catch (ExecutionException e) {
+      System.out.println("Successfully caught: " + e);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
 }
