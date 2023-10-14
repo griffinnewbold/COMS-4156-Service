@@ -172,5 +172,18 @@ public class Document {
     return new Document(clientId, file, docId, title, type, wordCount);
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Document document = (Document) o;
+
+    return (this.getWordCount() == document.getWordCount())
+        && (this.getType().equals(document.getType()))
+        && (this.getTitle().equals(document.getTitle()))
+        && (this.getDocId().equals(document.getDocId()))
+        && (this.getClientId().equals(document.getClientId()));
+  }
 
 }
