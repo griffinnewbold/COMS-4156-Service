@@ -40,11 +40,9 @@ public class FirebaseServiceTest {
    */
   @Test
   @Order(2)
-  public void testAddEntrySuccess() throws InterruptedException {
-    Thread.sleep(2000);
+  public void testAddEntrySuccess() {
     String key = "testKey";
     String value = "testValue";
-
     CompletableFuture<Object> result = firebaseService.addEntry(collectionName, key, value);
 
     try {
@@ -61,11 +59,9 @@ public class FirebaseServiceTest {
    */
   @Test
   @Order(3)
-  public void testAddEntrySuccess2() throws InterruptedException {
-    Thread.sleep(2000);
+  public void testAddEntrySuccess2() {
     String key = "testKey2";
     String value = "testValue2";
-
     CompletableFuture<Object> result = firebaseService.addEntry(collectionName, key, value);
 
     try {
@@ -82,10 +78,8 @@ public class FirebaseServiceTest {
    */
   @Test
   @Order(4)
-  public void testRemoveEntrySuccess() throws InterruptedException {
-    Thread.sleep(2000);
+  public void testRemoveEntrySuccess() {
     String key = "testKey2";
-
     CompletableFuture<String> result = firebaseService.removeEntry(collectionName, key);
 
     try {
@@ -102,11 +96,9 @@ public class FirebaseServiceTest {
    */
   @Test
   @Order(5)
-  public void testUpdateEntrySuccess() throws InterruptedException {
-    Thread.sleep(2000);
+  public void testUpdateEntrySuccess() {
     String key = "testKey";
     String newValue = "newTestValue";
-
     CompletableFuture<Object> result = firebaseService.updateEntry(collectionName, key, newValue);
 
     try {
@@ -123,10 +115,8 @@ public class FirebaseServiceTest {
    */
   @Test
   @Order(6)
-  public void testGetEntrySuccess() throws InterruptedException {
-    Thread.sleep(2000);
+  public void testGetEntrySuccess() {
     String key = "testKey";
-
     CompletableFuture<Object> result = firebaseService.getEntry(collectionName, key);
     try {
       Object resultValue = result.get();
@@ -135,6 +125,12 @@ public class FirebaseServiceTest {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  @Test
+  @Order(7)
+  public void testGetEntryFailure() {
+
   }
 
 }
