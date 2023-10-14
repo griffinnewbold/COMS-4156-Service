@@ -29,11 +29,15 @@ public class SweProjectApplication {
 	 *
 	 * @param args arguments for main
 	 */
+	private static FirebaseService firebaseDataService;
+
+
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(
 				            SweProjectApplication.class, args);
 
 		FirebaseService firebaseDatabaseService = context.getBean(FirebaseService.class);
+		firebaseDataService = firebaseDatabaseService;
 	}
 
 	/**
@@ -47,20 +51,10 @@ public class SweProjectApplication {
 		return String.format("Hello %s!", name);
 	}
 
-	@PostMapping(value = "/register-client", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/register-client", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String registerClient() throws com.fasterxml.jackson.core.JsonProcessingException {
-		// Generate an 8-character network ID (plus a null terminator)
-		int len = 8;
-		StringBuilder builder = new StringBuilder(len);
-		String characters = "0123456789abcdef";
-		for (int i = 0; i < len; i++) {
-			int index = (int)(Math.random() * characters.length());
-			builder.append(characters.charAt(index));
-		}
-		String network_id = builder.toString();
-
-		// TODO: register the network_id in the database
-
+		String network_id = firebaseDataService.generateNetworkId();
+		firebaseDataService.createCollection(network_id);
 		ObjectMapper om = new ObjectMapper();
 		return om.writeValueAsString(new RegisterClientResponse(network_id));
 	}
