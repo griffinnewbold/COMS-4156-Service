@@ -1,12 +1,15 @@
 package com.dev.sweproject;
 
-import java.util.*;
-import org.junit.Test;
-import static org.junit.Assert.*;
-import com.dev.sweproject.Document;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.File;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = SweProjectApplication.class)
 public class DocumentTests {
     /**
      * Tests the successful creation of a Document
