@@ -1,5 +1,6 @@
 package com.dev.sweproject;
 
+import com.google.firebase.database.DataSnapshot;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -139,6 +141,36 @@ public class FirebaseServiceTest {
       assertEquals(new RuntimeException("Value not found."), resultValue);
     } catch (ExecutionException e) {
       System.out.println("Successfully caught: " + e);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  @Order(8)
+  public void testSearchSuccess() {
+    CompletableFuture<DataSnapshot> future = firebaseService.searchForDocument("testCollectionDocs",
+        "my test doc");
+    try {
+      DataSnapshot dataSnapshot = future.get();
+      assertNotNull(dataSnapshot);
+      assertTrue(dataSnapshot.exists());
+      assertEquals("my test doc", Document.convertToDocument(
+          (HashMap<String, Object>) dataSnapshot.getValue()).getTitle());
+      System.out.println("element found: " + dataSnapshot.getValue());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  @Order(9)
+  public void testSearchFailure() {
+    CompletableFuture<DataSnapshot> future = firebaseService.searchForDocument("testCollectionDocs",
+        "i don't exist");
+    try {
+      DataSnapshot dataSnapshot = future.get();
+      assertNull(dataSnapshot);
     } catch (Exception e) {
       e.printStackTrace();
     }

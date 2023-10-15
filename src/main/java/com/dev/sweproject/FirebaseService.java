@@ -216,6 +216,7 @@ public class FirebaseService {
         Object value = dataSnapshot.getValue();
         if (value != null) {
           System.out.println("The value has been successfully retrieved");
+          System.out.println(value.toString());
           future.complete(value);
         } else {
           future.completeExceptionally(new RuntimeException("Value not found."));
@@ -245,4 +246,36 @@ public class FirebaseService {
     }
     return netId + timestamp;
   }
+
+  public CompletableFuture<DataSnapshot> searchForDocument(String collectionName, String title) {
+    CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
+    DatabaseReference databaseReference = getDatabaseReference();
+    DatabaseReference collectionReference = databaseReference.child(collectionName);
+
+    ValueEventListener titleListener = new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot collectionSnapshot) {
+        for (DataSnapshot documentSnapshot : collectionSnapshot.getChildren()) {
+          String documentTitle = documentSnapshot.child("title").getValue(String.class);
+
+          if (documentTitle != null && documentTitle.equals(title)) {
+            future.complete(documentSnapshot);
+            return;
+          }
+        }
+        future.complete(null);
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+        future.completeExceptionally(new RuntimeException(databaseError.getMessage()));
+      }
+    };
+
+    collectionReference.addListenerForSingleValueEvent(titleListener);
+
+    return future;
+  }
+
 }
+
