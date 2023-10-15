@@ -1,6 +1,7 @@
 package com.dev.sweproject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.firebase.database.DataSnapshot;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -9,11 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
 
 
 /**
@@ -24,20 +23,19 @@ import java.util.HashMap;
 @RestController
 public class SweProjectApplication {
 
+
+	private static FirebaseService firebaseDataService;
+
 	/**
 	 * Driver method.
 	 *
 	 * @param args arguments for main
 	 */
-	private static FirebaseService firebaseDataService;
-
-
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(
 				            SweProjectApplication.class, args);
 
-		FirebaseService firebaseDatabaseService = context.getBean(FirebaseService.class);
-		firebaseDataService = firebaseDatabaseService;
+		firebaseDataService = context.getBean(FirebaseService.class);
 	}
 
 	/**
@@ -51,6 +49,14 @@ public class SweProjectApplication {
 		return String.format("Hello %s!", name);
 	}
 
+	/**
+	 * Post Mapping that registers the client in the database so they may
+	 * perform different operations, only needs to run once in the lifetime
+	 * of the client.
+	 *
+	 * @return TODO
+	 * @throws com.fasterxml.jackson.core.JsonProcessingException
+	 */
 	@PostMapping(value="/register-client", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String registerClient() throws com.fasterxml.jackson.core.JsonProcessingException {
 		String network_id = firebaseDataService.generateNetworkId();
@@ -84,14 +90,36 @@ public class SweProjectApplication {
 		// TODO: delete the document
 	}
 
+	/**
+	 * Searches the client's network for a specific document
+	 * if the document exists it is returned to the client
+	 * otherwise a simple message stating otherwise is
+	 * provided.
+	 *
+	 * @param networkId A String representing the client's network
+	 * Id.
+	 *
+	 * @param documentName A String representing the name of the
+	 * document that the client is looking for.
+	 *
+	 * @return A JSON object serialized as a String
+	 * @throws com.fasterxml.jackson.core.JsonProcessingException
+	 */
 	@GetMapping(value = "/check-for-doc", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String checkForDoc(@RequestParam(value = "network-id", required = true) String networkId,
 							  @RequestParam(value = "document-name", required = true) String documentName)
 			throws com.fasterxml.jackson.core.JsonProcessingException {
-		CheckForDocResponse response = new CheckForDocResponse(false, 0);
 
-		// TODO: query the DB to see if the document exists, and, if so, how many versions there are.
-		//       then, use those fields to populate the response
+		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(networkId, documentName);
+		Object response = new Object();
+		try {
+			DataSnapshot dataSnapshot = result.get();
+			if(dataSnapshot.exists()) {
+				response = dataSnapshot.getValue();
+			}
+		} catch (Exception e) {
+			response = "no such document exists";
+		}
 
 		ObjectMapper om = new ObjectMapper();
 		return om.writeValueAsString(response);
