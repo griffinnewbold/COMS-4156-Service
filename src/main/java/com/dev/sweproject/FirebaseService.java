@@ -3,13 +3,19 @@ package com.dev.sweproject;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.*;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /*
 CompletableFuture<Object> is a class in Java that represents a future result of
@@ -275,6 +281,36 @@ public class FirebaseService {
     collectionReference.addListenerForSingleValueEvent(titleListener);
 
     return future;
+  }
+
+  public CompletableFuture<Object> uploadFile(MultipartFile file, String collectionName,
+                                              String fileName, String userId) throws IOException {
+
+    CompletableFuture<DataSnapshot> doesExist = searchForDocument(collectionName, fileName);
+    DataSnapshot dataSnapshot;
+    Document previousDoc = null;
+
+    try {
+      dataSnapshot = doesExist.get();
+      if(dataSnapshot != null) {
+        previousDoc = Document.convertToDocument((HashMap<String, Object>) dataSnapshot.getValue());
+      }
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+
+    String documentId = previousDoc == null ? Document.generateDocumentId()  : previousDoc.getDocId();
+    String type = previousDoc == null ? file.getName().substring(fileName.lastIndexOf('.')+1)
+        : previousDoc.getType();
+
+    Document documentToUpload = new Document(userId, collectionName, file, documentId,
+        fileName, type, Document.countWords(file.getBytes()));
+
+    if(previousDoc != null) {
+      documentToUpload.addPreviousVerison(previousDoc);
+    }
+
+    return addEntry(collectionName, documentId, documentToUpload);
   }
 
 }

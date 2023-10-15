@@ -1,8 +1,13 @@
 package com.dev.sweproject;
 
 
-import java.io.File;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Document class contains information about a document.
@@ -10,12 +15,14 @@ import java.util.HashMap;
 public class Document {
   private String userId;
   private String clientId;
-  private File file;
-  private byte[] fileContains;
+  private byte[] fileContents;
+  private String filePath;
   private String docId;
   private String title;
   private String type;
   private int wordCount;
+  public static final int DOC_ID_LENGTH = 3;
+  private ArrayList<Document> previousVersions;
 
   /**
    * Constructs a Document object.
@@ -28,16 +35,17 @@ public class Document {
    * @param type the type of document
    * @param wordCount the word count of the document
    */
-  public Document(String userId, String clientId, File file, String docId,
-                  String title, String type, int wordCount) {
+  public Document(String userId, String clientId, MultipartFile file, String docId,
+                  String title, String type, int wordCount) throws IOException {
     this.userId = userId;
     this.clientId = clientId;
-    this.file = file;
-    // this.fileContains = readFile(file);
     this.docId = docId;
     this.title = title;
     this.type = type;
     this.wordCount = wordCount;
+    this.previousVersions = new ArrayList<>(DOC_ID_LENGTH);
+    this.fileContents = file.getBytes();
+
   }
   /**
    * Constructs a Default Document object.
@@ -47,15 +55,25 @@ public class Document {
    * @param file represents the file object
    * @param docId the document's id
    */
-  public Document(String userId, String clientId, File file, String docId){
+  public Document(String userId, String clientId, MultipartFile file, String docId) throws IOException {
     this.userId = userId;
     this.clientId = clientId;
-    this.file = file;
     this.docId = docId;
     this.title = "Untitled Document";
     this.type = "txt";
     this.wordCount = 0;
+    this.previousVersions = new ArrayList<>(DOC_ID_LENGTH);
+    this.fileContents = file.getBytes();
   }
+
+  public ArrayList<Document> getPreviousVersions() {
+    return this.previousVersions;
+  }
+
+  public void addPreviousVerison(Document toAdd) {
+    previousVersions.add(toAdd);
+  }
+
   /**
    * Retrieves the user's id.
    *
@@ -90,24 +108,6 @@ public class Document {
    */
   public void setClientId(String clientId) {
     this.clientId = clientId;
-  }
-
-  /**
-   * Retrieves the file object.
-   *
-   * @return a File object
-   */
-  public File getFile() {
-    return this.file;
-  }
-
-  /**
-   * Reassigns the file object.
-   *
-   * @param file the new file
-   */
-  public void setFile(File file) {
-    this.file = file;
   }
 
   /**
@@ -187,6 +187,7 @@ public class Document {
    *
    * @return a string.
    */
+  @Override
   public String toString() {
     return title + ": " + wordCount;
   }
@@ -197,16 +198,16 @@ public class Document {
    * @param map A hashmap containing the key value pairs
    * @return A Document wrapper type
    */
-  public static Document convertToDocument(HashMap<String, Object> map) {
+  public static Document convertToDocument(HashMap<String, Object> map) throws IOException {
     String userId = (String) map.get("userId");
     String clientId = (String) map.get("clientId");
     String type = (String) map.get("type");
     String docId = (String) map.get("docId");
     String title = (String) map.get("title");
-    File file = (File) map.get("file");
+    byte[] fileContents = (byte[]) map.get("fileContents");
     int wordCount = ((Long) map.get("wordCount")).intValue();
 
-    return new Document(userId, clientId, file, docId, title, type, wordCount);
+    return new Document(userId, clientId, createFile(fileContents, title), docId, title, type, wordCount);
   }
 
   @Override
@@ -222,6 +223,44 @@ public class Document {
         && (this.getDocId().equals(document.getDocId()))
         && (this.getClientId().equals(document.getClientId()))
         && (this.getUserId().equals(document.getUserId()));
+  }
+
+
+  public static int countWords(byte[] contents) throws IOException {
+    int wordCount = 0;
+
+    try {
+      String text = new String(contents, StandardCharsets.UTF_8);
+      StringReader stringReader = new StringReader(text);
+
+      try (BufferedReader reader = new BufferedReader(stringReader)) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+          String[] words = line.split("\\s+");
+          wordCount += words.length;
+        }
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    return wordCount;
+  }
+
+  public static String generateDocumentId() {
+    String timestamp = String.valueOf(System.currentTimeMillis());
+    StringBuilder netId = new StringBuilder();
+    Random random = new Random();
+
+    for (int i = 0; i < DOC_ID_LENGTH; i++) {
+      netId.append("ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(random.nextInt(26)));
+    }
+    return "doc" + netId + timestamp;
+  }
+
+
+  public static MultipartFile createFile(byte[] contents, String name) {
+    return new ByteArrayMultipart(contents, name, name, "text/plain");
   }
 
 }
