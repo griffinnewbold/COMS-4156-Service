@@ -1,5 +1,6 @@
 package com.dev.sweproject;
 
+import org.springframework.lang.NonNull;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ public class ByteArrayMultipart implements MultipartFile {
   }
 
   @Override
+  @NonNull
   public String getName() {
     return name;
   }
@@ -46,11 +48,13 @@ public class ByteArrayMultipart implements MultipartFile {
   }
 
   @Override
+  @NonNull
   public byte[] getBytes() throws IOException {
     return content;
   }
 
   @Override
+  @NonNull
   public InputStream getInputStream() throws IOException {
     return new java.io.ByteArrayInputStream(content);
   }
