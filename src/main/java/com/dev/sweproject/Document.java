@@ -8,6 +8,7 @@ import java.util.HashMap;
  * Document class contains information about a document.
  */
 public class Document {
+  private String userId;
   private String clientId;
   private File file;
   private byte[] fileContains;
@@ -19,7 +20,7 @@ public class Document {
   /**
    * Constructs a Document object.
    *
-   *
+   * @param userId represents the userid
    * @param clientId represents the clientid
    * @param file represents the file object
    * @param docId the document's id
@@ -27,8 +28,9 @@ public class Document {
    * @param type the type of document
    * @param wordCount the word count of the document
    */
-  public Document(String clientId, File file, String docId,
+  public Document(String userId, String clientId, File file, String docId,
                   String title, String type, int wordCount) {
+    this.userId = userId;
     this.clientId = clientId;
     this.file = file;
     // this.fileContains = readFile(file);
@@ -36,6 +38,40 @@ public class Document {
     this.title = title;
     this.type = type;
     this.wordCount = wordCount;
+  }
+  /**
+   * Constructs a Default Document object.
+   *
+   * @param userId represents the userid
+   * @param clientId represents the clientid
+   * @param file represents the file object
+   * @param docId the document's id
+   */
+  public Document(String userId, String clientId, File file, String docId){
+    this.userId = userId;
+    this.clientId = clientId;
+    this.file = file;
+    this.docId = docId;
+    this.title = "Untitled Document";
+    this.type = "txt";
+    this.wordCount = 0;
+  }
+  /**
+   * Retrieves the user's id.
+   *
+   * @return a String with the user id
+   */
+  public String getUserId() {
+    return this.userId;
+  }
+
+  /**
+   * Sets the user's id on the document.
+   *
+   * @param userId the new user id
+   */
+  public void setUserId(String userId) {
+    this.userId = userId;
   }
 
   /**
@@ -162,6 +198,7 @@ public class Document {
    * @return A Document wrapper type
    */
   public static Document convertToDocument(HashMap<String, Object> map) {
+    String userId = (String) map.get("userId");
     String clientId = (String) map.get("clientId");
     String type = (String) map.get("type");
     String docId = (String) map.get("docId");
@@ -169,7 +206,7 @@ public class Document {
     File file = (File) map.get("file");
     int wordCount = ((Long) map.get("wordCount")).intValue();
 
-    return new Document(clientId, file, docId, title, type, wordCount);
+    return new Document(userId, clientId, file, docId, title, type, wordCount);
   }
 
   @Override
@@ -183,7 +220,8 @@ public class Document {
         && (this.getType().equals(document.getType()))
         && (this.getTitle().equals(document.getTitle()))
         && (this.getDocId().equals(document.getDocId()))
-        && (this.getClientId().equals(document.getClientId()));
+        && (this.getClientId().equals(document.getClientId()))
+        && (this.getUserId().equals(document.getUserId()));
   }
 
 }
