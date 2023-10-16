@@ -3,6 +3,7 @@ package com.dev.sweproject;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.print.Doc;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -19,7 +20,6 @@ public class Document {
   private String filePath;
   private String docId;
   private String title;
-  private String type;
   private int wordCount;
   public static final int DOC_ID_LENGTH = 3;
   private ArrayList<Document> previousVersions;
@@ -32,18 +32,17 @@ public class Document {
    * @param file represents the file object
    * @param docId the document's id
    * @param title the title of the doc
-   * @param type the type of document
    * @param wordCount the word count of the document
    */
   public Document(String userId, String clientId, MultipartFile file, String docId,
-                  String title, String type, int wordCount) throws IOException {
+                  String title, int wordCount) throws IOException {
     this.userId = userId;
     this.clientId = clientId;
     this.docId = docId;
     this.title = title;
-    this.type = type;
     this.wordCount = wordCount;
     this.previousVersions = new ArrayList<>(DOC_ID_LENGTH);
+    this.previousVersions.add(new Document());
     this.fileContents = file.getBytes();
 
   }
@@ -60,18 +59,28 @@ public class Document {
     this.clientId = clientId;
     this.docId = docId;
     this.title = "Untitled Document";
-    this.type = "txt";
     this.wordCount = 0;
     this.previousVersions = new ArrayList<>(DOC_ID_LENGTH);
+    this.previousVersions.add(new Document());
     this.fileContents = file.getBytes();
+  }
+
+  private Document() {
+    this.userId = "";
+    this.clientId = "";
+    this.docId = "";
+    this.title = "";
+    this.wordCount = 0;
+    this.fileContents = new byte[0];
+
   }
 
   public ArrayList<Document> getPreviousVersions() {
     return this.previousVersions;
   }
 
-  public void addPreviousVerison(Document toAdd) {
-    previousVersions.add(toAdd);
+  public void setPreviousVersions(ArrayList<Document> newPreviousVersions) {
+    this.previousVersions = newPreviousVersions;
   }
 
   /**
@@ -147,24 +156,6 @@ public class Document {
   }
 
   /**
-   * Retrieves the type.
-   *
-   * @return String with the type
-   */
-  public String getType() {
-    return this.type;
-  }
-
-  /**
-   * Reassigns the type of the document.
-   *
-   * @param type new type
-   */
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  /**
    * retrieves the document's word count.
    *
    * @return an int representing how many words exist
@@ -201,13 +192,12 @@ public class Document {
   public static Document convertToDocument(HashMap<String, Object> map) throws IOException {
     String userId = (String) map.get("userId");
     String clientId = (String) map.get("clientId");
-    String type = (String) map.get("type");
     String docId = (String) map.get("docId");
     String title = (String) map.get("title");
     byte[] fileContents = (byte[]) map.get("fileContents");
     int wordCount = ((Long) map.get("wordCount")).intValue();
 
-    return new Document(userId, clientId, createFile(fileContents, title), docId, title, type, wordCount);
+    return new Document(userId, clientId, createFile(fileContents, title), docId, title, wordCount);
   }
 
   @Override
@@ -218,7 +208,6 @@ public class Document {
     Document document = (Document) o;
 
     return (this.getWordCount() == document.getWordCount())
-        && (this.getType().equals(document.getType()))
         && (this.getTitle().equals(document.getTitle()))
         && (this.getDocId().equals(document.getDocId()))
         && (this.getClientId().equals(document.getClientId()))

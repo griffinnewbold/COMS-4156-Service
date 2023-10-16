@@ -4,10 +4,12 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -296,14 +298,21 @@ public class FirebaseService {
     }
 
     String documentId = previousDoc == null ? Document.generateDocumentId()  : previousDoc.getDocId();
-    String type = previousDoc == null ? file.getName().substring(fileName.lastIndexOf('.')+1)
-        : previousDoc.getType();
+
 
     Document documentToUpload = new Document(userId, collectionName, file, documentId,
-        fileName, type, Document.countWords(file.getBytes()));
+        fileName, Document.countWords(file.getBytes()));
 
     if(previousDoc != null) {
-      documentToUpload.addPreviousVerison(previousDoc);
+      try {
+        HashMap<String, Object> oldEntry = (HashMap<String, Object>) getEntry(collectionName, documentId).get();
+        ArrayList<Document> previousVersions = (ArrayList<Document>) oldEntry.get("previousVersions");
+        for(Document d : previousVersions) {
+          System.out.println(d);
+        }
+      } catch (Exception e) {
+        System.out.println(e.getMessage());
+      }
     }
 
     return addEntry(collectionName, documentId, documentToUpload);
