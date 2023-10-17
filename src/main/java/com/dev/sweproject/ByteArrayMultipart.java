@@ -2,8 +2,6 @@ package com.dev.sweproject;
 
 import org.springframework.lang.NonNull;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.io.InputStream;
 
 //guide to implementing interface: https://www.baeldung.com/java-convert-byte-array-to-multipartfile
@@ -49,18 +47,12 @@ public class ByteArrayMultipart implements MultipartFile {
 
   @Override
   @NonNull
-  public byte[] getBytes() throws IOException {
-    return content;
-  }
+  public byte[] getBytes() { return content; }
 
   @Override
   @NonNull
-  public InputStream getInputStream() throws IOException {
-    return new java.io.ByteArrayInputStream(content);
-  }
+  public InputStream getInputStream() { return new java.io.ByteArrayInputStream(content); }
 
   @Override
-  public void transferTo(java.io.File dest) throws IOException, IllegalStateException {
-
-  }
+  public void transferTo(java.io.File dest) throws IllegalStateException {}
 }
