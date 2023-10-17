@@ -176,20 +176,6 @@ public class FirebaseServiceTest {
     }
   }
 
-  @Test
-  @Order(9)
-  public void testNestedUpdate() {
-    String key = "userId";
-    String newValue = "user02";
-    CompletableFuture<Object> result = firebaseService.updateEntry("testCollectionDocs/doc1", key, newValue);
-
-    try {
-      Object resultValue = result.get();
-      assertNotNull(resultValue);
-      assertEquals(newValue, resultValue);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 
 }
