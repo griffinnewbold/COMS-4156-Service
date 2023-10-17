@@ -198,5 +198,31 @@ public class SweProjectApplication {
 		return om.writeValueAsString(response);
 	}
 
+	@GetMapping(value = "/see-document-stats", produces = MediaType.APPLICATION_JSON_VALUE)
+	public String seeDocumentStats(@RequestParam(value = "network-id") String networkId,
+																 @RequestParam(value = "document-name") String documentName,
+																 @RequestParam(value = "your-user-id") String yourUserId)
+		                             throws JsonProcessingException {
+
+		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(networkId, documentName);
+		Object response = new Object();
+		try {
+			DataSnapshot dataSnapshot = result.get();
+			if (dataSnapshot.exists()) {
+				response = dataSnapshot.getValue();
+				Document myDocument = Document.convertToDocument((HashMap<String, Object>) response);
+				if (!myDocument.getUserId().contains(yourUserId)) {
+					response = "Your user does not have access to this document";
+				} else {
+					response = myDocument.generateUsageStatistics();
+				}
+			}
+		} catch (Exception e) {
+			response = "no such document exists";
+		}
+		ObjectMapper om = new ObjectMapper();
+		return om.writeValueAsString(response);
+	}
+
 
 }

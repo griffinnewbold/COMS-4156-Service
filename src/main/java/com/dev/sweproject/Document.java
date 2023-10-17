@@ -260,7 +260,8 @@ public class Document {
     String result = "";
     result += "This document belongs to the following network: " + clientId + "\n";
     result += "The word count is: " + wordCount + "\n";
-    result += "There are " + countUsers() + " able to see the document.";
+    result += "There are " + countUsers() + " able to see the document.\n";
+    result += "There is/are " + (previousVersions.size() - 1) + "previous versions on record";
     return result;
   }
 
