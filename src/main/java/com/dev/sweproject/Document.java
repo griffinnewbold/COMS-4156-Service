@@ -256,4 +256,22 @@ public class Document {
     return new ByteArrayMultipart(contents, name, name, "text/plain");
   }
 
+  public String generateUsageStatistics() {
+    String result = "";
+    result += "This document belongs to the following network: " + clientId + "\n";
+    result += "The word count is: " + wordCount + "\n";
+    result += "There are " + countUsers() + " able to see the document.";
+    return result;
+  }
+
+  private int countUsers() {
+    int users = 1;
+    for (int i = 0; i < userId.length(); i++) {
+      if (userId.charAt(i) == '/') {
+         users += 1;
+      }
+    }
+    return users;
+  }
+
 }
