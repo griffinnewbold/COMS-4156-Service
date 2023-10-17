@@ -70,6 +70,20 @@ public class Document {
     }
   }
 
+  public Document(String userId, String clientId, MultipartFile file, String docId,
+                  String title, int wordCount, ArrayList<Document> previousVersions) throws IOException {
+    this.userId = userId;
+    this.clientId = clientId;
+    this.docId = docId;
+    this.title = title;
+    this.wordCount = wordCount;
+    this.previousVersions = previousVersions;
+    if (file != null) {
+      this.fileContents = file.getBytes();
+    }
+
+  }
+
   private Document() {
     this.userId = "";
     this.clientId = "";
@@ -86,6 +100,10 @@ public class Document {
 
   public void setPreviousVersions(ArrayList<Document> newPreviousVersions) {
     this.previousVersions = newPreviousVersions;
+  }
+
+  public void addPreviousVersion(Document d) {
+    this.previousVersions.add(d);
   }
 
   /**
@@ -199,10 +217,11 @@ public class Document {
     String clientId = (String) map.get("clientId");
     String docId = (String) map.get("docId");
     String title = (String) map.get("title");
+    ArrayList<Document> previous = (ArrayList<Document>)map.get("previousVersions");
     byte[] fileContents = (byte[]) map.get("fileContents");
     int wordCount = ((Long) map.get("wordCount")).intValue();
 
-    return new Document(userId, clientId, createFile(fileContents, title), docId, title, wordCount);
+    return new Document(userId, clientId, createFile(fileContents, title), docId, title, wordCount, previous);
   }
 
   @Override

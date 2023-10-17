@@ -246,33 +246,26 @@ public class SweProjectApplication {
 
 		try {
 			firstSnapshot = resultOne.get();
-		} catch (Exception e) {
-			response = "the first document does not exist";
-			isError = true;
-		}
-
-		try {
 			secondSnapshot = resultTwo.get();
-		} catch (Exception e) {
-			response = "the second document does not exist";
-			isError = true;
-		}
 
-		if (!isError && firstSnapshot.exists() && secondSnapshot.exists()) {
+			if (!isError && firstSnapshot.exists() && secondSnapshot.exists()) {
 
-			try {
-				Document fstDocument = Document.convertToDocument((HashMap<String, Object>) firstSnapshot.getValue());
-				Document sndDocument = Document.convertToDocument((HashMap<String, Object>) secondSnapshot.getValue());
+				try {
+					Document fstDocument = Document.convertToDocument((HashMap<String, Object>) firstSnapshot.getValue());
+					Document sndDocument = Document.convertToDocument((HashMap<String, Object>) secondSnapshot.getValue());
 
-				if (!fstDocument.getUserId().contains(yourUserId) || !sndDocument.getUserId().contains(yourUserId)) {
-					response = "Your user does not have access to one of the documents";
-				} else {
-					response = fstDocument.compareTo(sndDocument);
+					if (!fstDocument.getUserId().contains(yourUserId) || !sndDocument.getUserId().contains(yourUserId)) {
+						response = "Your user does not have access to one of the documents";
+					} else {
+						response = fstDocument.compareTo(sndDocument);
+					}
+				} catch (IOException e) {
+					response = "An unexpected error has occurred.";
 				}
-			} catch (IOException e) {
-				response = "An unexpected error has occurred.";
-			}
 
+			}
+		} catch (Exception e) {
+			response = "One or more of the documents does not exist";
 		}
 
 		ObjectMapper om = new ObjectMapper();

@@ -4,10 +4,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -299,20 +296,16 @@ public class FirebaseService {
 
     String documentId = previousDoc == null ? Document.generateDocumentId()  : previousDoc.getDocId();
 
+    Document documentToUpload;
 
-    Document documentToUpload = new Document(userId, collectionName, file, documentId,
-        fileName, Document.countWords(file.getBytes()));
-
-    if(previousDoc != null) {
-      try {
-        HashMap<String, Object> oldEntry = (HashMap<String, Object>) getEntry(collectionName, documentId).get();
-        ArrayList<Document> previousVersions = (ArrayList<Document>) oldEntry.get("previousVersions");
-        for(Document d : previousVersions) {
-          System.out.println(d);
-        }
-      } catch (Exception e) {
-        System.out.println(e.getMessage());
-      }
+    if (previousDoc != null){
+      documentToUpload = new Document(userId, collectionName, file, documentId,
+          fileName, Document.countWords(file.getBytes()), previousDoc.getPreviousVersions());
+      previousDoc.setPreviousVersions(null);
+      documentToUpload.addPreviousVersion(previousDoc);
+    } else {
+      documentToUpload = new Document(userId, collectionName, file, documentId,
+          fileName, Document.countWords(file.getBytes()));
     }
 
     return addEntry(collectionName, documentId, documentToUpload);
