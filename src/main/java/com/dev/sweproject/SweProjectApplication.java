@@ -1,6 +1,7 @@
 package com.dev.sweproject;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.database.DataSnapshot;
 import org.springframework.core.io.ByteArrayResource;
@@ -101,8 +102,53 @@ public class SweProjectApplication {
 	@GetMapping(value = "/download-doc", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public ResponseEntity<?> downloadDoc(@RequestParam(value = "network-id") String networkId,
 																			 @RequestParam(value = "document-name") String documentName,
-																			 @RequestParam(value = "your-user-id") String yourUserId) {
-		return new ResponseEntity<>("Endpoint Not Implemented", HttpStatus.NOT_IMPLEMENTED);
+																			 @RequestParam(value = "your-user-id") String yourUserId,
+																			 @RequestBody(required = false) String jsonObject) {
+		if (jsonObject != null) {
+			try {
+				ObjectMapper om = new ObjectMapper();
+				JsonNode myNode = om.readTree(jsonObject);
+
+				String fileString = myNode.get("fileString").asText().substring(1);
+				String fileName = myNode.get("title").asText();
+				byte[] fileBytes = Base64.getDecoder().decode(fileString);
+
+				ByteArrayResource resource = new ByteArrayResource(fileBytes);
+
+				HttpHeaders responseHeaders = new HttpHeaders();
+				responseHeaders.setContentDispositionFormData("attachment", fileName);
+				responseHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+
+				return ResponseEntity.ok().headers(responseHeaders).body(resource);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(networkId, documentName);
+		HttpHeaders responseHeaders = null;
+		ByteArrayResource resource = null;
+
+		try {
+			DataSnapshot dataSnapshot = result.get();
+			if (dataSnapshot.exists()) {
+				Document myDocument = Document.convertToDocument((HashMap<String, Object>) dataSnapshot.getValue());
+				if (!myDocument.getUserId().contains(yourUserId)) {
+					return new ResponseEntity<>("You do not have ownership of this document", HttpStatus.FORBIDDEN);
+				} else {
+					byte[] fileBytes = Base64.getDecoder().decode(myDocument.getFileString().substring(1));
+					resource = new ByteArrayResource(fileBytes);
+					responseHeaders = new HttpHeaders();
+					responseHeaders.setContentDispositionFormData("attachment", documentName);
+					responseHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+				}
+			}
+		} catch (IOException e) {
+			return new ResponseEntity<>("An unexpected error has occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (Exception e) {
+			return new ResponseEntity<>("No such document exists", HttpStatus.NOT_FOUND);
+		}
+		return ResponseEntity.ok().headers(responseHeaders).body(resource);
 	}
 
 	@DeleteMapping(value = "/delete-doc")
