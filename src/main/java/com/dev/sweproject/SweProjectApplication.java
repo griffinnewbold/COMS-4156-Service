@@ -91,9 +91,9 @@ public class SweProjectApplication {
 	}
 
 	@GetMapping(value = "/download-doc", produces = MediaType.APPLICATION_JSON_VALUE)
-	public String downloadDoc(@RequestParam(value = "network-id", required = true) String networkId,
-							  @RequestParam(value = "document-name", required = true) String documentName)
-			throws JsonProcessingException {
+	public String downloadDoc(@RequestParam(value = "network-id") String networkId,
+							  						@RequestParam(value = "document-name") String documentName)
+														throws JsonProcessingException {
 		DownloadDocResponse docsResponse = new DownloadDocResponse();
 
 		// TODO: get the document version(s) from the DB, and use it to populate docsResponse
@@ -102,10 +102,33 @@ public class SweProjectApplication {
 		return om.writeValueAsString(docsResponse);
 	}
 
-	@PostMapping(value = "/delete-doc")
-	public void deleteDoc(@RequestParam(value = "network-id", required = true) String networkId,
-						  @RequestParam(value = "document-name", required = true) String documentName) {
-		// TODO: delete the document
+	@DeleteMapping(value = "/delete-doc")
+	public String deleteDoc(@RequestParam(value = "network-id") String networkId,
+													@RequestParam(value = "document-name") String documentName,
+													@RequestParam(value = "your-user-id") String yourUserId)
+												throws JsonProcessingException {
+
+		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(networkId, documentName);
+		Object response = new Object();
+		try {
+			DataSnapshot dataSnapshot = result.get();
+			if (dataSnapshot.exists()) {
+				response = dataSnapshot.getValue();
+				Document myDocument = Document.convertToDocument((HashMap<String, Object>) response);
+				if (!myDocument.getUserId().contains(yourUserId)) {
+					response = "Your user does not have ownership of this document";
+				} else {
+					String documentId = myDocument.getDocId();
+					String databaseLocation = networkId + "/" + documentId;
+					firebaseDataService.deleteCollection(databaseLocation);
+					response = "Your document was successfully deleted";
+				}
+			}
+		} catch (Exception e) {
+			response = "no such document exists";
+		}
+		ObjectMapper om = new ObjectMapper();
+		return om.writeValueAsString(response);
 	}
 
 	/**
@@ -125,8 +148,8 @@ public class SweProjectApplication {
 	 */
 	@GetMapping(value = "/check-for-doc", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String checkForDoc(@RequestParam(value = "network-id") String networkId,
-							  @RequestParam(value = "document-name") String documentName)
-			throws JsonProcessingException {
+							  						@RequestParam(value = "document-name") String documentName)
+														throws JsonProcessingException {
 
 		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(networkId, documentName);
 		Object response = new Object();
