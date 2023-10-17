@@ -6,7 +6,6 @@ import com.google.firebase.database.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -312,4 +311,3 @@ public class FirebaseService {
   }
 
 }
-

@@ -4,10 +4,10 @@ package com.dev.sweproject;
 import com.google.firebase.database.annotations.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.print.Doc;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -18,7 +18,7 @@ public class Document {
   private String userId;
   private String clientId;
   private byte[] fileContents;
-  private String filePath;
+  private String thisfileContents;
   private String docId;
   private String title;
   private int wordCount;
@@ -46,6 +46,7 @@ public class Document {
     this.previousVersions.add(new Document());
     if (file != null) {
       this.fileContents = file.getBytes();
+      this.thisfileContents = "#" + Base64.getEncoder().encodeToString(file.getBytes());
     }
 
   }
@@ -67,6 +68,7 @@ public class Document {
     this.previousVersions.add(new Document());
     if (file != null) {
       this.fileContents = file.getBytes();
+      this.thisfileContents = "#" + Base64.getEncoder().encodeToString(file.getBytes());
     }
   }
 
@@ -80,8 +82,8 @@ public class Document {
     this.previousVersions = previousVersions;
     if (file != null) {
       this.fileContents = file.getBytes();
+      this.thisfileContents = "#" + Base64.getEncoder().encodeToString(file.getBytes());
     }
-
   }
 
   private Document() {
@@ -91,7 +93,7 @@ public class Document {
     this.title = "";
     this.wordCount = 0;
     this.fileContents = new byte[0];
-
+    this.thisfileContents = "#";
   }
 
   public ArrayList<Document> getPreviousVersions() {
@@ -187,6 +189,15 @@ public class Document {
     return this.wordCount;
   }
 
+
+  public String getFileString() {
+    return this.thisfileContents;
+  }
+
+  public void setFileString(String newString) {
+    this.thisfileContents = newString;
+  }
+
   /**
    * updates the word count of the document.
    *
@@ -218,7 +229,8 @@ public class Document {
     String docId = (String) map.get("docId");
     String title = (String) map.get("title");
     ArrayList<Document> previous = (ArrayList<Document>)map.get("previousVersions");
-    byte[] fileContents = (byte[]) map.get("fileContents");
+    String fileString = (String) map.get("fileString");
+    byte[] fileContents = Base64.getDecoder().decode(fileString.substring(1));
     int wordCount = ((Long) map.get("wordCount")).intValue();
 
     return new Document(userId, clientId, createFile(fileContents, title), docId, title, wordCount, previous);
@@ -289,7 +301,7 @@ public class Document {
     int users = 1;
     for (int i = 0; i < userId.length(); i++) {
       if (userId.charAt(i) == '/') {
-         users += 1;
+        users += 1;
       }
     }
     return users;

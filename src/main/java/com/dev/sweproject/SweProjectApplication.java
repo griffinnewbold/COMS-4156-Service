@@ -3,15 +3,22 @@ package com.dev.sweproject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.database.DataSnapshot;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 import org.springframework.web.bind.annotation.RestController;
@@ -77,9 +84,9 @@ public class SweProjectApplication {
 	 */
 	@PostMapping(value = "/upload-doc")
 	public String uploadDoc(@RequestParam(value = "network-id") String networkId,
-						  @RequestParam(value = "document-name") String documentName,
-							@RequestParam(value = "user-id") String userId,
-						  @RequestBody MultipartFile contents) throws JsonProcessingException {
+													@RequestParam(value = "document-name") String documentName,
+													@RequestParam(value = "user-id") String userId,
+													@RequestBody MultipartFile contents) throws JsonProcessingException {
 		ObjectMapper om = new ObjectMapper();
 		try {
 			CompletableFuture<Object> uploadResult = firebaseDataService.uploadFile(contents, networkId, documentName, userId);
@@ -91,14 +98,11 @@ public class SweProjectApplication {
 		}
 	}
 
-	@GetMapping(value = "/download-doc", produces = MediaType.APPLICATION_JSON_VALUE)
-	public String downloadDoc(@RequestParam(value = "network-id") String networkId,
-							  						@RequestParam(value = "document-name") String documentName)
-														throws JsonProcessingException {
-		DownloadDocResponse docsResponse = new DownloadDocResponse();
-
-		ObjectMapper om = new ObjectMapper();
-		return om.writeValueAsString(docsResponse);
+	@GetMapping(value = "/download-doc", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	public ResponseEntity<?> downloadDoc(@RequestParam(value = "network-id") String networkId,
+																			 @RequestParam(value = "document-name") String documentName,
+																			 @RequestParam(value = "your-user-id") String yourUserId) {
+		return new ResponseEntity<>("Endpoint Not Implemented", HttpStatus.NOT_IMPLEMENTED);
 	}
 
 	@DeleteMapping(value = "/delete-doc")
@@ -148,8 +152,9 @@ public class SweProjectApplication {
 	 * @throws com.fasterxml.jackson.core.JsonProcessingException
 	 */
 	@GetMapping(value = "/check-for-doc", produces = MediaType.APPLICATION_JSON_VALUE)
-	public String checkForDoc(@RequestParam(value = "network-id") String networkId,
-							  						@RequestParam(value = "document-name") String documentName)
+	public String checkForDoc(@RequestParam(value = "network-id")    String networkId,
+							  						@RequestParam(value = "document-name") String documentName,
+														@RequestParam(value = "your-user-id")  String yourUserId)
 														throws JsonProcessingException {
 
 		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(networkId, documentName);
@@ -158,11 +163,44 @@ public class SweProjectApplication {
 			DataSnapshot dataSnapshot = result.get();
 			if(dataSnapshot.exists()) {
 				response = dataSnapshot.getValue();
+				Document myDocument = Document.convertToDocument((HashMap<String, Object>) response);
+				if (!myDocument.getUserId().contains(yourUserId)) {
+					response = "Your user does not have access to this document";
+				}
 			}
 		} catch (Exception e) {
-			response = "no such document exists";
+			response = "No such document exists";
 		}
 
+		ObjectMapper om = new ObjectMapper();
+		return om.writeValueAsString(response);
+	}
+
+	@GetMapping(value = "/see-previous-version", produces = MediaType.APPLICATION_JSON_VALUE)
+	public String seePreviousVersion(@RequestParam(value = "network-id")      String networkId,
+																	 @RequestParam(value = "document-name")   String documentName,
+																	 @RequestParam(value = "your-user-id")    String yourUserId,
+																	 @RequestParam(value = "revision-number") int revisionNumber)
+			                             throws JsonProcessingException {
+
+		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(networkId, documentName);
+		Object response = new Object();
+		try {
+			DataSnapshot dataSnapshot = result.get();
+			if(dataSnapshot.exists()) {
+				response = dataSnapshot.getValue();
+				Document myDocument = Document.convertToDocument((HashMap<String, Object>) response);
+				if (!myDocument.getUserId().contains(yourUserId)) {
+					return "Your user does not have access to this document";
+				}
+				if (revisionNumber <= 0 || revisionNumber >= myDocument.getPreviousVersions().size()) {
+					return "This is not a valid revision number";
+				}
+				response = myDocument.getPreviousVersions().get(revisionNumber);
+			}
+		} catch (Exception e) {
+			return "No such document exists";
+		}
 		ObjectMapper om = new ObjectMapper();
 		return om.writeValueAsString(response);
 	}
