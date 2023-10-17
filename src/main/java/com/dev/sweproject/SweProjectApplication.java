@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 import org.springframework.web.bind.annotation.RestController;
@@ -96,8 +97,6 @@ public class SweProjectApplication {
 														throws JsonProcessingException {
 		DownloadDocResponse docsResponse = new DownloadDocResponse();
 
-		// TODO: get the document version(s) from the DB, and use it to populate docsResponse
-
 		ObjectMapper om = new ObjectMapper();
 		return om.writeValueAsString(docsResponse);
 	}
@@ -124,6 +123,8 @@ public class SweProjectApplication {
 					response = "Your document was successfully deleted";
 				}
 			}
+		} catch (IOException e) {
+			response = "An unexpected error has occurred.";
 		} catch (Exception e) {
 			response = "no such document exists";
 		}
@@ -186,11 +187,13 @@ public class SweProjectApplication {
 					response = "This document has already been shared with the desired user";
 				} else {
 					String newIds = myDocument.getUserId() + "/" + theirUserId;
-					String collectionToUpdate = myDocument.getClientId()+"/"+myDocument.getDocId();
+					String collectionToUpdate = myDocument.getClientId() + "/" + myDocument.getDocId();
 					firebaseDataService.updateEntry(collectionToUpdate, "userId", newIds);
 					response = "The document has been shared with the desired user";
 				}
 			}
+		} catch (IOException e) {
+			response = "An unexpected error has occurred.";
 		} catch (Exception e) {
 			response = "no such document exists";
 		}
@@ -217,6 +220,8 @@ public class SweProjectApplication {
 					response = myDocument.generateUsageStatistics();
 				}
 			}
+		} catch (IOException e) {
+			response = "An unexpected error has occurred.";
 		} catch (Exception e) {
 			response = "no such document exists";
 		}
@@ -224,5 +229,54 @@ public class SweProjectApplication {
 		return om.writeValueAsString(response);
 	}
 
+	@GetMapping(value = "/generate-difference-summary", produces = MediaType.APPLICATION_JSON_VALUE)
+	public String generateDifferenceSummary(@RequestParam(value = "network-id") String networkId,
+																					@RequestParam(value = "first-document-name") String fstDocumentName,
+																					@RequestParam(value = "second-document-name") String sndDocumentName,
+																					@RequestParam(value = "your-user-id") String yourUserId)
+																					throws JsonProcessingException {
+
+		CompletableFuture<DataSnapshot> resultOne = firebaseDataService.searchForDocument(networkId, fstDocumentName);
+		CompletableFuture<DataSnapshot> resultTwo = firebaseDataService.searchForDocument(networkId, sndDocumentName);
+
+		DataSnapshot firstSnapshot = null;
+		DataSnapshot secondSnapshot = null;
+		Object response = new Object();
+		boolean isError = false;
+
+		try {
+			firstSnapshot = resultOne.get();
+		} catch (Exception e) {
+			response = "the first document does not exist";
+			isError = true;
+		}
+
+		try {
+			secondSnapshot = resultTwo.get();
+		} catch (Exception e) {
+			response = "the second document does not exist";
+			isError = true;
+		}
+
+		if (!isError && firstSnapshot.exists() && secondSnapshot.exists()) {
+
+			try {
+				Document fstDocument = Document.convertToDocument((HashMap<String, Object>) firstSnapshot.getValue());
+				Document sndDocument = Document.convertToDocument((HashMap<String, Object>) secondSnapshot.getValue());
+
+				if (!fstDocument.getUserId().contains(yourUserId) || !sndDocument.getUserId().contains(yourUserId)) {
+					response = "Your user does not have access to one of the documents";
+				} else {
+					response = fstDocument.compareTo(sndDocument);
+				}
+			} catch (IOException e) {
+				response = "An unexpected error has occurred.";
+			}
+
+		}
+
+		ObjectMapper om = new ObjectMapper();
+		return om.writeValueAsString(response);
+	}
 
 }

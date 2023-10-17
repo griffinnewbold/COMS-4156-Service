@@ -1,6 +1,7 @@
 package com.dev.sweproject;
 
 
+import com.google.firebase.database.annotations.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.print.Doc;
@@ -273,6 +274,42 @@ public class Document {
       }
     }
     return users;
+  }
+
+
+  public String compareTo(@NotNull Document other) {
+    String result = "";
+    int wordCountDiff = this.wordCount - other.wordCount;
+    int userCountDiff = this.countUsers() - other.countUsers();
+    int versionCountDiff = (this.previousVersions.size() - 1) - (other.previousVersions.size() - 1);
+
+    if (wordCountDiff > 0) {
+      result += this.getTitle() + " has " + wordCountDiff + " more words than " + other.getTitle();
+    } else if (wordCountDiff < 0) {
+      result += this.getTitle() + " has " + (-1 * wordCountDiff) + " less words than " + other.getTitle();
+    } else {
+      result += this.getTitle() + " has the same word count " + other.getTitle();
+    }
+    result += "\n";
+
+    if (userCountDiff > 0) {
+      result += this.getTitle() + " has " + userCountDiff + " more users than " + other.getTitle();
+    } else if (userCountDiff < 0) {
+      result += this.getTitle() + " has " + (-1 * userCountDiff) + " less users than " + other.getTitle();
+    } else {
+      result += this.getTitle() + " has the same user count " + other.getTitle();
+    }
+    result += "\n";
+
+    if (versionCountDiff > 0) {
+      result += this.getTitle() + " has " + versionCountDiff + " more versions than " + other.getTitle();
+    } else if (versionCountDiff < 0) {
+      result += this.getTitle() + " has " + (-1 * versionCountDiff) + " less versions than " + other.getTitle();
+    } else {
+      result += this.getTitle() + " has the same version count " + other.getTitle();
+    }
+
+    return result;
   }
 
 }
