@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,17 +39,6 @@ public class SweProjectApplication {
 				            SweProjectApplication.class, args);
 
 		firebaseDataService = context.getBean(FirebaseService.class);
-	}
-
-	/**
-	 * Tester for apis.
-	 *
-	 * @param name to display to the console
-	 * @return the formatted string
-	 */
-	@GetMapping("/hello")
-	public String sayHello(@RequestParam(value = "myName", defaultValue = "World") String name) {
-		return String.format("Hello %s!", name);
 	}
 
 	/**
@@ -133,8 +124,8 @@ public class SweProjectApplication {
 	 * @throws com.fasterxml.jackson.core.JsonProcessingException
 	 */
 	@GetMapping(value = "/check-for-doc", produces = MediaType.APPLICATION_JSON_VALUE)
-	public String checkForDoc(@RequestParam(value = "network-id", required = true) String networkId,
-							  @RequestParam(value = "document-name", required = true) String documentName)
+	public String checkForDoc(@RequestParam(value = "network-id") String networkId,
+							  @RequestParam(value = "document-name") String documentName)
 			throws JsonProcessingException {
 
 		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(networkId, documentName);
@@ -151,4 +142,38 @@ public class SweProjectApplication {
 		ObjectMapper om = new ObjectMapper();
 		return om.writeValueAsString(response);
 	}
+
+	@PatchMapping(value = "/share-document", produces = MediaType.APPLICATION_JSON_VALUE)
+	public String shareDocument(@RequestParam(value = "network-id") String networkId,
+															@RequestParam(value = "document-name") String documentName,
+															@RequestParam(value = "your-user-id") String yourUserId,
+															@RequestParam(value = "their-user-id") String theirUserId)
+															throws JsonProcessingException {
+
+		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(networkId, documentName);
+		Object response = new Object();
+		try {
+			DataSnapshot dataSnapshot = result.get();
+			if (dataSnapshot.exists()) {
+				response = dataSnapshot.getValue();
+				Document myDocument = Document.convertToDocument((HashMap<String, Object>) response);
+				if (!myDocument.getUserId().contains(yourUserId)) {
+					response = "Your user does not have access to this document";
+				} else if (myDocument.getUserId().contains(yourUserId) && myDocument.getUserId().contains(theirUserId)) {
+					response = "This document has already been shared with the desired user";
+				} else {
+					String newIds = myDocument.getUserId() + "/" + theirUserId;
+					String collectionToUpdate = myDocument.getClientId()+"/"+myDocument.getDocId();
+					firebaseDataService.updateEntry(collectionToUpdate, "userId", newIds);
+					response = "The document has been shared with the desired user";
+				}
+			}
+		} catch (Exception e) {
+			response = "no such document exists";
+		}
+		ObjectMapper om = new ObjectMapper();
+		return om.writeValueAsString(response);
+	}
+
+
 }

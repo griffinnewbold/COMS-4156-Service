@@ -43,7 +43,9 @@ public class Document {
     this.wordCount = wordCount;
     this.previousVersions = new ArrayList<>(DOC_ID_LENGTH);
     this.previousVersions.add(new Document());
-    this.fileContents = file.getBytes();
+    if (file != null) {
+      this.fileContents = file.getBytes();
+    }
 
   }
   /**
@@ -62,7 +64,9 @@ public class Document {
     this.wordCount = 0;
     this.previousVersions = new ArrayList<>(DOC_ID_LENGTH);
     this.previousVersions.add(new Document());
-    this.fileContents = file.getBytes();
+    if (file != null) {
+      this.fileContents = file.getBytes();
+    }
   }
 
   private Document() {
