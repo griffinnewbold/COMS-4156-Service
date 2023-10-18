@@ -85,7 +85,8 @@ public class SweProjectApplication {
 	public String uploadDoc(@RequestParam(value = "network-id") String networkId,
 													@RequestParam(value = "document-name") String documentName,
 													@RequestParam(value = "user-id") String userId,
-													@RequestBody MultipartFile contents) throws JsonProcessingException {
+													@RequestBody MultipartFile contents)
+													throws JsonProcessingException {
 		ObjectMapper om = new ObjectMapper();
 		try {
 			CompletableFuture<Object> uploadResult = firebaseDataService.uploadFile(contents, networkId, documentName, userId);
@@ -119,7 +120,7 @@ public class SweProjectApplication {
 
 				return ResponseEntity.ok().headers(responseHeaders).body(resource);
 			} catch (Exception e) {
-				e.printStackTrace();
+				return new ResponseEntity<>("The request body is malformed", HttpStatus.BAD_REQUEST);
 			}
 		}
 
@@ -153,7 +154,7 @@ public class SweProjectApplication {
 	public String deleteDoc(@RequestParam(value = "network-id") String networkId,
 													@RequestParam(value = "document-name") String documentName,
 													@RequestParam(value = "your-user-id") String yourUserId)
-												throws JsonProcessingException {
+												  throws JsonProcessingException {
 
 		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(networkId, documentName);
 		Object response = new Object();

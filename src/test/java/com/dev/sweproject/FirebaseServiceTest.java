@@ -8,6 +8,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashMap;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SweProjectApplication.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class FirebaseServiceTest {
+class FirebaseServiceTest {
 
   @Autowired
   private FirebaseService firebaseService;
@@ -150,12 +151,12 @@ public class FirebaseServiceTest {
   @Order(8)
   public void testSearchSuccess() {
     CompletableFuture<DataSnapshot> future = firebaseService.searchForDocument("testCollectionDocs",
-        "my test doc");
+        "my second doc");
     try {
       DataSnapshot dataSnapshot = future.get();
       assertNotNull(dataSnapshot);
       assertTrue(dataSnapshot.exists());
-      assertEquals("my test doc", Document.convertToDocument(
+      assertEquals("my second doc", Document.convertToDocument(
           (HashMap<String, Object>) dataSnapshot.getValue()).getTitle());
       System.out.println("element found: " + dataSnapshot.getValue());
     } catch (Exception e) {
@@ -171,6 +172,23 @@ public class FirebaseServiceTest {
     try {
       DataSnapshot dataSnapshot = future.get();
       assertNull(dataSnapshot);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  @Order(10)
+  public void testUploadSuccess(){
+    String collectionName = "testCollectionDocs";
+    String fileName = "yourFileName";
+    String userId = "yourUserId";
+
+    byte[] fileContent = "Sample file content".getBytes();
+    MockMultipartFile mockFile = new MockMultipartFile("file", fileName, "text/plain", fileContent);
+    try {
+      CompletableFuture<Object> result = firebaseService.uploadFile(mockFile, collectionName, fileName, userId);
+      assertNotNull(result);
     } catch (Exception e) {
       e.printStackTrace();
     }

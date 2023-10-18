@@ -230,7 +230,12 @@ public class Document {
     String title = (String) map.get("title");
     ArrayList<Document> previous = (ArrayList<Document>)map.get("previousVersions");
     String fileString = (String) map.get("fileString");
-    byte[] fileContents = Base64.getDecoder().decode(fileString.substring(1));
+    byte[] fileContents;
+    if (fileString != null) {
+      fileContents = Base64.getDecoder().decode(fileString.substring(1));
+    }else{
+      fileContents = new byte[0];
+    }
     int wordCount = ((Long) map.get("wordCount")).intValue();
 
     return new Document(userId, clientId, createFile(fileContents, title), docId, title, wordCount, previous);
