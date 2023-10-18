@@ -1,6 +1,9 @@
 # COMS-4156-Project
 GitHub Repo for Team Project
 
+## Postman Test Documentation
+View the list of API calls made over the network using post man fully documented with the received result and parameters: https://documenter.getpostman.com/view/30499865/2s9YR85tUY
+
 ## Endpoints
 This section describes the endpoints that our service provides, as well as their inputs and outputs.
 
