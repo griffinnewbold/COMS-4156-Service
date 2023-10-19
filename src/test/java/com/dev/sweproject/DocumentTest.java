@@ -11,16 +11,17 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 /**
- * Tests for the construcotrs, getters, setters, and methods within the Document class.
+ * Tests for the constructors, getters, setters, and methods within the Document class.
  */
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SweProjectApplication.class)
 class DocumentTest {
 
     /**
-    * Tests the successful creation of a Document
-    */
+     * Tests the successful creation of a Document.
+     *
+     * @throws IOException if an I/O exception occurs during the test.
+     */
     @Test
     public void testInitializationDoc() throws IOException {
         Document document = new Document("userId", "clientId", null, "docId",
@@ -33,7 +34,9 @@ class DocumentTest {
     }
 
     /**
-     * Tests the successful creation of a Blank/Default Document
+     * Tests the successful creation of a Blank/Default Document.
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testInitializationDefaultDoc() throws IOException {
@@ -45,6 +48,8 @@ class DocumentTest {
 
     /**
      * Tests that a document without previous versions returns null when getPreviousVersions() is called.
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testInitializationPreviousVersions() throws IOException {
@@ -60,6 +65,8 @@ class DocumentTest {
 
     /**
      * Tests that a document with itself uploaded as a "previous version" returns itself when getPreviousVersions() is called.
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testGetPreviousVersions() throws IOException {
@@ -69,7 +76,9 @@ class DocumentTest {
     }
 
     /**
-     * Tests that setPreviousVersions() will return null when set to null
+     * Tests that setPreviousVersions() will return null when set to null.
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testSetPreviousVersions() throws IOException {
@@ -81,6 +90,8 @@ class DocumentTest {
 
     /**
      * Tests getUserId().
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testGetUserId() throws IOException {
@@ -91,6 +102,8 @@ class DocumentTest {
 
     /**
      * Tests setUserId().
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testSetUserId() throws IOException {
@@ -102,6 +115,8 @@ class DocumentTest {
 
     /**
      * Tests getClientId().
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testGetClientId() throws IOException {
@@ -112,6 +127,8 @@ class DocumentTest {
 
     /**
      * Tests setClientId().
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testSetClientId() throws IOException {
@@ -123,6 +140,8 @@ class DocumentTest {
 
     /**
      * Tests getDocId().
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testGetDocId() throws IOException {
@@ -133,6 +152,8 @@ class DocumentTest {
 
     /**
      * Tests setDocId().
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testSetDocId() throws IOException {
@@ -144,6 +165,8 @@ class DocumentTest {
 
     /**
      * Tests getTitle().
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testGetTitle() throws IOException {
@@ -154,6 +177,8 @@ class DocumentTest {
 
     /**
      * Tests setTitle().
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testSetTitle() throws IOException {
@@ -165,6 +190,8 @@ class DocumentTest {
 
     /**
      * Tests getWordCount().
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testGetWordCount() throws IOException {
@@ -175,6 +202,8 @@ class DocumentTest {
 
     /**
      * Tests setWordCount().
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testSetWordCount() throws IOException {
@@ -185,7 +214,9 @@ class DocumentTest {
     }
 
     /**
-     * Tests the toString() method on a Doc, should give a String representation of the object
+     * Tests the toString() method on a Doc, should give a String representation of the object.
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testToString() throws IOException {
@@ -196,6 +227,8 @@ class DocumentTest {
 
     /**
      * Tests getFileString().
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testGetFileString() throws IOException {
@@ -206,6 +239,8 @@ class DocumentTest {
 
     /**
      * Tests setFileString().
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testSetFileString() throws IOException {
@@ -217,6 +252,8 @@ class DocumentTest {
 
     /**
      * Tests equals().
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testEquals() throws IOException {
@@ -229,6 +266,8 @@ class DocumentTest {
 
     /**
      * Tests compareTo().
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testCompareTo() throws IOException {
@@ -246,6 +285,8 @@ class DocumentTest {
 
     /**
      * Tests generateDocumentId().
+     *
+     * @throws IOException if an I/O exception occurs during the test.
      */
     @Test
     public void testGenerateUsageStatistics() throws IOException {
@@ -259,6 +300,4 @@ class DocumentTest {
 
         assertEquals(result, doc.generateUsageStatistics());
     }
-
-
-    }
+}
