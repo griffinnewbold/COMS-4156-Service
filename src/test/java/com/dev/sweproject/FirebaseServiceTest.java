@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Tests for Firebase methods.
  */
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SweProjectApplication.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -155,7 +154,7 @@ class FirebaseServiceTest {
   }
 
   /**
-   * Tests for succesful search.
+   * Tests for successful search.
    */
   @Test
   @Order(8)
@@ -175,7 +174,7 @@ class FirebaseServiceTest {
   }
 
   /**
-   * Tests for unsuccesful search.
+   * Tests for unsuccessful search.
    */
   @Test
   @Order(9)
