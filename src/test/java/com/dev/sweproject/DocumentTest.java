@@ -10,12 +10,17 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests for the construcotrs, getters, setters, and methods within the Document class.
+ */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SweProjectApplication.class)
 class DocumentTest {
+
     /**
-     * Tests the successful creation of a Document
-     */
+    * Tests the successful creation of a Document
+    */
     @Test
     public void testInitializationDoc() throws IOException {
         Document document = new Document("userId", "clientId", null, "docId",
@@ -26,6 +31,7 @@ class DocumentTest {
         assertEquals("Title", document.getTitle());
         assertEquals(100, document.getWordCount());
     }
+
     /**
      * Tests the successful creation of a Blank/Default Document
      */
@@ -37,6 +43,9 @@ class DocumentTest {
         assertEquals("docId", document.getDocId());
     }
 
+    /**
+     * Tests that a document without previous versions returns null when getPreviousVersions() is called.
+     */
     @Test
     public void testInitializationPreviousVersions() throws IOException {
         Document document = new Document("userId", "clientId", null, "docId",
@@ -49,6 +58,9 @@ class DocumentTest {
         assertNull(document.getPreviousVersions());
     }
 
+    /**
+     * Tests that a document with itself uploaded as a "previous version" returns itself when getPreviousVersions() is called.
+     */
     @Test
     public void testGetPreviousVersions() throws IOException {
         Document document = new Document("userId", "clientId", null, "docId",
@@ -56,6 +68,9 @@ class DocumentTest {
         assertEquals(new ArrayList<Document>(), document.getPreviousVersions());
     }
 
+    /**
+     * Tests that setPreviousVersions() will return null when set to null
+     */
     @Test
     public void testSetPreviousVersions() throws IOException {
         Document document = new Document("userId", "clientId", null, "docId",
@@ -64,6 +79,9 @@ class DocumentTest {
         assertNull(document.getPreviousVersions());
     }
 
+    /**
+     * Tests getUserId().
+     */
     @Test
     public void testGetUserId() throws IOException {
         Document doc = new Document("userId", "clientId", null, "docId",
@@ -72,7 +90,7 @@ class DocumentTest {
     }
 
     /**
-     * Tests the successful setting of a new userId and getting that userId
+     * Tests setUserId().
      */
     @Test
     public void testSetUserId() throws IOException {
@@ -82,6 +100,9 @@ class DocumentTest {
         assertEquals("newUserId", doc.getUserId());
     }
 
+    /**
+     * Tests getClientId().
+     */
     @Test
     public void testGetClientId() throws IOException {
         Document doc = new Document("userId", "clientId", null, "docId",
@@ -89,10 +110,8 @@ class DocumentTest {
         assertEquals("clientId", doc.getClientId());
     }
 
-
-
     /**
-     * Tests the successful setting of a new clientId and getting that new clientId
+     * Tests setClientId().
      */
     @Test
     public void testSetClientId() throws IOException {
@@ -102,6 +121,9 @@ class DocumentTest {
         assertEquals("newClientId", doc.getClientId());
     }
 
+    /**
+     * Tests getDocId().
+     */
     @Test
     public void testGetDocId() throws IOException {
         Document doc = new Document("userId", "clientId", null, "docId",
@@ -110,7 +132,7 @@ class DocumentTest {
     }
 
     /**
-     * Tests the successful setting of a new docId and getting that new docId
+     * Tests setDocId().
      */
     @Test
     public void testSetDocId() throws IOException {
@@ -120,6 +142,9 @@ class DocumentTest {
         assertEquals("newDocId", doc.getDocId());
     }
 
+    /**
+     * Tests getTitle().
+     */
     @Test
     public void testGetTitle() throws IOException {
         Document doc = new Document("userId", "clientId", null, "docId",
@@ -128,7 +153,7 @@ class DocumentTest {
     }
 
     /**
-     * Tests the successful setting of a new title and getting that new title
+     * Tests setTitle().
      */
     @Test
     public void testSetTitle() throws IOException {
@@ -138,6 +163,9 @@ class DocumentTest {
         assertEquals("newTitle", doc.getTitle());
     }
 
+    /**
+     * Tests getWordCount().
+     */
     @Test
     public void testGetWordCount() throws IOException {
         Document doc = new Document("userId", "clientId", null, "docId",
@@ -146,7 +174,7 @@ class DocumentTest {
     }
 
     /**
-     * Tests the successful setting of a new wordCount and getting that wordCount number
+     * Tests setWordCount().
      */
     @Test
     public void testSetWordCount() throws IOException {
@@ -166,6 +194,9 @@ class DocumentTest {
         assertEquals("Title: 100", doc.toString());
     }
 
+    /**
+     * Tests getFileString().
+     */
     @Test
     public void testGetFileString() throws IOException {
         Document doc = new Document("userId", "clientId", null, "docId",
@@ -173,6 +204,9 @@ class DocumentTest {
         assertNull(doc.getFileString());
     }
 
+    /**
+     * Tests setFileString().
+     */
     @Test
     public void testSetFileString() throws IOException {
         Document doc = new Document("userId", "clientId", null, "docId",
@@ -181,6 +215,9 @@ class DocumentTest {
         assertEquals("#d", doc.getFileString());
     }
 
+    /**
+     * Tests equals().
+     */
     @Test
     public void testEquals() throws IOException {
         Document doc = new Document("userId", "clientId", null, "docId",
@@ -190,6 +227,9 @@ class DocumentTest {
         assertTrue(isEqual);
     }
 
+    /**
+     * Tests compareTo().
+     */
     @Test
     public void testCompareTo() throws IOException {
         Document doc = new Document("userId", "clientId", null, "docId",
@@ -204,6 +244,9 @@ class DocumentTest {
         assertEquals(expected, doc.compareTo(doc2));
     }
 
+    /**
+     * Tests generateDocumentId().
+     */
     @Test
     public void testGenerateUsageStatistics() throws IOException {
         Document doc = new Document("userId", "clientId", null, "docId",
@@ -218,4 +261,4 @@ class DocumentTest {
     }
 
 
-}
+    }

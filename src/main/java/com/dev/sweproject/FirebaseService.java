@@ -33,7 +33,6 @@ public class FirebaseService {
   /**
    * Creates an instance of the Firebase Databases.
    *
-   *
    * @param firebaseApp FirebaseApp object
    */
   @Autowired
@@ -195,7 +194,6 @@ public class FirebaseService {
     return resultFuture;
   }
 
-
   /**
    * Retrieves the value associated with the specified collection and key.
    *
@@ -247,6 +245,11 @@ public class FirebaseService {
     return netId + timestamp;
   }
 
+  /**
+   * Searching for a specific document within Firebase
+   *
+   * @return A completablefuture object if found or null
+   */
   public CompletableFuture<DataSnapshot> searchForDocument(String collectionName, String title) {
     CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
     DatabaseReference databaseReference = getDatabaseReference();
@@ -277,6 +280,11 @@ public class FirebaseService {
     return future;
   }
 
+  /**
+   * Uploads a file to Firebase
+   *
+   * @return A completablefuture object resulting from add entry
+   */
   public CompletableFuture<Object> uploadFile(MultipartFile file, String collectionName,
                                               String fileName, String userId) throws IOException {
 

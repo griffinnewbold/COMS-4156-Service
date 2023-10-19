@@ -23,8 +23,6 @@ import java.util.concurrent.CompletableFuture;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-
-
 /**
  * Driver for the application.
  */
@@ -33,7 +31,9 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class SweProjectApplication {
 
-
+	/**
+	 * Of type Firebase that will interact with Firebase
+	 */
 	private static FirebaseService firebaseDataService;
 
 	/**
@@ -69,14 +69,11 @@ public class SweProjectApplication {
 	 * documents are wrapped in the Document object prior
 	 * to being placed in the database.
 	 *
-	 * @param networkId A String representing the network the client
-	 *                  belongs to.
+	 * @param networkId A String representing the network the client belongs to.
+	 * @param documentName A String representing the name of the document they plan to upload.
+	 * @param userId A String representing the user id.
+	 * @param contents A MultipartFile representing the file they plan to upload.
 	 *
-	 * @param documentName A String representing the name of the
-	 *                     document they plan to upload.
-	 *
-	 * @param contents A MultipartFile representing the file they
-	 *                 plan to upload.
 	 * @return A String detailing whether the file was successfully added or not
 	 *
 	 * @throws JsonProcessingException
@@ -98,6 +95,16 @@ public class SweProjectApplication {
 		}
 	}
 
+	/**
+	 * Get Mapping that download documents from the database
+	 *
+	 * @param networkId A String representing the network the client belongs to.
+	 * @param documentName A String representing the name of the document they plan to upload.
+	 * @param yourUserId A String representing your user id.
+	 * @param jsonObject A String representing jsonObject.
+	 *
+	 * @return A ResponseEntity with the appropriate status code and document as response body if available
+	 */
 	@GetMapping(value = "/download-doc", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public ResponseEntity<?> downloadDoc(@RequestParam(value = "network-id") String networkId,
 																			 @RequestParam(value = "document-name") String documentName,
@@ -150,6 +157,17 @@ public class SweProjectApplication {
 		return ResponseEntity.ok().headers(responseHeaders).body(resource);
 	}
 
+	/**
+	 * Delete Mapping that deletes documents from the database
+	 *
+	 * @param networkId A String representing the network the client belongs to.
+	 * @param documentName A String representing the name of the document they plan to upload.
+	 * @param yourUserId A String representing your user id.
+	 *
+	 * @return A String verifying whether the document was successfully deleted or could not delete along with the reason why
+	 *
+	 * @throws Exception
+	 */
 	@DeleteMapping(value = "/delete-doc")
 	public String deleteDoc(@RequestParam(value = "network-id") String networkId,
 													@RequestParam(value = "document-name") String documentName,
@@ -221,6 +239,17 @@ public class SweProjectApplication {
 		return om.writeValueAsString(response);
 	}
 
+	/**
+	 * Returns serialized JSON representation of a document's previous versions if it exists and as long as a user has permission to view it.
+	 *
+	 * @param networkId A String representing the client's networ Id.
+	 * @param documentName A String representing the name of the document that the client is looking for.
+	 * @param yourUserId A String representing your user Id.
+	 * @param revisionNumber An int representing what version document you would like to see.
+	 *
+	 * @return A JSON object serialized as a String
+	 * @throws com.fasterxml.jackson.core.JsonProcessingException
+	 */
 	@GetMapping(value = "/see-previous-version", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String seePreviousVersion(@RequestParam(value = "network-id")      String networkId,
 																	 @RequestParam(value = "document-name")   String documentName,
@@ -250,6 +279,17 @@ public class SweProjectApplication {
 		return om.writeValueAsString(response);
 	}
 
+	/**
+	 * Shares document with specified user 'theirUserId'
+	 *
+	 * @param networkId A String representing the client's networ Id.
+	 * @param documentName A String representing the name of the document that the client is looking for.
+	 * @param yourUserId A String representing your user Id.
+	 * @param theirUserId A String representing the user Id of the person you want to share hte document with.
+	 *
+	 * @return A String describing whether the document was successfully shared or not, and why.
+	 * @throws JsonProcessingException
+	 */
 	@PatchMapping(value = "/share-document", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String shareDocument(@RequestParam(value = "network-id") String networkId,
 															@RequestParam(value = "document-name") String documentName,
@@ -284,6 +324,16 @@ public class SweProjectApplication {
 		return om.writeValueAsString(response);
 	}
 
+	/**
+	 * Generates document statistics in the form of a String
+	 *
+	 * @param networkId A String representing the client's networ Id.
+	 * @param documentName A String representing the name of the document that the client is looking for.
+	 * @param yourUserId A String representing your user Id.
+	 *
+	 * @return A String with the client id, wordCount, users, and amount of previosu versions saved.
+	 * @throws JsonProcessingException
+	 */
 	@GetMapping(value = "/see-document-stats", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String seeDocumentStats(@RequestParam(value = "network-id") String networkId,
 																 @RequestParam(value = "document-name") String documentName,
@@ -312,6 +362,17 @@ public class SweProjectApplication {
 		return om.writeValueAsString(response);
 	}
 
+	/**
+	 * Generates report on difference between two documents
+	 *
+	 * @param networkId A String representing the client's network Id.
+	 * @param fstDocumentName Name of first document.
+	 * @param sndDocumentName Name of second document.
+	 * @param yourUserId A String representing your user Id.
+	 *
+	 * @return String representation of the comparison made between two documents.
+	 * @throws JsonProcessingException
+	 */
 	@GetMapping(value = "/generate-difference-summary", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String generateDifferenceSummary(@RequestParam(value = "network-id") String networkId,
 																					@RequestParam(value = "first-document-name") String fstDocumentName,
