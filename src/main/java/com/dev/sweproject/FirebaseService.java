@@ -32,6 +32,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class FirebaseService {
 
   private final FirebaseApp firebaseApp;
+
+  /**
+   * A Constant denoting the standard length of a Network Id prefix.
+   */
   public static final int NETWORK_ID_LENGTH = 3;
 
   /**

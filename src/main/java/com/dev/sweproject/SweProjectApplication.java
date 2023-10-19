@@ -364,7 +364,7 @@ public class SweProjectApplication {
    * @param documentName  A String representing the name of the document to download.
    * @param yourUserId    A String representing your user ID.
    * @param jsonObject    An optional JSON Object String.
-   * @returns A ResponseEntity with the appropriate status code and document
+   * @return A ResponseEntity with the appropriate status code and document
    *          as the response body if available.
    */
   @GetMapping(value = "/download-doc", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
@@ -372,6 +372,7 @@ public class SweProjectApplication {
                                        @RequestParam(value = "document-name") String documentName,
                                        @RequestParam(value = "your-user-id")  String yourUserId,
                                        @RequestBody(required = false) String jsonObject) {
+    //Caller provided a JSON body
     if (jsonObject != null) {
       try {
         ObjectMapper om = new ObjectMapper();

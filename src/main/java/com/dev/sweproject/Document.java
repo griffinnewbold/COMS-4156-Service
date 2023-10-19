@@ -25,8 +25,12 @@ public class Document {
   private String docId;
   private String title;
   private int wordCount;
-  public static final int DOC_ID_LENGTH = 3;
   private ArrayList<Document> previousVersions;
+
+  /**
+   * A constant used for the prefix of the document id upon generation.
+   */
+  public static final int DOC_ID_LENGTH = 3;
 
   /**
    * Constructs a Document object with the specified attributes.
@@ -237,6 +241,11 @@ public class Document {
     return this.thisfileContents;
   }
 
+  /**
+   * Reassigns the file's contents.
+   *
+   * @param newString A String representing the file's contents.
+   */
   public void setFileString(String newString) {
     this.thisfileContents = newString;
   }
@@ -319,7 +328,7 @@ public class Document {
    * @param contents The contents in a file
    * @return The word count
    */
-  public static int countWords(byte[] contents) throws IOException {
+  public static int countWords(byte[] contents) {
     int wordCount = 0;
 
     try {
@@ -359,6 +368,8 @@ public class Document {
   /**
    * Generates a multipart file.
    *
+   * @param  contents a byte[] used for making the file.
+   * @param  name a String denoting the file name.
    * @return A MultipartFile containing the contents of the file
    */
   public static MultipartFile createFile(byte[] contents, String name) {
@@ -380,7 +391,7 @@ public class Document {
     return result;
   }
 
-  //private helper method for counting users
+  //private helper method for counting users expects '/' as delimiter.
   private int countUsers() {
     int users = 1;
     for (int i = 0; i < userId.length(); i++) {
@@ -394,8 +405,9 @@ public class Document {
   /**
    * Compare two documents based on word count, users, and previous versions.
    *
+   * @param other A Document object used for comparison
    * @return String containing the difference of word count, users, and previous versions between
-   *     two documents
+   *         two documents
    */
   public String compareTo(@NotNull Document other) {
     String result = "";
