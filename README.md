@@ -7,7 +7,7 @@ View the list of API calls made over the network using post man fully documented
 ## Endpoints
 This section describes the endpoints that our service provides, as well as their inputs and outputs. See the
 "Postman Test Documentation" section for in-depth examples of use cases and inputs/outputs, especially for file
-uploads and downloads.
+uploads and downloads. To see more information on the method level specific api via javadoc and also to access what exceptions could be thrown visit: https://griffinnewbold.github.io/javaindex
 
 #### POST /register-client
 * Expected Input Parameters: N/A
