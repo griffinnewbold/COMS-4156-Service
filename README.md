@@ -97,10 +97,10 @@ as of the day of 10/19/23:
 ![Screenshot of another checkstyle report for our project, showing 0 warnings and errors](screenshots/checkstyle.png)
 ![Screenshot of a checkstyle report from the plugin, showing 0 warnings and errors](screenshots/checkstyle-plugin.png)
 
-## Tools used
+## Tools used 🧰
 This section includes notes on tools and technologies used in building this project, as well as any additional details if applicable.
 
-* Firebase DB
+* Firebase DB 
 * Maven Package Manager
 * GitHub Actions CI
   * This is enabled via the "Actions" tab on GitHub.
