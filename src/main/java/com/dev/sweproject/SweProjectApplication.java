@@ -4,6 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.database.DataSnapshot;
+import java.io.IOException;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.concurrent.CompletableFuture;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,76 +19,73 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.io.IOException;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.concurrent.CompletableFuture;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * The main driver class for the application.
+ * The main driver class for the application
  */
 @SpringBootApplication
 @RestController
 public class SweProjectApplication {
-
 
 	private static FirebaseService firebaseDataService;
 
 	/**
 	 * The main entry point for the application.
 	 *
-	 * @param args The command-line arguments.
+	 * @param args The command-line arguments
 	 */
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(
-				            SweProjectApplication.class, args);
+				SweProjectApplication.class, args);
 
 		firebaseDataService = context.getBean(FirebaseService.class);
 	}
 
 	/**
-	 * Registers the client in the database to enable various operations. This needs to run once
-	 * in the client's lifetime.
+	 * Registers the client in the database to enable various operations. This needs to run
+	 * once in the client's lifetime.
 	 *
-	 * @return A JSON response indicating the successful registration with a network ID.
+	 * @return A JSON response indicating the successful registration with a network Id.
+	 * @throws JsonProcessingException If there's an issue processing JSON data
 	 */
-	@PostMapping(value="/register-client", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/register-client", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String registerClient() throws JsonProcessingException {
 		try {
-			String network_id = firebaseDataService.generateNetworkId();
-			firebaseDataService.createCollection(network_id);
+			String networkId = firebaseDataService.generateNetworkId();
+			firebaseDataService.createCollection(networkId);
 			ObjectMapper om = new ObjectMapper();
-			return om.writeValueAsString(new RegisterClientResponse(network_id));
+			return om.writeValueAsString(new RegisterClientResponse(networkId));
 		} catch (JsonProcessingException e) {
 			System.out.println(e.getMessage());
-			return new ObjectMapper().writeValueAsString("An unexpected error has occurred.");
+			return new ObjectMapper().writeValueAsString("An unexpected error has occurred");
 		}
-
 	}
 
 	/**
-	 * Uploads documents to the database. Documents are wrapped in a Document object before being stored.
+	 * Uploads documents to the database. Documents are wrapped in a Document
+	 * object before being stored.
 	 *
 	 * @param networkId     The network to which the client belongs.
 	 * @param documentName  The name of the document to upload.
-	 * @param userId        The user ID of the uploader.
+	 * @param userId        The user Id of the uploader.
 	 * @param contents      The file to upload.
 	 *
 	 * @return A JSON response indicating whether the file was successfully uploaded.
-	 * @throws JsonProcessingException If there's an issue processing JSON data.
+	 * @throws JsonProcessingException If there's an issue processing JSON data
 	 */
 	@PostMapping(value = "/upload-doc")
-	public String uploadDoc(@RequestParam(value = "network-id") String networkId,
+	public String uploadDoc(@RequestParam(value = "network-id")    String networkId,
 													@RequestParam(value = "document-name") String documentName,
-													@RequestParam(value = "user-id") String userId,
+													@RequestParam(value = "user-id")       String userId,
 													@RequestBody MultipartFile contents)
-													throws JsonProcessingException {
+			                    throws JsonProcessingException {
+
 		ObjectMapper om = new ObjectMapper();
 		try {
-			CompletableFuture<Object> uploadResult = firebaseDataService.uploadFile(contents, networkId, documentName, userId);
+			CompletableFuture<Object> uploadResult = firebaseDataService.uploadFile(
+					contents, networkId, documentName, userId);
 			uploadResult.get();
 			return om.writeValueAsString("File uploaded successfully");
 		} catch (Exception e) {
@@ -94,89 +95,77 @@ public class SweProjectApplication {
 	}
 
 	/**
-	 * Downloads documents from the database.
+	 * Shares a document with a specified user ('theirUserId').
 	 *
-	 * @param networkId     The network to which the client belongs.
-	 * @param documentName  The name of the document to download.
-	 * @param yourUserId    Your user ID.
-	 * @param jsonObject    Optional JSON object string.
-	 *
-	 * @return A ResponseEntity with the appropriate status code and document as the response body if available.
-	 */
-	@GetMapping(value = "/download-doc", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-	public ResponseEntity<?> downloadDoc(@RequestParam(value = "network-id") String networkId,
-																			 @RequestParam(value = "document-name") String documentName,
-																			 @RequestParam(value = "your-user-id") String yourUserId,
-																			 @RequestBody(required = false) String jsonObject) {
-		if (jsonObject != null) {
-			try {
-				ObjectMapper om = new ObjectMapper();
-				JsonNode myNode = om.readTree(jsonObject);
-
-				String fileString = myNode.get("fileString").asText().substring(1);
-				String fileName = myNode.get("title").asText();
-				byte[] fileBytes = Base64.getDecoder().decode(fileString);
-
-				ByteArrayResource resource = new ByteArrayResource(fileBytes);
-
-				HttpHeaders responseHeaders = new HttpHeaders();
-				responseHeaders.setContentDispositionFormData("attachment", fileName);
-				responseHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-
-				return ResponseEntity.ok().headers(responseHeaders).body(resource);
-			} catch (Exception e) {
-				return new ResponseEntity<>("The request body is malformed", HttpStatus.BAD_REQUEST);
-			}
-		}
-
-		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(networkId, documentName);
-		HttpHeaders responseHeaders = null;
-		ByteArrayResource resource = null;
-
-		try {
-			DataSnapshot dataSnapshot = result.get();
-			if (dataSnapshot.exists()) {
-				Document myDocument = Document.convertToDocument((HashMap<String, Object>) dataSnapshot.getValue());
-				if (!myDocument.getUserId().contains(yourUserId)) {
-					return new ResponseEntity<>("You do not have ownership of this document", HttpStatus.FORBIDDEN);
-				} else {
-					byte[] fileBytes = Base64.getDecoder().decode(myDocument.getFileString().substring(1));
-					resource = new ByteArrayResource(fileBytes);
-					responseHeaders = new HttpHeaders();
-					responseHeaders.setContentDispositionFormData("attachment", documentName);
-					responseHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-				}
-			}
-		} catch (IOException e) {
-			return new ResponseEntity<>("An unexpected error has occurred", HttpStatus.INTERNAL_SERVER_ERROR);
-		} catch (Exception e) {
-			return new ResponseEntity<>("No such document exists", HttpStatus.NOT_FOUND);
-		}
-		return ResponseEntity.ok().headers(responseHeaders).body(resource);
-	}
-
-	/**
-	 * Delete Mapping that deletes documents from the database.
-	 *
-	 * @param networkId   A String representing the network the client belongs to.
-	 * @param documentName   A String representing the name of the document to delete.
-	 * @param yourUserId   A String representing your user ID.
-	 * @return A JSON response verifying whether the document was successfully deleted and providing a reason if it could not be deleted.
+	 * @param networkId     A String representing the client's network ID.
+	 * @param documentName  A String representing the name of the document to share.
+	 * @param yourUserId    A String representing your user ID.
+	 * @param theirUserId   A String representing the user ID of the person you want
+	 *                      to share the document with.
+	 * @return A String describing whether the document was successfully shared or not
+	 *         and the reason why.
 	 * @throws JsonProcessingException If there's an issue processing JSON data.
 	 */
-	@DeleteMapping(value = "/delete-doc")
-	public String deleteDoc(@RequestParam(value = "network-id") String networkId,
-													@RequestParam(value = "document-name") String documentName,
-													@RequestParam(value = "your-user-id") String yourUserId)
-												  throws JsonProcessingException {
-
-		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(networkId, documentName);
+	@PatchMapping(value = "/share-document", produces = MediaType.APPLICATION_JSON_VALUE)
+	public String shareDocument(@RequestParam(value = "network-id")    String networkId,
+															@RequestParam(value = "document-name") String documentName,
+															@RequestParam(value = "your-user-id")  String yourUserId,
+															@RequestParam(value = "their-user-id") String theirUserId)
+			                        throws JsonProcessingException {
+		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(
+				networkId, documentName);
 		Object response = new Object();
 		try {
 			DataSnapshot dataSnapshot = result.get();
 			if (dataSnapshot.exists()) {
 				response = dataSnapshot.getValue();
 				Document myDocument = Document.convertToDocument((HashMap<String, Object>) response);
+
+				if (!myDocument.getUserId().contains(yourUserId)) {
+					response = "Your user does not have access to this document";
+				} else if (myDocument.getUserId().contains(yourUserId)
+						&& myDocument.getUserId().contains(theirUserId)) {
+					response = "This document has already been shared with the desired user";
+				} else {
+					String newIds = myDocument.getUserId() + "/" + theirUserId;
+					String collectionToUpdate = myDocument.getClientId() + "/" + myDocument.getDocId();
+					firebaseDataService.updateEntry(collectionToUpdate, "userId", newIds);
+					response = "The document has been shared with the desired user";
+				}
+			}
+		} catch (IOException e) {
+			response = "An unexpected error has occurred.";
+		} catch (Exception e) {
+			response = "no such document exists";
+		}
+		ObjectMapper om = new ObjectMapper();
+		return om.writeValueAsString(response);
+	}
+
+	/**
+	 * Delete Mapping that deletes documents from the database.
+	 *
+	 * @param networkId      A String representing the network the client belongs to.
+	 * @param documentName   A String representing the name of the document to delete.
+	 * @param yourUserId     A String representing your user Id.
+	 * @return A JSON response verifying whether the document was successfully deleted
+	 *         and providing a reason if it could not be deleted.
+	 * @throws JsonProcessingException If there's an issue processing JSON data.
+	 */
+	@DeleteMapping(value = "/delete-doc")
+	public String deleteDoc(@RequestParam(value = "network-id")    String networkId,
+													@RequestParam(value = "document-name") String documentName,
+													@RequestParam(value = "your-user-id")  String yourUserId)
+			                    throws JsonProcessingException {
+		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(
+				networkId, documentName);
+		Object response = new Object();
+		try {
+			DataSnapshot dataSnapshot = result.get();
+			if (dataSnapshot.exists()) {
+				response = dataSnapshot.getValue();
+				Document myDocument = Document.convertToDocument((HashMap<String, Object>) response);
+
 				if (!myDocument.getUserId().contains(yourUserId)) {
 					response = "Your user does not have ownership of this document";
 				} else {
@@ -196,26 +185,28 @@ public class SweProjectApplication {
 	}
 
 	/**
-	 * Searches the client's network for a specific document.
-	 * If the document exists, it is returned to the client. Otherwise, a message is provided.
+	 * Searches the client's network for a specified document. If the document
+	 * exists, it is returned to the client. Otherwise a message is provided.
 	 *
-	 * @param networkId   A String representing the client's network ID.
-	 * @param documentName   A String representing the name of the document that the client is looking for.
-	 * @param yourUserId   A String representing your user ID.
+	 * @param networkId       A String representing the client's network Id.
+	 * @param documentName    A String representing the name of the document that the
+	 *                        client is looking for.
+	 * @param yourUserId      A String representing your user Id.
 	 * @return A JSON object serialized as a String.
-	 * @throws com.fasterxml.jackson.core.JsonProcessingException If there's an issue processing JSON data.
+	 * @throws JsonProcessingException If there's an issues processing JSON data.
 	 */
 	@GetMapping(value = "/check-for-doc", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String checkForDoc(@RequestParam(value = "network-id")    String networkId,
-							  						@RequestParam(value = "document-name") String documentName,
+														@RequestParam(value = "document-name") String documentName,
 														@RequestParam(value = "your-user-id")  String yourUserId)
-														throws JsonProcessingException {
-
-		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(networkId, documentName);
+			                      throws JsonProcessingException {
+		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(
+				networkId, documentName);
 		Object response = new Object();
+
 		try {
 			DataSnapshot dataSnapshot = result.get();
-			if(dataSnapshot.exists()) {
+			if (dataSnapshot.exists()) {
 				response = dataSnapshot.getValue();
 				Document myDocument = Document.convertToDocument((HashMap<String, Object>) response);
 				if (!myDocument.getUserId().contains(yourUserId)) {
@@ -231,14 +222,16 @@ public class SweProjectApplication {
 	}
 
 	/**
-	 * Returns serialized JSON representation of a document's previous versions if it exists and as long as a user has permission to view it.
+	 * Returns serialized JSON representation of a document's previous versions if it exists
+	 * and as long as a user has permission to view it.
 	 *
-	 * @param networkId   A String representing the client's network ID.
-	 * @param documentName   A String representing the name of the document that the client is looking for.
-	 * @param yourUserId   A String representing your user ID.
-	 * @param revisionNumber   An int representing the version of the document to retrieve.
+	 * @param networkId      A String representing the client's network Id.
+	 * @param documentName   A String representing the name of the document that the client
+	 *                       is looking for.
+	 * @param yourUserId     A String representing your user ID.
+	 * @param revisionNumber An int representing the version of the document to retrieve.
 	 * @return A JSON object serialized as a String.
-	 * @throws com.fasterxml.jackson.core.JsonProcessingException If there's an issue processing JSON data.
+	 * @throws JsonProcessingException If there's an issue processing JSON data.
 	 */
 	@GetMapping(value = "/see-previous-version", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String seePreviousVersion(@RequestParam(value = "network-id")      String networkId,
@@ -246,12 +239,13 @@ public class SweProjectApplication {
 																	 @RequestParam(value = "your-user-id")    String yourUserId,
 																	 @RequestParam(value = "revision-number") int revisionNumber)
 			                             throws JsonProcessingException {
-
-		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(networkId, documentName);
+		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(
+				networkId, documentName);
 		Object response = new Object();
+
 		try {
 			DataSnapshot dataSnapshot = result.get();
-			if(dataSnapshot.exists()) {
+			if (dataSnapshot.exists()) {
 				response = dataSnapshot.getValue();
 				Document myDocument = Document.convertToDocument((HashMap<String, Object>) response);
 				if (!myDocument.getUserId().contains(yourUserId)) {
@@ -270,65 +264,22 @@ public class SweProjectApplication {
 	}
 
 	/**
-	 * Shares a document with a specified user ('theirUserId').
-	 *
-	 * @param networkId   A String representing the client's network ID.
-	 * @param documentName   A String representing the name of the document to share.
-	 * @param yourUserId   A String representing your user ID.
-	 * @param theirUserId   A String representing the user ID of the person you want to share the document with.
-	 * @return A String describing whether the document was successfully shared or not, and the reason why.
-	 * @throws JsonProcessingException If there's an issue processing JSON data.
-	 */
-	@PatchMapping(value = "/share-document", produces = MediaType.APPLICATION_JSON_VALUE)
-	public String shareDocument(@RequestParam(value = "network-id") String networkId,
-															@RequestParam(value = "document-name") String documentName,
-															@RequestParam(value = "your-user-id") String yourUserId,
-															@RequestParam(value = "their-user-id") String theirUserId)
-															throws JsonProcessingException {
-
-		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(networkId, documentName);
-		Object response = new Object();
-		try {
-			DataSnapshot dataSnapshot = result.get();
-			if (dataSnapshot.exists()) {
-				response = dataSnapshot.getValue();
-				Document myDocument = Document.convertToDocument((HashMap<String, Object>) response);
-				if (!myDocument.getUserId().contains(yourUserId)) {
-					response = "Your user does not have access to this document";
-				} else if (myDocument.getUserId().contains(yourUserId) && myDocument.getUserId().contains(theirUserId)) {
-					response = "This document has already been shared with the desired user";
-				} else {
-					String newIds = myDocument.getUserId() + "/" + theirUserId;
-					String collectionToUpdate = myDocument.getClientId() + "/" + myDocument.getDocId();
-					firebaseDataService.updateEntry(collectionToUpdate, "userId", newIds);
-					response = "The document has been shared with the desired user";
-				}
-			}
-		} catch (IOException e) {
-			response = "An unexpected error has occurred.";
-		} catch (Exception e) {
-			response = "no such document exists";
-		}
-		ObjectMapper om = new ObjectMapper();
-		return om.writeValueAsString(response);
-	}
-
-	/**
 	 * Generates document statistics in the form of a String.
 	 *
-	 * @param networkId   A String representing the client's network ID.
+	 * @param networkId      A String representing the client's network ID.
 	 * @param documentName   A String representing the name of the document.
-	 * @param yourUserId   A String representing your user ID.
-	 * @return A String with the client ID, word count, users, and the number of previous versions saved.
+	 * @param yourUserId     A String representing your user ID.
+	 * @return A String with the client ID, word count, users, and the number of
+	 *         previous versions saved.
 	 * @throws JsonProcessingException If there's an issue processing JSON data.
 	 */
 	@GetMapping(value = "/see-document-stats", produces = MediaType.APPLICATION_JSON_VALUE)
-	public String seeDocumentStats(@RequestParam(value = "network-id") String networkId,
+	public String seeDocumentStats(@RequestParam(value = "network-id")    String networkId,
 																 @RequestParam(value = "document-name") String documentName,
-																 @RequestParam(value = "your-user-id") String yourUserId)
-		                             throws JsonProcessingException {
-
-		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(networkId, documentName);
+																 @RequestParam(value = "your-user-id")  String yourUserId)
+			                           throws JsonProcessingException {
+		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(
+				networkId, documentName);
 		Object response = new Object();
 		try {
 			DataSnapshot dataSnapshot = result.get();
@@ -353,22 +304,25 @@ public class SweProjectApplication {
 	/**
 	 * Generates a report on the difference between two documents.
 	 *
-	 * @param networkId   A String representing the client's network ID.
-	 * @param fstDocumentName   Name of the first document.
-	 * @param sndDocumentName   Name of the second document.
-	 * @param yourUserId   A String representing your user ID.
+	 * @param networkId         A String representing the client's network ID.
+	 * @param fstDocumentName   A String representing the name of the first document.
+	 * @param sndDocumentName   A String representing the name of the second document.
+	 * @param yourUserId        A String representing your user ID.
 	 * @return String representation of the comparison made between two documents.
 	 * @throws JsonProcessingException If there's an issue processing JSON data.
 	 */
 	@GetMapping(value = "/generate-difference-summary", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String generateDifferenceSummary(@RequestParam(value = "network-id") String networkId,
-																					@RequestParam(value = "first-document-name") String fstDocumentName,
-																					@RequestParam(value = "second-document-name") String sndDocumentName,
+																					@RequestParam(value = "first-document-name")
+																					String fstDocumentName,
+																					@RequestParam(value = "second-document-name")
+																					String sndDocumentName,
 																					@RequestParam(value = "your-user-id") String yourUserId)
-																					throws JsonProcessingException {
-
-		CompletableFuture<DataSnapshot> resultOne = firebaseDataService.searchForDocument(networkId, fstDocumentName);
-		CompletableFuture<DataSnapshot> resultTwo = firebaseDataService.searchForDocument(networkId, sndDocumentName);
+			                                    throws JsonProcessingException {
+		CompletableFuture<DataSnapshot> resultOne = firebaseDataService.searchForDocument(
+				networkId, fstDocumentName);
+		CompletableFuture<DataSnapshot> resultTwo = firebaseDataService.searchForDocument(
+				networkId, sndDocumentName);
 
 		DataSnapshot firstSnapshot = null;
 		DataSnapshot secondSnapshot = null;
@@ -376,16 +330,20 @@ public class SweProjectApplication {
 		boolean isError = false;
 
 		try {
+
 			firstSnapshot = resultOne.get();
 			secondSnapshot = resultTwo.get();
 
-			if (!isError && firstSnapshot.exists() && secondSnapshot.exists()) {
+			if(!isError && firstSnapshot.exists() && secondSnapshot.exists()) {
 
 				try {
-					Document fstDocument = Document.convertToDocument((HashMap<String, Object>) firstSnapshot.getValue());
-					Document sndDocument = Document.convertToDocument((HashMap<String, Object>) secondSnapshot.getValue());
+					Document fstDocument = Document.convertToDocument(
+							(HashMap<String, Object>) firstSnapshot.getValue());
+					Document sndDocument = Document.convertToDocument(
+							(HashMap<String, Object>) secondSnapshot.getValue());
 
-					if (!fstDocument.getUserId().contains(yourUserId) || !sndDocument.getUserId().contains(yourUserId)) {
+					if (!fstDocument.getUserId().contains(yourUserId)
+							|| !sndDocument.getUserId().contains(yourUserId)) {
 						response = "Your user does not have access to one of the documents";
 					} else {
 						response = fstDocument.compareTo(sndDocument);
@@ -403,4 +361,69 @@ public class SweProjectApplication {
 		return om.writeValueAsString(response);
 	}
 
+	/**
+	 * Downloads documents from the database.
+	 *
+	 * @param networkId     A String representing the network to which the client belongs.
+	 * @param documentName  A String representing the name of the document to download.
+	 * @param yourUserId    A String representing your user ID.
+	 * @param jsonObject    An optional JSON Object String.
+	 * @returns A ResponseEntity with the appropriate status code and document
+	 *          as the response body if available.
+	 */
+	@GetMapping(value = "/download-doc", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	public ResponseEntity<?> downloadDoc(@RequestParam(value = "network-id")    String networkId,
+																			 @RequestParam(value = "document-name") String documentName,
+																			 @RequestParam(value = "your-user-id")  String yourUserId,
+																			 @RequestBody(required = false)         String jsonObject) {
+		if (jsonObject != null) {
+			try {
+				ObjectMapper om = new ObjectMapper();
+				JsonNode myNode = om.readTree(jsonObject);
+
+				String fileString = myNode.get("fileString").asText().substring(1);
+				String fileName = myNode.get("title").asText();
+				byte[] fileBytes = Base64.getDecoder().decode(fileString);
+
+				ByteArrayResource resource = new ByteArrayResource(fileBytes);
+
+				HttpHeaders responseHeaders = new HttpHeaders();
+				responseHeaders.setContentDispositionFormData("attachment", fileName);
+				responseHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+
+				return ResponseEntity.ok().headers(responseHeaders).body(resource);
+			} catch (Exception e) {
+				return new ResponseEntity<>("The request body is malformed", HttpStatus.BAD_REQUEST);
+			}
+		}
+		CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(
+				networkId, documentName);
+		HttpHeaders responseHeaders = null;
+		ByteArrayResource resource = null;
+
+		try {
+			DataSnapshot dataSnapshot = result.get();
+			if (dataSnapshot.exists()) {
+				Document myDocument = Document.convertToDocument(
+						(HashMap<String, Object>) dataSnapshot.getValue());
+				if (!myDocument.getUserId().contains(yourUserId)) {
+					return new ResponseEntity<>(
+							"You do not have ownership of this document", HttpStatus.FORBIDDEN);
+				} else {
+					byte[] fileBytes = Base64.getDecoder().decode(
+							myDocument.getFileString().substring(1));
+					resource = new ByteArrayResource(fileBytes);
+					responseHeaders = new HttpHeaders();
+					responseHeaders.setContentDispositionFormData("attachment", documentName);
+					responseHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+				}
+			}
+		} catch (IOException e) {
+			return new ResponseEntity<>(
+					"An unexpected error has occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (Exception e) {
+			return new ResponseEntity<>("No such document exists", HttpStatus.NOT_FOUND);
+		}
+		return ResponseEntity.ok().headers(responseHeaders).body(resource);
+	}
 }
