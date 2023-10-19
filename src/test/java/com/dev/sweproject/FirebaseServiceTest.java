@@ -1,6 +1,15 @@
 package com.dev.sweproject;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.google.firebase.database.DataSnapshot;
+import java.util.HashMap;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -10,12 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.HashMap;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for Firebase methods.
@@ -53,7 +56,7 @@ class FirebaseServiceTest {
     CompletableFuture<Object> result = firebaseService.addEntry(collectionName, key, value);
 
     try {
-      String resultValue = (String)result.get();
+      String resultValue = (String) result.get();
       assertNotNull(resultValue);
       assertEquals("testValue", resultValue);
     } catch (Exception e) {
@@ -72,7 +75,7 @@ class FirebaseServiceTest {
     CompletableFuture<Object> result = firebaseService.addEntry(collectionName, key, value);
 
     try {
-      String resultValue = (String)result.get();
+      String resultValue = (String) result.get();
       assertNotNull(resultValue);
       assertEquals("testValue2", resultValue);
     } catch (Exception e) {
@@ -194,7 +197,7 @@ class FirebaseServiceTest {
    */
   @Test
   @Order(10)
-  public void testUploadSuccess(){
+  public void testUploadSuccess() {
     String collectionName = "testCollectionDocs";
     String fileName = "yourFileName";
     String userId = "yourUserId";
@@ -202,7 +205,8 @@ class FirebaseServiceTest {
     byte[] fileContent = "Sample file content".getBytes();
     MockMultipartFile mockFile = new MockMultipartFile("file", fileName, "text/plain", fileContent);
     try {
-      CompletableFuture<Object> result = firebaseService.uploadFile(mockFile, collectionName, fileName, userId);
+      CompletableFuture<Object> result =
+              firebaseService.uploadFile(mockFile, collectionName, fileName, userId);
       assertNotNull(result);
     } catch (Exception e) {
       e.printStackTrace();

@@ -33,7 +33,8 @@ uploads and downloads.
 
 #### POST /register-client
 * This API registers a client application, and returns a network ID that the client
-can use to access the service's other endpoints.
+can use to access the service's other endpoints. You MUST call this endpoint prior to any others to register
+your client application.
 * Input: N/A
 * Output: network_id (string)
 
