@@ -1,5 +1,5 @@
 # COMS-4156-Project
-GitHub Repo for Team Project
+This is the GitHub repository for the Team Project associated with COMS 4156 Advanced Software Engineering. Our team name is TheJavaEngineers and the following are our members: Griffin, Mohsin, Jeannie, Michael, and Abenezer.
 
 ## Postman Test Documentation
 View the list of API calls made over the network using post man fully documented with the received result and parameters: https://documenter.getpostman.com/view/30499865/2s9YR85tUY
@@ -30,8 +30,8 @@ uploads and downloads.
 * Deletes the specified document from the client's network in the database. Upon success <code>"Your document was successfully deleted"</code> is returned. If the specified user does not have access to the document then <code>"Your user does not have ownership of this document"</code> is returned. If the specified document does not exist then <code>"no such document exists"</code> is returned. If anything happens while the operations are taking place that is unexpected then <code>"An unexpected error has occurred."</code> is returned. 
 
 #### GET /check-for-doc
-* Input: network-id (string), document-name (string), your-user-id (string)
-* Output: A JSON object containing the following fields:
+* Expected Input Parameters: network-id (String), document-name (String), your-user-id (String)
+* Expected Output: A JSON object containing the following fields:
 * * clientId (string): the network-id
 * * wordCount (integer): the word count of the document
 * * docId (string): a unique document ID
@@ -45,6 +45,7 @@ uploads and downloads.
 * * * title (string): see above
 * * * userId (string): see above
 * * * fileString (string): see above
+* Searches within the client's network on the database for the specified document. Upon success see the above for what the expected output should be. If the user does not have access to the specified document <code>"Your user does not have access to this document"</code> is returned. If the specified document does not exist then <code>"No such document exists"</code> is returned.
 
 #### GET /see-previous-version
 * Expected Input Parameters: network-id (String), document-name (String), your-user-id (String), revision-number (int)
@@ -58,12 +59,14 @@ uploads and downloads.
 * Retrieves the specified previous version of a document if it is able to be retrieved. Upon success see above for details on what is returned. If the specified user does not have access to the specified document then <code>"Your user does not have access to this document"</code> is returned. If an invalid revision number is provided then <code>"This is not a valid revision number</code> is returned. If the specified document does not exist then <code>"No such document exists"</code> is returned.
 
 #### GET /see-document-stats
-* Input: network-id (string), document-name (string), your-user-id (string)
-* Output: A string containing document information, including word count, how many users have access, and number of revisions stored.
+* Expected Input Parameters: network-id (String), document-name (String), your-user-id (String)
+* Expected Output: A String containing document information, including word count, how many users have access, and number of revisions stored.
+* Retrieves common statistics about the specified doucment. Upon success see the above for the expected output. If the specified user does not have access to the document <code>"Your user does not have access to this document"</code> is returned. If the specified document does not exist then <code>"no such document exists"</code> is returned. If an unexpected error occurs then <code>"An unexpected error has occurred."</code> is returned.
 
 #### GET /generate-difference-summary
-* Input: network-id (string), fst-doc-name (string representing the first document name), snd-doc-name (string representing the second document name), your-user-id (string)
-* Output: A string containing difference information between the two given documents, including word count difference, user count difference, and version count difference.
+* Expected Input Parameters: network-id (String), fst-doc-name (String representing the first document name), snd-doc-name (String representing the second document name), your-user-id (String)
+* Expected Output: A String containing difference information between the two given documents, including word count difference, user count difference, and version count difference.
+* Generates a summary of differences between the two specified documents, from the perspective of the first document specified, meaning if the first document has 2 users and the second document has 1 it is expected to see that first document has 1 more user than second document. Upon success see the above for the expected output. If the specified user does not have access to one or both of the specified documents then <code>"Your user does not have access to one of the documents"</code> is returned. If one of the specified documents does not exist within the client's network then <code>"One or more of the documents does not exist"</code> is returned. If an unexpected error occurs then <code>"An unexpected error has occurred."</code> is returned. 
 
 #### GET /download-doc
 * Exoected Input Parameters: network-id (String), document-name (String), your-user-id (String)
