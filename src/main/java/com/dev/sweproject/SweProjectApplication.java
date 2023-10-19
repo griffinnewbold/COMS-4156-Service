@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * The main driver class for the application
+ * The main driver class for the application.
  */
 @SpringBootApplication
 @RestController
@@ -334,7 +334,7 @@ public class SweProjectApplication {
 			firstSnapshot = resultOne.get();
 			secondSnapshot = resultTwo.get();
 
-			if(!isError && firstSnapshot.exists() && secondSnapshot.exists()) {
+			if (!isError && firstSnapshot.exists() && secondSnapshot.exists()) {
 
 				try {
 					Document fstDocument = Document.convertToDocument(
