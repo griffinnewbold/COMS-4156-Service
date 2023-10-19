@@ -1,12 +1,15 @@
 # COMS-4156-Project
 This is the GitHub repository for the Team Project associated with COMS 4156 Advanced Software Engineering. Our team name is TheJavaEngineers and the following are our members: Griffin, Mohsin, Jeannie, Michael, and Abenezer.
 
-## Building and Running
+## Building and Running a Local Instance
 You can build our project using the build command in IntelliJ using Java 17. From there, you can hit the "Run" button to start
 the service.
 
 Our endpoints are listed below in the "Endpoints" section, with brief descriptions of their parameters. For in-depth examples and system-level
 tests of them, see the section "Postman Test Documentation" below.
+
+## Running a Cloud based Instance
+Our service will temporarily be able to be accessed via google cloud, below are the instructions once they become available!
 
 ## Running Tests
 Our unit tests are located under the directory 'src/test'. To run our project's tests in IntelliJ using Java 17, you must first build the project.
