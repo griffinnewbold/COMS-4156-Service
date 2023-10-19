@@ -14,15 +14,51 @@ import java.util.Random;
 /**
  * Document class contains information about a document.
  */
-public class Document {
+  public class Document {
+
+  /**
+   * Contains the user id.
+   */
   private String userId;
+
+  /**
+   * Contains the client id.
+   */
   private String clientId;
+
+  /**
+   * Contains the content of the file in a byte array.
+   */
   private byte[] fileContents;
+
+  /**
+   * Contains an encoded String representing fileContents byte array.
+   */
   private String thisfileContents;
+
+  /**
+   * Contains the document id.
+   */
   private String docId;
+
+  /**
+   * Contains the title of a document.
+   */
   private String title;
+
+  /**
+   * Contains the word count of a document.
+   */
   private int wordCount;
+
+  /**
+   * states that the document id can only have a length of 3.
+   */
   public static final int DOC_ID_LENGTH = 3;
+
+  /**
+   * Contains ArrayList of previous versions of a document.
+   */
   private ArrayList<Document> previousVersions;
 
   /**
@@ -72,6 +108,17 @@ public class Document {
     }
   }
 
+  /**
+   * Constructs a Default Document object.
+   *
+   * @param userId represents the userid
+   * @param clientId represents the clientid
+   * @param file represents the file object
+   * @param docId the document's id
+   * @param title the document's title
+   * @param wordCount the document's word count
+   * @param previousVersions an array of all the previous document versions
+   */
   public Document(String userId, String clientId, MultipartFile file, String docId,
                   String title, int wordCount, ArrayList<Document> previousVersions) throws IOException {
     this.userId = userId;
@@ -86,6 +133,9 @@ public class Document {
     }
   }
 
+  /**
+   * Constructs a Default Document object.
+   */
   private Document() {
     this.userId = "";
     this.clientId = "";
@@ -96,14 +146,27 @@ public class Document {
     this.thisfileContents = "#";
   }
 
+  /**
+   * Return previous versions of the document.
+   */
   public ArrayList<Document> getPreviousVersions() {
     return this.previousVersions;
   }
 
+  /**
+   * Set previous versions of the document to be the newPreviousVersions passed in.
+   *
+   * @param newPreviousVersions ArrayList containing the previous versions of the document you want to record
+   */
   public void setPreviousVersions(ArrayList<Document> newPreviousVersions) {
     this.previousVersions = newPreviousVersions;
   }
 
+  /**
+   * Add a new version of the document to the previousVersions ArrayList.
+   *
+   * @param d a version of a document
+   */
   public void addPreviousVersion(Document d) {
     this.previousVersions.add(d);
   }
@@ -165,7 +228,7 @@ public class Document {
   /**
    * Retrieves the title.
    *
-   * @return A string with the title.
+   * @return A string with the title
    */
   public String getTitle() {
     return this.title;
@@ -174,14 +237,14 @@ public class Document {
   /**
    * Sets the title of the document.
    *
-   * @param title A string for the title.
+   * @param title A string for the title
    */
   public void setTitle(String title) {
     this.title = title;
   }
 
   /**
-   * retrieves the document's word count.
+   * Retrieves the document's word count.
    *
    * @return an int representing how many words exist
    */
@@ -189,7 +252,11 @@ public class Document {
     return this.wordCount;
   }
 
-
+  /**
+   * Retrieves the document's word count.
+   *
+   * @return an int representing how many words exist
+   */
   public String getFileString() {
     return this.thisfileContents;
   }
@@ -199,7 +266,7 @@ public class Document {
   }
 
   /**
-   * updates the word count of the document.
+   * Updates the word count of the document.
    *
    * @param wordCount count of words
    */
@@ -210,7 +277,7 @@ public class Document {
   /**
    * Gives a String representation of the object.
    *
-   * @return a string.
+   * @return a string
    */
   @Override
   public String toString() {
@@ -255,7 +322,12 @@ public class Document {
         && (this.getUserId().equals(document.getUserId()));
   }
 
-
+  /**
+   * Counts the words in a file.
+   *
+   * @param contents The contents in a file
+   * @return The word count
+   */
   public static int countWords(byte[] contents) throws IOException {
     int wordCount = 0;
 
@@ -277,6 +349,11 @@ public class Document {
     return wordCount;
   }
 
+  /**
+   * Generates a document id.
+   *
+   * @return A string representing the document id
+   */
   public static String generateDocumentId() {
     String timestamp = String.valueOf(System.currentTimeMillis());
     StringBuilder netId = new StringBuilder();
@@ -288,11 +365,21 @@ public class Document {
     return "doc" + netId + timestamp;
   }
 
-
+  /**
+   * Generates a multipart file.
+   *
+   * @return A mulitpart file
+   */
   public static MultipartFile createFile(byte[] contents, String name) {
     return new ByteArrayMultipart(contents, name, name, "text/plain");
   }
 
+  /**
+   * Generates statistics on a documet.
+   *
+   * @return String containing the the statistics (client id, word count, users able to see the file,
+   * amount of previous versions) on a document
+   */
   public String generateUsageStatistics() {
     String result = "";
     result += "This document belongs to the following network: " + clientId + "\n";
@@ -302,6 +389,11 @@ public class Document {
     return result;
   }
 
+  /**
+   * How many users can see the document.
+   *
+   * @return Number of users who can access the document
+   */
   private int countUsers() {
     int users = 1;
     for (int i = 0; i < userId.length(); i++) {
@@ -312,7 +404,11 @@ public class Document {
     return users;
   }
 
-
+  /**
+   * Compare two documents based on word count, users, and previous versions.
+   *
+   * @return String containing the difference of word count, users, and previous versions between two documents
+   */
   public String compareTo(@NotNull Document other) {
     String result = "";
     int wordCountDiff = this.wordCount - other.wordCount;

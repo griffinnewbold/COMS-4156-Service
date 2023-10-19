@@ -17,6 +17,10 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests for Firebase methods.
+ */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SweProjectApplication.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -28,7 +32,7 @@ class FirebaseServiceTest {
   private final String collectionName = "testCollection";
 
   /**
-   * Tests the successful creation of a network
+   * Tests the successful creation of a network.
    */
   @Test
   @Order(1)
@@ -40,7 +44,7 @@ class FirebaseServiceTest {
   }
 
   /**
-   * Tests for successful adding to the database
+   * Tests for successful adding to the database.
    */
   @Test
   @Order(2)
@@ -59,7 +63,7 @@ class FirebaseServiceTest {
   }
 
   /**
-   * Tests for successful adding to the database
+   * Tests for successful adding to the database.
    */
   @Test
   @Order(3)
@@ -78,7 +82,7 @@ class FirebaseServiceTest {
   }
 
   /**
-   * Tests for successful removal from DB
+   * Tests for successful removal from DB.
    */
   @Test
   @Order(4)
@@ -96,7 +100,7 @@ class FirebaseServiceTest {
   }
 
   /**
-   * Tests for successful update
+   * Tests for successful update.
    */
   @Test
   @Order(5)
@@ -115,7 +119,7 @@ class FirebaseServiceTest {
   }
 
   /**
-   * Tests for successful get
+   * Tests for successful get.
    */
   @Test
   @Order(6)
@@ -131,6 +135,9 @@ class FirebaseServiceTest {
     }
   }
 
+  /**
+   * Tests for unsuccessful get.
+   */
   @Test
   @Order(7)
   public void testGetEntryFailure() {
@@ -147,6 +154,9 @@ class FirebaseServiceTest {
     }
   }
 
+  /**
+   * Tests for succesful search.
+   */
   @Test
   @Order(8)
   public void testSearchSuccess() {
@@ -164,6 +174,9 @@ class FirebaseServiceTest {
     }
   }
 
+  /**
+   * Tests for unsuccesful search.
+   */
   @Test
   @Order(9)
   public void testSearchFailure() {
@@ -177,6 +190,9 @@ class FirebaseServiceTest {
     }
   }
 
+  /**
+   * Tests for successful upload.
+   */
   @Test
   @Order(10)
   public void testUploadSuccess(){

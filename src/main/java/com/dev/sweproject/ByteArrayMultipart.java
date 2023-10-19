@@ -4,14 +4,39 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.InputStream;
 
-//guide to implementing interface: https://www.baeldung.com/java-convert-byte-array-to-multipartfile
+/**
+ * ByteArrayMultipart class contains the process that allows for the encapsulation of the properties of a file in
+ * memory as a byte array, and the methods that allow for convenient handling and processing of file data.
+ *
+ * Guide to implementing interface: https://www.baeldung.com/java-convert-byte-array-to-multipartfile
+ */
 public class ByteArrayMultipart implements MultipartFile {
 
+  /**
+   * The content of the file in a byte array.
+   * */
   private final byte[] content;
+  /**
+   * The name of the file; what it'd end up being named if the file had a previous name.
+   * */
   private final String name;
+  /**
+   * The original name of the file; what it was already named.
+   * */
   private final String originalFilename;
+  /**
+   * The type of content that our file contains
+   * */
   private final String contentType;
 
+  /**
+   * ByteArrayMultipart constructor
+   *
+   * @param content represents the content.
+   * @param name represents the file name.
+   * @param originalFilename represents the original name of the file; what it was already named.
+   * @param contentType represents the type of content that our file contains.
+   * */
   public ByteArrayMultipart(byte[] content, String name, String originalFilename, String contentType) {
     this.content = content;
     this.name = name;
