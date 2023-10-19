@@ -1,6 +1,98 @@
 # COMS-4156-Project
 GitHub Repo for Team Project
 
+## Postman Test Documentation
+View the list of API calls made over the network using post man fully documented with the received result and parameters: https://documenter.getpostman.com/view/30499865/2s9YR85tUY
+
+## Endpoints
+This section describes the endpoints that our service provides, as well as their inputs and outputs. See the
+"Postman Test Documentation" section for in-depth examples of use cases and inputs/outputs, especially for file
+uploads and downloads.
+
+#### POST /register-client
+* Expected Input Parameters: N/A
+* Expected Output: networkId (String)
+* Registers the client with the service, should be done only ONCE per the lifetime of the client. This endpoint MUST be called prior to any other calls being made. Upon success, the <code>networkId</code> is returned. Upon failure <code>"An unexpected error has occurred"</code> is returned. 
+
+#### POST /upload-doc
+* Expected Input Parameters: network-id (String), document-name (String), user-id (String), contents (MultipartFile in the request body)
+* Expected Output: A String indicating the status of the upload.
+* Uploads the provided document to the database. Ideally you upload a document prior to performing other api calls but it is not an issue if you do not do this, you'll just have no luck. Upon success: <code>"File uploaded successfully"</code> is returned. Upon failure: <code>"File didn't upload"</code>.
+
+#### PATCH /share-document
+* Expected Input Parameters: network-id (string), document-name (string), your-user-id (string), their-user-id (string)
+* Expected Output: A String indicating the result of the operation.
+* Shares the specified document with the specified user, Upon success: <code>"The document has been shared with the desired user"</code> is returned. If the specified user already has access to the document then <code>"This document has already been shared with the desired user"</code> is returned. If the calling user (represented by your-user-id) does not have access to the document then <code>"Your user does not have access to this document"</code> is returned. If the specified document is not present in the database then <code>"no such document exists"</code> is returned. If anything happens while the operations are taking place that is unexpected then <code>"An unexpected error has occurred."</code> is returned. 
+
+#### DEL /delete-doc
+* Expected Input Parameters: network-id (String), document-name (String), your-user-id (String)
+* Expected Output: A String indicating the status of the deletion.
+* Deletes the specified document from the client's network in the database. Upon success <code>"Your document was successfully deleted"</code> is returned. If the specified user does not have access to the document then <code>"Your user does not have ownership of this document"</code> is returned. If the specified document does not exist then <code>"no such document exists"</code> is returned. If anything happens while the operations are taking place that is unexpected then <code>"An unexpected error has occurred."</code> is returned. 
+
+#### GET /check-for-doc
+* Input: network-id (string), document-name (string), your-user-id (string)
+* Output: A JSON object containing the following fields:
+* * clientId (string): the network-id
+* * wordCount (integer): the word count of the document
+* * docId (string): a unique document ID
+* * title (string): the document-name
+* * userId (string): the users with access to this document, represented as a string with '/' characters separating individual user IDs
+* * fileString (string): The Base64 encoded document text.
+* * previousVersions (list): A JSON list of previous versions of the document, with each list entry containing the following fields:
+* * * clientId (string): see above
+* * * wordCount (integer): see above
+* * * docId (string): see above
+* * * title (string): see above
+* * * userId (string): see above
+* * * fileString (string): see above
+
+#### GET /see-previous-version
+* Expected Input Parameters: network-id (String), document-name (String), your-user-id (String), revision-number (int)
+* Expected Output: A JSON object containing the following fields:
+* * clientId   (String): see description under 'GET /check-for-doc'
+* * wordCount  (int): see above
+* * docId      (String): see above
+* * title      (String): see above
+* * userId     (String): see above
+* * fileString (String): see above
+* Retrieves the specified previous version of a document if it is able to be retrieved. Upon success see above for details on what is returned. If the specified user does not have access to the specified document then <code>"Your user does not have access to this document"</code> is returned. If an invalid revision number is provided then <code>"This is not a valid revision number</code> is returned. If the specified document does not exist then <code>"No such document exists"</code> is returned.
+
+#### GET /see-document-stats
+* Input: network-id (string), document-name (string), your-user-id (string)
+* Output: A string containing document information, including word count, how many users have access, and number of revisions stored.
+
+#### GET /generate-difference-summary
+* Input: network-id (string), fst-doc-name (string representing the first document name), snd-doc-name (string representing the second document name), your-user-id (string)
+* Output: A string containing difference information between the two given documents, including word count difference, user count difference, and version count difference.
+
+#### GET /download-doc
+* Exoected Input Parameters: network-id (String), document-name (String), your-user-id (String)
+* Optional Input Body: A JSON string containing a document to be downloaded.
+* Expected Output: HTTP OK Status along with the raw text contents of the document in the response body.
+* Retrieves the raw contents of the document and returns it with <code>HTTP OK Status</code> upon success. If a JSON body is provided it it takes precedent and the other parameters do not matter. If the JSON body is present and malformed then an <code>HTTP BAD_REQUEST Status</code> is returned along with <code>"The request body is malformed"</code> in the response body. The following assumes no JSON body is present in the HTTP request and some failure occurs: If the specified user does not have access to the specified document then <code>HTTP FORBIDDEN Status</code> is returned along with <code>"You do not have ownership of this document"</code> in the response body. If the specified document does not exist then <code>HTTP NOT_FOUND Status</code> is returned along with <code>"No such document exists"</code> in the response body. If an unexpected error occurs then <code>HTTP INTERNAL_SERVER_ERROR Status</code> is returned along with <code>"An unexpected error has occurred"</code> in the response body.
+
+---
+
+## Tools used
+This section includes notes on tools and technologies used in building this project, as well as any additional details if applicable.
+
+* Firebase DB
+* Maven Package Manager
+* GitHub Actions CI
+  * This is enabled via the "Actions" tab on GitHub.
+  * Currently, this just runs a Maven build to make sure the code builds on branch 'main'.
+* Checkstyle
+  * We use Checkstyle for code reporting. Note that Checkstyle does NOT get run as part of the CI pipeline.
+  * For running Checkstyle manually, you can use the "Checkstyle-IDEA" plugin for IntelliJ.
+* SonarQube
+  * TODO: Will do static analysis with SonarQube in second iteration.
+* JUnit
+  * JUnit tests get run automatically as part of the CI pipeline.
+* Cobertura
+  * We use Cobertura for generating code coverage reports.
+* Postman
+  * We used Postman for testing that the APIs work.
+
 ## Building and Running
 You can build our project using the build command in IntelliJ using Java 17. From there, you can hit the "Run" button to start
 the service.
@@ -23,98 +115,3 @@ as of the day of 10/19/23:
 ![Screenshot of a checkstyle report for our project, showing 0 warnings and errors](screenshots/checkstyle-report.png)
 ![Screenshot of another checkstyle report for our project, showing 0 warnings and errors](screenshots/checkstyle.png)
 ![Screenshot of a checkstyle report from the plugin, showing 0 warnings and errors](screenshots/checkstyle-plugin.png)
-
-## Postman Test Documentation
-View the list of API calls made over the network using post man fully documented with the received result and parameters: https://documenter.getpostman.com/view/30499865/2s9YR85tUY
-
-## Endpoints
-This section describes the endpoints that our service provides, as well as their inputs and outputs. See the
-"Postman Test Documentation" section for in-depth examples of use cases and inputs/outputs, especially for file
-uploads and downloads.
-
-#### POST /register-client
-* This API registers a client application, and returns a network ID that the client
-can use to access the service's other endpoints. You MUST call this endpoint prior to any others to register
-your client application.
-* Input: N/A
-* Output: network_id (string)
-
-#### POST /upload-doc
-* This API uploads a document, which may be entirely new or a new version of an existing document.
-If there are now more than three versions of the document, the oldest is deleted.
-* Input: network-id (string), document-name (string), user-id (string), contents (raw file contents, in the request body)
-* Output: N/A
-
-#### GET /download-doc
-* This API retrieves the latest version of a document, if your user ID has access to the document.
-* Input: network-id (string), document-name (string), your-user-id (string)
-* Output: The raw text contents of the document in the response body.
-
-#### DEL /delete-doc
-* This API deletes all versions of a specified document, if your user ID has access to the document.
-* Input: network-id (string), document-name (string), your-user-id (string)
-* Output: N/A
-
-#### GET /check-for-doc
-* This API checks if a specified document exists, and, if it does, returns information on the document, if your user ID has access to the document.
-* Input: network-id (string), document-name (string), your-user-id (string)
-* Output: A JSON object containing the following fields:
-* * clientId (string): the network-id
-* * wordCount (integer): the word count of the document
-* * docId (string): a unique document ID
-* * title (string): the document-name
-* * userId (string): the users with access to this document, represented as a string with '/' characters separating individual user IDs
-* * fileString (string): The Base64 encoded document text.
-* * previousVersions (list): A JSON list of up to 3 previous versions of the document, with each list entry containing the following fields:
-* * * clientId (string): see above
-* * * wordCount (integer): see above
-* * * docId (string): see above
-* * * title (string): see above
-* * * userId (string): see above
-* * * fileString (string): see above
-
-#### GET /see-previous-version
-* This API gets a prior version of a document, if your user ID has access to the document.
-* Input: network-id (string), document-name (string), your-user-id (string), revision-number (integer)
-* Output: A JSON object containing the following fields:
-* * clientId (string): see description under 'GET /check-for-doc'
-* * wordCount (integer): see above
-* * docId (string): see above
-* * title (string): see above
-* * userId (string): see above
-* * fileString (string): see above
-
-#### PATCH /share-document
-* This API shares a document you have access to with another user, allowing them to access it.
-* Input: network-id (string), document-name (string), your-user-id (string), their-user-id (string)
-* Output: A string indicating the result of the operation.
-
-#### GET /see-document-stats
-* This API gets document statistics in a human-readable string format, if you have access to it.
-* Input: network-id (string), document-name (string), your-user-id (string)
-* Output: A string containing document information, including word count, how many users have access, and number of revisions stored.
-
-#### GET /generate-difference-summary
-* This API generates a simple difference summary between two different documents, if you have access to both.
-* Input: network-id (string), fst-doc-name (string representing the first document name), snd-doc-name (string representing the second document name), your-user-id (string)
-* Output: A string containing difference information between the two given documents, including word count difference, user count difference, and version count difference.
-
-## Tools used
-This section includes notes on tools and technologies used in building this project, as well as any additional details if applicable.
-
-* Firebase DB
-* Maven Package Manager
-* GitHub Actions CI
-  * This is enabled via the "Actions" tab on GitHub.
-  * Currently, this just runs a Maven build to make sure the code builds on branch 'main'.
-* Checkstyle
-  * We use Checkstyle for code reporting. Note that Checkstyle does NOT get run as part of the CI pipeline.
-  * For running Checkstyle manually, you can use the "Checkstyle-IDEA" plugin for IntelliJ.
-* SonarQube
-  * TODO: Will do static analysis with SonarQube in second iteration.
-* JUnit
-  * JUnit tests get run automatically as part of the CI pipeline.
-* Cobertura
-  * We use Cobertura for generating code coverage reports.
-* Postman
-  * We used Postman for testing that the APIs work.
