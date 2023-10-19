@@ -320,6 +320,7 @@ public class FirebaseService {
       System.out.println(e.getMessage());
     }
 
+    //If a previous document exists uses its attributes
     String documentId = previousDoc == null ? Document.generateDocumentId()
         : previousDoc.getDocId();
 
@@ -329,6 +330,8 @@ public class FirebaseService {
       documentToUpload = new Document(userId, collectionName, file, documentId,
           fileName, Document.countWords(file.getBytes()), previousDoc.getPreviousVersions());
       previousDoc.setPreviousVersions(null);
+
+      //do not track duplicate documents
       if (!documentToUpload.equals(previousDoc)) {
         documentToUpload.addPreviousVersion(previousDoc);
       }

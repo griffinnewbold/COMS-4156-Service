@@ -338,7 +338,7 @@ public class Document {
       try (BufferedReader reader = new BufferedReader(stringReader)) {
         String line;
         while ((line = reader.readLine()) != null) {
-          String[] words = line.split("\\s+");
+          String[] words = line.split("\\s+"); //splits by spaces
           wordCount += words.length;
         }
       }
@@ -414,6 +414,7 @@ public class Document {
     int wordCountDiff = this.wordCount - other.wordCount;
     int userCountDiff = this.countUsers() - other.countUsers();
 
+    //logic dealing with word counts
     if (wordCountDiff > 0) {
       result += this.getTitle() + " has " + wordCountDiff + " more words than " + other.getTitle();
     } else if (wordCountDiff < 0) {
@@ -424,6 +425,7 @@ public class Document {
     }
     result += "\n";
 
+    //logic dealing with user counts
     if (userCountDiff > 0) {
       result += this.getTitle() + " has " + userCountDiff + " more users than " + other.getTitle();
     } else if (userCountDiff < 0) {
@@ -434,6 +436,7 @@ public class Document {
     }
     result += "\n";
 
+    //logic dealing with version counts
     int versionCountDiff = (this.previousVersions.size() - 1) - (other.previousVersions.size() - 1);
     if (versionCountDiff > 0) {
       result += this.getTitle() + " has " + versionCountDiff + " more versions than "
