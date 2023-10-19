@@ -24,22 +24,19 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * Driver for the application.
+ * The main driver class for the application.
  */
-
 @SpringBootApplication
 @RestController
 public class SweProjectApplication {
 
-	/**
-	 * Of type Firebase that will interact with Firebase
-	 */
+
 	private static FirebaseService firebaseDataService;
 
 	/**
-	 * Driver method.
+	 * The main entry point for the application.
 	 *
-	 * @param args arguments for main
+	 * @param args The command-line arguments.
 	 */
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(
@@ -49,34 +46,35 @@ public class SweProjectApplication {
 	}
 
 	/**
-	 * Post Mapping that registers the client in the database so they may
-	 * perform different operations, only needs to run once in the lifetime
-	 * of the client.
+	 * Registers the client in the database to enable various operations. This needs to run once
+	 * in the client's lifetime.
 	 *
-	 * @return TODO
-	 * @throws JsonProcessingException
+	 * @return A JSON response indicating the successful registration with a network ID.
 	 */
 	@PostMapping(value="/register-client", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String registerClient() throws JsonProcessingException {
-		String network_id = firebaseDataService.generateNetworkId();
-		firebaseDataService.createCollection(network_id);
-		ObjectMapper om = new ObjectMapper();
-		return om.writeValueAsString(new RegisterClientResponse(network_id));
+		try {
+			String network_id = firebaseDataService.generateNetworkId();
+			firebaseDataService.createCollection(network_id);
+			ObjectMapper om = new ObjectMapper();
+			return om.writeValueAsString(new RegisterClientResponse(network_id));
+		} catch (JsonProcessingException e) {
+			System.out.println(e.getMessage());
+			return new ObjectMapper().writeValueAsString("An unexpected error has occurred.");
+		}
+
 	}
 
 	/**
-	 * Post Mapping that uploads documents to the database
-	 * documents are wrapped in the Document object prior
-	 * to being placed in the database.
+	 * Uploads documents to the database. Documents are wrapped in a Document object before being stored.
 	 *
-	 * @param networkId A String representing the network the client belongs to.
-	 * @param documentName A String representing the name of the document they plan to upload.
-	 * @param userId A String representing the user id.
-	 * @param contents A MultipartFile representing the file they plan to upload.
+	 * @param networkId     The network to which the client belongs.
+	 * @param documentName  The name of the document to upload.
+	 * @param userId        The user ID of the uploader.
+	 * @param contents      The file to upload.
 	 *
-	 * @return A String detailing whether the file was successfully added or not
-	 *
-	 * @throws JsonProcessingException
+	 * @return A JSON response indicating whether the file was successfully uploaded.
+	 * @throws JsonProcessingException If there's an issue processing JSON data.
 	 */
 	@PostMapping(value = "/upload-doc")
 	public String uploadDoc(@RequestParam(value = "network-id") String networkId,
@@ -90,20 +88,20 @@ public class SweProjectApplication {
 			uploadResult.get();
 			return om.writeValueAsString("File uploaded successfully");
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return om.writeValueAsString("File didn't upload");
 		}
 	}
 
 	/**
-	 * Get Mapping that download documents from the database
+	 * Downloads documents from the database.
 	 *
-	 * @param networkId A String representing the network the client belongs to.
-	 * @param documentName A String representing the name of the document they plan to upload.
-	 * @param yourUserId A String representing your user id.
-	 * @param jsonObject A String representing jsonObject.
+	 * @param networkId     The network to which the client belongs.
+	 * @param documentName  The name of the document to download.
+	 * @param yourUserId    Your user ID.
+	 * @param jsonObject    Optional JSON object string.
 	 *
-	 * @return A ResponseEntity with the appropriate status code and document as response body if available
+	 * @return A ResponseEntity with the appropriate status code and document as the response body if available.
 	 */
 	@GetMapping(value = "/download-doc", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public ResponseEntity<?> downloadDoc(@RequestParam(value = "network-id") String networkId,
@@ -158,15 +156,13 @@ public class SweProjectApplication {
 	}
 
 	/**
-	 * Delete Mapping that deletes documents from the database
+	 * Delete Mapping that deletes documents from the database.
 	 *
-	 * @param networkId A String representing the network the client belongs to.
-	 * @param documentName A String representing the name of the document they plan to upload.
-	 * @param yourUserId A String representing your user id.
-	 *
-	 * @return A String verifying whether the document was successfully deleted or could not delete along with the reason why
-	 *
-	 * @throws Exception
+	 * @param networkId   A String representing the network the client belongs to.
+	 * @param documentName   A String representing the name of the document to delete.
+	 * @param yourUserId   A String representing your user ID.
+	 * @return A JSON response verifying whether the document was successfully deleted and providing a reason if it could not be deleted.
+	 * @throws JsonProcessingException If there's an issue processing JSON data.
 	 */
 	@DeleteMapping(value = "/delete-doc")
 	public String deleteDoc(@RequestParam(value = "network-id") String networkId,
@@ -200,19 +196,14 @@ public class SweProjectApplication {
 	}
 
 	/**
-	 * Searches the client's network for a specific document
-	 * if the document exists it is returned to the client
-	 * otherwise a simple message stating otherwise is
-	 * provided.
+	 * Searches the client's network for a specific document.
+	 * If the document exists, it is returned to the client. Otherwise, a message is provided.
 	 *
-	 * @param networkId A String representing the client's network
-	 * Id.
-	 *
-	 * @param documentName A String representing the name of the
-	 * document that the client is looking for.
-	 *
-	 * @return A JSON object serialized as a String
-	 * @throws com.fasterxml.jackson.core.JsonProcessingException
+	 * @param networkId   A String representing the client's network ID.
+	 * @param documentName   A String representing the name of the document that the client is looking for.
+	 * @param yourUserId   A String representing your user ID.
+	 * @return A JSON object serialized as a String.
+	 * @throws com.fasterxml.jackson.core.JsonProcessingException If there's an issue processing JSON data.
 	 */
 	@GetMapping(value = "/check-for-doc", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String checkForDoc(@RequestParam(value = "network-id")    String networkId,
@@ -242,13 +233,12 @@ public class SweProjectApplication {
 	/**
 	 * Returns serialized JSON representation of a document's previous versions if it exists and as long as a user has permission to view it.
 	 *
-	 * @param networkId A String representing the client's networ Id.
-	 * @param documentName A String representing the name of the document that the client is looking for.
-	 * @param yourUserId A String representing your user Id.
-	 * @param revisionNumber An int representing what version document you would like to see.
-	 *
-	 * @return A JSON object serialized as a String
-	 * @throws com.fasterxml.jackson.core.JsonProcessingException
+	 * @param networkId   A String representing the client's network ID.
+	 * @param documentName   A String representing the name of the document that the client is looking for.
+	 * @param yourUserId   A String representing your user ID.
+	 * @param revisionNumber   An int representing the version of the document to retrieve.
+	 * @return A JSON object serialized as a String.
+	 * @throws com.fasterxml.jackson.core.JsonProcessingException If there's an issue processing JSON data.
 	 */
 	@GetMapping(value = "/see-previous-version", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String seePreviousVersion(@RequestParam(value = "network-id")      String networkId,
@@ -280,15 +270,14 @@ public class SweProjectApplication {
 	}
 
 	/**
-	 * Shares document with specified user 'theirUserId'
+	 * Shares a document with a specified user ('theirUserId').
 	 *
-	 * @param networkId A String representing the client's networ Id.
-	 * @param documentName A String representing the name of the document that the client is looking for.
-	 * @param yourUserId A String representing your user Id.
-	 * @param theirUserId A String representing the user Id of the person you want to share hte document with.
-	 *
-	 * @return A String describing whether the document was successfully shared or not, and why.
-	 * @throws JsonProcessingException
+	 * @param networkId   A String representing the client's network ID.
+	 * @param documentName   A String representing the name of the document to share.
+	 * @param yourUserId   A String representing your user ID.
+	 * @param theirUserId   A String representing the user ID of the person you want to share the document with.
+	 * @return A String describing whether the document was successfully shared or not, and the reason why.
+	 * @throws JsonProcessingException If there's an issue processing JSON data.
 	 */
 	@PatchMapping(value = "/share-document", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String shareDocument(@RequestParam(value = "network-id") String networkId,
@@ -325,14 +314,13 @@ public class SweProjectApplication {
 	}
 
 	/**
-	 * Generates document statistics in the form of a String
+	 * Generates document statistics in the form of a String.
 	 *
-	 * @param networkId A String representing the client's networ Id.
-	 * @param documentName A String representing the name of the document that the client is looking for.
-	 * @param yourUserId A String representing your user Id.
-	 *
-	 * @return A String with the client id, wordCount, users, and amount of previosu versions saved.
-	 * @throws JsonProcessingException
+	 * @param networkId   A String representing the client's network ID.
+	 * @param documentName   A String representing the name of the document.
+	 * @param yourUserId   A String representing your user ID.
+	 * @return A String with the client ID, word count, users, and the number of previous versions saved.
+	 * @throws JsonProcessingException If there's an issue processing JSON data.
 	 */
 	@GetMapping(value = "/see-document-stats", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String seeDocumentStats(@RequestParam(value = "network-id") String networkId,
@@ -363,15 +351,14 @@ public class SweProjectApplication {
 	}
 
 	/**
-	 * Generates report on difference between two documents
+	 * Generates a report on the difference between two documents.
 	 *
-	 * @param networkId A String representing the client's network Id.
-	 * @param fstDocumentName Name of first document.
-	 * @param sndDocumentName Name of second document.
-	 * @param yourUserId A String representing your user Id.
-	 *
+	 * @param networkId   A String representing the client's network ID.
+	 * @param fstDocumentName   Name of the first document.
+	 * @param sndDocumentName   Name of the second document.
+	 * @param yourUserId   A String representing your user ID.
 	 * @return String representation of the comparison made between two documents.
-	 * @throws JsonProcessingException
+	 * @throws JsonProcessingException If there's an issue processing JSON data.
 	 */
 	@GetMapping(value = "/generate-difference-summary", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String generateDifferenceSummary(@RequestParam(value = "network-id") String networkId,
