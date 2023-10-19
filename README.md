@@ -1,6 +1,21 @@
 # COMS-4156-Project
 This is the GitHub repository for the Team Project associated with COMS 4156 Advanced Software Engineering. Our team name is TheJavaEngineers and the following are our members: Griffin, Mohsin, Jeannie, Michael, and Abenezer.
 
+## Building and Running
+You can build our project using the build command in IntelliJ using Java 17. From there, you can hit the "Run" button to start
+the service.
+
+Our endpoints are listed below in the "Endpoints" section, with brief descriptions of their parameters. For in-depth examples and system-level
+tests of them, see the section "Postman Test Documentation" below.
+
+## Running Tests
+Our unit tests are located under the directory 'src/test'. To run our project's tests in IntelliJ using Java 17, you must first build the project.
+
+From there, you can right-click the 'DocumentTest' class from the IntelliJ Project View and click "Run 'DocumentTest'".
+Next, you can do the same thing with 'FirebaseServiceTest' to run the tests of the Firebase service.
+
+To see our system-level tests, see the section "Postman Test Documentation" below.
+
 ## Postman Test Documentation
 View the list of API calls made over the network using post man fully documented with the received result and parameters: https://documenter.getpostman.com/view/30499865/2s9YR85tUY
 
@@ -74,7 +89,13 @@ uploads and downloads. To see more information on the method level specific api 
 * Expected Output: HTTP OK Status along with the raw text contents of the document in the response body.
 * Retrieves the raw contents of the document and returns it with <code>HTTP OK Status</code> upon success. If a JSON body is provided it it takes precedent and the other parameters do not matter. If the JSON body is present and malformed then an <code>HTTP BAD_REQUEST Status</code> is returned along with <code>"The request body is malformed"</code> in the response body. The following assumes no JSON body is present in the HTTP request and some failure occurs: If the specified user does not have access to the specified document then <code>HTTP FORBIDDEN Status</code> is returned along with <code>"You do not have ownership of this document"</code> in the response body. If the specified document does not exist then <code>HTTP NOT_FOUND Status</code> is returned along with <code>"No such document exists"</code> in the response body. If an unexpected error occurs then <code>HTTP INTERNAL_SERVER_ERROR Status</code> is returned along with <code>"An unexpected error has occurred"</code> in the response body.
 
----
+## Style Checking Report
+We used the tool "checkstyle" to check the style of our code and generate style checking reports. Here is the report
+as of the day of 10/19/23:
+
+![Screenshot of a checkstyle report for our project, showing 0 warnings and errors](screenshots/checkstyle-report.png)
+![Screenshot of another checkstyle report for our project, showing 0 warnings and errors](screenshots/checkstyle.png)
+![Screenshot of a checkstyle report from the plugin, showing 0 warnings and errors](screenshots/checkstyle-plugin.png)
 
 ## Tools used
 This section includes notes on tools and technologies used in building this project, as well as any additional details if applicable.
@@ -95,26 +116,3 @@ This section includes notes on tools and technologies used in building this proj
   * We use Cobertura for generating code coverage reports.
 * Postman
   * We used Postman for testing that the APIs work.
-
-## Building and Running
-You can build our project using the build command in IntelliJ using Java 17. From there, you can hit the "Run" button to start
-the service.
-
-Our endpoints are listed below in the "Endpoints" section, with brief descriptions of their parameters. For in-depth examples and system-level
-tests of them, see the section "Postman Test Documentation" below.
-
-## Running Tests
-Our unit tests are located under the directory 'src/test'. To run our project's tests in IntelliJ using Java 17, you must first build the project.
-
-From there, you can right-click the 'DocumentTest' class from the IntelliJ Project View and click "Run 'DocumentTest'".
-Next, you can do the same thing with 'FirebaseServiceTest' to run the tests of the Firebase service.
-
-To see our system-level tests, see the section "Postman Test Documentation" below.
-
-## Style Checking Report
-We used the tool "checkstyle" to check the style of our code and generate style checking reports. Here is the report
-as of the day of 10/19/23:
-
-![Screenshot of a checkstyle report for our project, showing 0 warnings and errors](screenshots/checkstyle-report.png)
-![Screenshot of another checkstyle report for our project, showing 0 warnings and errors](screenshots/checkstyle.png)
-![Screenshot of a checkstyle report from the plugin, showing 0 warnings and errors](screenshots/checkstyle-plugin.png)
