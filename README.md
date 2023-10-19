@@ -14,6 +14,8 @@ Our unit tests are located under the directory 'src/test'. To run our project's 
 From there, you can right-click the 'DocumentTest' class from the IntelliJ Project View and click "Run 'DocumentTest'".
 Next, you can do the same thing with 'FirebaseServiceTest' to run the tests of the Firebase service.
 
+To see our system-level tests, see the section "Postman Test Documentation" below.
+
 ## Style Checking Report
 We used the tool "checkstyle" to check the style of our code and generate style checking reports. Here is the report
 as of the day of 10/19/23:
