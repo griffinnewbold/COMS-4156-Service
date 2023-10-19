@@ -2,14 +2,15 @@ package com.dev.sweproject;
 
 
 import com.google.firebase.database.annotations.NotNull;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Random;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *  The document class provides information about the
@@ -62,7 +63,8 @@ public class Document {
    * @param docId       The unique ID of the document.
    * @throws IOException If an IO error occurs while processing the MultipartFile content.
    */
-  public Document(String userId, String clientId, MultipartFile file, String docId) throws IOException {
+  public Document(String userId, String clientId,
+                  MultipartFile file, String docId) throws IOException {
     this.userId = userId;
     this.clientId = clientId;
     this.docId = docId;
@@ -77,7 +79,8 @@ public class Document {
   }
 
   /**
-   * Constructs a Document object with the specified attributes, including previous versions of the document.
+   * Constructs a Document object with the specified attributes,
+   * including previous versions of the document.
    *
    * @param userId            The unique user ID associated with this document.
    * @param clientId          The client ID or identifier for the document.
@@ -89,7 +92,8 @@ public class Document {
    * @throws IOException      If an IO error occurs while processing the MultipartFile content.
    */
   public Document(String userId, String clientId, MultipartFile file, String docId,
-                  String title, int wordCount, ArrayList<Document> previousVersions) throws IOException {
+                  String title, int wordCount, ArrayList<Document> previousVersions)
+                  throws IOException {
     this.userId = userId;
     this.clientId = clientId;
     this.docId = docId;
@@ -117,8 +121,8 @@ public class Document {
    * Returns the previous versions of the Document
    * object.
    *
-   * @return An ArrayList<Document> containing the
-   * previous versions of the document.
+   * @return An ArrayList<\Document> containing the
+   *     previous versions of the document.
    */
   public ArrayList<Document> getPreviousVersions() {
     return this.previousVersions;
@@ -127,7 +131,8 @@ public class Document {
   /**
    * Set previous versions of the document to be the newPreviousVersions passed in.
    *
-   * @param newPreviousVersions ArrayList containing the previous versions of the document you want to record
+   * @param newPreviousVersions ArrayList containing the previous versions of the document
+   *                            you want to record
    */
   public void setPreviousVersions(ArrayList<Document> newPreviousVersions) {
     this.previousVersions = newPreviousVersions;
@@ -269,17 +274,18 @@ public class Document {
     String clientId = (String) map.get("clientId");
     String docId = (String) map.get("docId");
     String title = (String) map.get("title");
-    ArrayList<Document> previous = (ArrayList<Document>)map.get("previousVersions");
+    ArrayList<Document> previous = (ArrayList<Document>) map.get("previousVersions");
     String fileString = (String) map.get("fileString");
     byte[] fileContents;
     if (fileString != null) {
       fileContents = Base64.getDecoder().decode(fileString.substring(1));
-    }else{
+    } else {
       fileContents = new byte[0];
     }
     int wordCount = ((Long) map.get("wordCount")).intValue();
 
-    return new Document(userId, clientId, createFile(fileContents, title), docId, title, wordCount, previous);
+    return new Document(userId, clientId, createFile(fileContents, title), docId,
+        title, wordCount, previous);
   }
 
   /**
@@ -363,7 +369,7 @@ public class Document {
    * Generates statistics on a document.
    *
    * @return String containing the statistics (client id, word count, users able to see the file,
-   * amount of previous versions) on a document
+   *     amount of previous versions) on a document
    */
   public String generateUsageStatistics() {
     String result = "";
@@ -388,18 +394,19 @@ public class Document {
   /**
    * Compare two documents based on word count, users, and previous versions.
    *
-   * @return String containing the difference of word count, users, and previous versions between two documents
+   * @return String containing the difference of word count, users, and previous versions between
+   *     two documents
    */
   public String compareTo(@NotNull Document other) {
     String result = "";
     int wordCountDiff = this.wordCount - other.wordCount;
     int userCountDiff = this.countUsers() - other.countUsers();
-    int versionCountDiff = (this.previousVersions.size() - 1) - (other.previousVersions.size() - 1);
 
     if (wordCountDiff > 0) {
       result += this.getTitle() + " has " + wordCountDiff + " more words than " + other.getTitle();
     } else if (wordCountDiff < 0) {
-      result += this.getTitle() + " has " + (-1 * wordCountDiff) + " less words than " + other.getTitle();
+      result += this.getTitle() + " has " + (-1 * wordCountDiff)
+         + " less words than " + other.getTitle();
     } else {
       result += this.getTitle() + " has the same word count " + other.getTitle();
     }
@@ -408,20 +415,23 @@ public class Document {
     if (userCountDiff > 0) {
       result += this.getTitle() + " has " + userCountDiff + " more users than " + other.getTitle();
     } else if (userCountDiff < 0) {
-      result += this.getTitle() + " has " + (-1 * userCountDiff) + " less users than " + other.getTitle();
+      result += this.getTitle() + " has " + (-1 * userCountDiff) + " less users than "
+          + other.getTitle();
     } else {
       result += this.getTitle() + " has the same user count " + other.getTitle();
     }
     result += "\n";
 
+    int versionCountDiff = (this.previousVersions.size() - 1) - (other.previousVersions.size() - 1);
     if (versionCountDiff > 0) {
-      result += this.getTitle() + " has " + versionCountDiff + " more versions than " + other.getTitle();
+      result += this.getTitle() + " has " + versionCountDiff + " more versions than "
+          + other.getTitle();
     } else if (versionCountDiff < 0) {
-      result += this.getTitle() + " has " + (-1 * versionCountDiff) + " less versions than " + other.getTitle();
+      result += this.getTitle() + " has " + (-1 * versionCountDiff) + " less versions than "
+          + other.getTitle();
     } else {
       result += this.getTitle() + " has the same version count " + other.getTitle();
     }
-
     return result;
   }
 

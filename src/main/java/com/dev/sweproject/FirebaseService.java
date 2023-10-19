@@ -1,24 +1,30 @@
 package com.dev.sweproject;
 
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.*;
-
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
  * The `FirebaseService` class provides service methods related to the database (DB).
- * It utilizes `CompletableFuture<Object>` for handling asynchronous operations and representing
+ * It utilizes `CompletableFuture<\Object>` for handling asynchronous operations and representing
  * future results. This class is part of the `java.util.concurrent` package and is used when you
  * want to retrieve a result once it's available or handle an error if the operation fails.
  *
- * Note: The Firebase API for Java used to primarily rely on Tasks, which have since been deprecated,
- * and `CompletableFuture` is one of the recommended alternatives.
+ * <p>
+ * Note: The Firebase API for Java used to primarily rely on Tasks, which have since been
+ * deprecated, and `CompletableFuture` is one of the recommended alternatives.
+ * </p>
  *
  * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html">CompletableFuture Documentation</a>
  */
@@ -39,8 +45,8 @@ public class FirebaseService {
   }
 
   /**
-   * Returns a reference to the Firebase Realtime Database. If multiple clients are using this service,
-   * it will provide the same database reference instance.
+   * Returns a reference to the Firebase Realtime Database. If multiple clients are using
+   * this service, it will provide the same database reference instance.
    *
    * @return A reference to the Firebase Realtime Database.
    */
@@ -219,6 +225,7 @@ public class FirebaseService {
           future.completeExceptionally(new RuntimeException("Value not found."));
         }
       }
+
       @Override
       public void onCancelled(DatabaseError databaseError) {
         future.completeExceptionally(new RuntimeException(databaseError.getMessage()));
@@ -249,7 +256,8 @@ public class FirebaseService {
    *
    * @param collectionName A String representing the name of the collection to search in.
    * @param title A String representing the title of the document to search for.
-   * @return A CompletableFuture object that may contain a DataSnapshot if the document is found, or null.
+   * @return A CompletableFuture object that may contain a DataSnapshot if the document
+   *     is found, or null.
    */
   public CompletableFuture<DataSnapshot> searchForDocument(String collectionName, String title) {
     CompletableFuture<DataSnapshot> future = new CompletableFuture<>();
@@ -288,7 +296,8 @@ public class FirebaseService {
    * @param collectionName A String representing the name of the collection to upload the file to.
    * @param fileName A String representing the name of the file.
    * @param userId A String representing the user ID.
-   * @return A CompletableFuture object that may complete with a result upon successful upload or an error message.
+   * @return A CompletableFuture object that may complete with a result upon successful
+   *         upload or an error message.
    * @throws IOException If an IO error occurs during the upload process.
    */
   public CompletableFuture<Object> uploadFile(MultipartFile file, String collectionName,
@@ -300,18 +309,19 @@ public class FirebaseService {
 
     try {
       dataSnapshot = doesExist.get();
-      if(dataSnapshot != null) {
+      if (dataSnapshot != null) {
         previousDoc = Document.convertToDocument((HashMap<String, Object>) dataSnapshot.getValue());
       }
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
 
-    String documentId = previousDoc == null ? Document.generateDocumentId()  : previousDoc.getDocId();
+    String documentId = previousDoc == null ? Document.generateDocumentId()
+        : previousDoc.getDocId();
 
     Document documentToUpload;
 
-    if (previousDoc != null){
+    if (previousDoc != null) {
       documentToUpload = new Document(userId, collectionName, file, documentId,
           fileName, Document.countWords(file.getBytes()), previousDoc.getPreviousVersions());
       previousDoc.setPreviousVersions(null);
