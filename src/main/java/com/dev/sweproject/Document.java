@@ -12,64 +12,31 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * Document class contains information about a document.
+ *  The document class provides information about the
+ *  uploaded file.
  */
-  public class Document {
+public class Document {
 
-  /**
-   * Contains the user id.
-   */
   private String userId;
-
-  /**
-   * Contains the client id.
-   */
   private String clientId;
-
-  /**
-   * Contains the content of the file in a byte array.
-   */
   private byte[] fileContents;
-
-  /**
-   * Contains an encoded String representing fileContents byte array.
-   */
   private String thisfileContents;
-
-  /**
-   * Contains the document id.
-   */
   private String docId;
-
-  /**
-   * Contains the title of a document.
-   */
   private String title;
-
-  /**
-   * Contains the word count of a document.
-   */
   private int wordCount;
-
-  /**
-   * states that the document id can only have a length of 3.
-   */
   public static final int DOC_ID_LENGTH = 3;
-
-  /**
-   * Contains ArrayList of previous versions of a document.
-   */
   private ArrayList<Document> previousVersions;
 
   /**
-   * Constructs a Document object.
+   * Constructs a Document object with the specified attributes.
    *
-   * @param userId represents the userid
-   * @param clientId represents the clientid
-   * @param file represents the file object
-   * @param docId the document's id
-   * @param title the title of the doc
-   * @param wordCount the word count of the document
+   * @param userId      The unique user ID associated with this document.
+   * @param clientId    The client ID or identifier for the document.
+   * @param file        The MultipartFile object representing the document's content.
+   * @param docId       The unique ID of the document.
+   * @param title       The title or name of the document.
+   * @param wordCount   The word count of the document content.
+   * @throws IOException If an IO error occurs while processing the MultipartFile content.
    */
   public Document(String userId, String clientId, MultipartFile file, String docId,
                   String title, int wordCount) throws IOException {
@@ -84,15 +51,16 @@ import java.util.Random;
       this.fileContents = file.getBytes();
       this.thisfileContents = "#" + Base64.getEncoder().encodeToString(file.getBytes());
     }
-
   }
+
   /**
-   * Constructs a Default Document object.
+   * Constructs a Default Document object with the specified attributes.
    *
-   * @param userId represents the userid
-   * @param clientId represents the clientid
-   * @param file represents the file object
-   * @param docId the document's id
+   * @param userId      The unique user ID associated with this document.
+   * @param clientId    The client ID or identifier for the document.
+   * @param file        The MultipartFile object representing the document's content.
+   * @param docId       The unique ID of the document.
+   * @throws IOException If an IO error occurs while processing the MultipartFile content.
    */
   public Document(String userId, String clientId, MultipartFile file, String docId) throws IOException {
     this.userId = userId;
@@ -109,15 +77,16 @@ import java.util.Random;
   }
 
   /**
-   * Constructs a Default Document object.
+   * Constructs a Document object with the specified attributes, including previous versions of the document.
    *
-   * @param userId represents the userid
-   * @param clientId represents the clientid
-   * @param file represents the file object
-   * @param docId the document's id
-   * @param title the document's title
-   * @param wordCount the document's word count
-   * @param previousVersions an array of all the previous document versions
+   * @param userId            The unique user ID associated with this document.
+   * @param clientId          The client ID or identifier for the document.
+   * @param file              The MultipartFile object representing the document's content.
+   * @param docId             The unique ID of the document.
+   * @param title             The title or name of the document.
+   * @param wordCount         The word count of the document content.
+   * @param previousVersions  An ArrayList of previous versions of the document.
+   * @throws IOException      If an IO error occurs while processing the MultipartFile content.
    */
   public Document(String userId, String clientId, MultipartFile file, String docId,
                   String title, int wordCount, ArrayList<Document> previousVersions) throws IOException {
@@ -133,9 +102,7 @@ import java.util.Random;
     }
   }
 
-  /**
-   * Constructs a Default Document object.
-   */
+  //A Private constructor meant only for internal use: factory pattern
   private Document() {
     this.userId = "";
     this.clientId = "";
@@ -147,7 +114,11 @@ import java.util.Random;
   }
 
   /**
-   * Return previous versions of the document.
+   * Returns the previous versions of the Document
+   * object.
+   *
+   * @return An ArrayList<Document> containing the
+   * previous versions of the document.
    */
   public ArrayList<Document> getPreviousVersions() {
     return this.previousVersions;
@@ -285,10 +256,13 @@ import java.util.Random;
   }
 
   /**
-   * Converts the JSON format to a Document object.
+   * Converts a HashMap in JSON format to a Document object.
    *
-   * @param map A hashmap containing the key value pairs
-   * @return A Document wrapper type
+   * @param map A HashMap containing key-value pairs representing document attributes.
+   *            Required keys: "userId," "clientId," "docId," "title," "previousVersions,"
+   *            "fileString," and "wordCount."
+   * @return A Document wrapper type created from the provided HashMap.
+   * @throws IOException If an IO error occurs during document creation.
    */
   public static Document convertToDocument(HashMap<String, Object> map) throws IOException {
     String userId = (String) map.get("userId");
@@ -308,18 +282,29 @@ import java.util.Random;
     return new Document(userId, clientId, createFile(fileContents, title), docId, title, wordCount, previous);
   }
 
+  /**
+   * Indicates whether some other object is "equal to" this Document.
+   * Two Document objects are considered equal if they have the same word count, title,
+   * document ID, client ID, and user ID.
+   *
+   * @param o The object to compare for equality.
+   * @return {@code true} if the objects are equal; {@code false} otherwise.
+   */
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Document other = (Document) o;
 
-    Document document = (Document) o;
-
-    return (this.getWordCount() == document.getWordCount())
-        && (this.getTitle().equals(document.getTitle()))
-        && (this.getDocId().equals(document.getDocId()))
-        && (this.getClientId().equals(document.getClientId()))
-        && (this.getUserId().equals(document.getUserId()));
+    return (this.getWordCount() == other.getWordCount())
+        && (this.getTitle().equals(other.getTitle()))
+        && (this.getDocId().equals(other.getDocId()))
+        && (this.getClientId().equals(other.getClientId()))
+        && (this.getUserId().equals(other.getUserId()));
   }
 
   /**
@@ -368,16 +353,16 @@ import java.util.Random;
   /**
    * Generates a multipart file.
    *
-   * @return A mulitpart file
+   * @return A MultipartFile containing the contents of the file
    */
   public static MultipartFile createFile(byte[] contents, String name) {
     return new ByteArrayMultipart(contents, name, name, "text/plain");
   }
 
   /**
-   * Generates statistics on a documet.
+   * Generates statistics on a document.
    *
-   * @return String containing the the statistics (client id, word count, users able to see the file,
+   * @return String containing the statistics (client id, word count, users able to see the file,
    * amount of previous versions) on a document
    */
   public String generateUsageStatistics() {
@@ -389,11 +374,7 @@ import java.util.Random;
     return result;
   }
 
-  /**
-   * How many users can see the document.
-   *
-   * @return Number of users who can access the document
-   */
+  //private helper method for counting users
   private int countUsers() {
     int users = 1;
     for (int i = 0; i < userId.length(); i++) {

@@ -11,7 +11,9 @@ public class RegisterClientResponse {
     public String network_id;
 
     /**
-     * Create instance of the RegisterClientResponse and initializes network_id
+     * Constructs a RegisterClientResponse object and initializes the network identifier.
+     *
+     * @param _network_id The network identifier associated with the client registration.
      */
     public RegisterClientResponse(String _network_id) {
         this.network_id = _network_id;
