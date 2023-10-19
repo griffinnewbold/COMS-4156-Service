@@ -128,16 +128,16 @@ public class SweProjectApplication {
             && myDocument.getUserId().contains(theirUserId)) {
           response = "This document has already been shared with the desired user";
         } else {
-            String newIds = myDocument.getUserId() + "/" + theirUserId;
-            String collectionToUpdate = myDocument.getClientId() + "/" + myDocument.getDocId();
-            firebaseDataService.updateEntry(collectionToUpdate, "userId", newIds);
-            response = "The document has been shared with the desired user";
+          String newIds = myDocument.getUserId() + "/" + theirUserId;
+          String collectionToUpdate = myDocument.getClientId() + "/" + myDocument.getDocId();
+          firebaseDataService.updateEntry(collectionToUpdate, "userId", newIds);
+          response = "The document has been shared with the desired user";
         }
       }
     } catch (IOException e) {
-        response = "An unexpected error has occurred.";
+      response = "An unexpected error has occurred.";
     } catch (Exception e) {
-        response = "no such document exists";
+      response = "no such document exists";
     }
     ObjectMapper om = new ObjectMapper();
     return om.writeValueAsString(response);
@@ -175,7 +175,7 @@ public class SweProjectApplication {
           firebaseDataService.deleteCollection(databaseLocation);
           response = "Your document was successfully deleted";
         }
-			}
+      }
     } catch (IOException e) {
       response = "An unexpected error has occurred.";
     } catch (Exception e) {
@@ -202,7 +202,7 @@ public class SweProjectApplication {
                             @RequestParam(value = "your-user-id")  String yourUserId)
                             throws JsonProcessingException {
     CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(
-      networkId, documentName);
+        networkId, documentName);
     Object response = new Object();
 
     try {
@@ -279,7 +279,7 @@ public class SweProjectApplication {
                                  @RequestParam(value = "your-user-id") String yourUserId)
                                  throws JsonProcessingException {
     CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(
-      networkId, documentName);
+        networkId, documentName);
     Object response = new Object();
     try {
       DataSnapshot dataSnapshot = result.get();
@@ -317,46 +317,44 @@ public class SweProjectApplication {
                                           @RequestParam(value = "snd-doc-name") String sndDocName,
                                           @RequestParam(value = "your-user-id") String yourUserId)
                                           throws JsonProcessingException {
-      CompletableFuture<DataSnapshot> resultOne = firebaseDataService.searchForDocument(
-				networkId, fstDocName);
-      CompletableFuture<DataSnapshot> resultTwo = firebaseDataService.searchForDocument(
-				networkId, sndDocName);
+    CompletableFuture<DataSnapshot> resultOne = firebaseDataService.searchForDocument(
+        networkId, fstDocName);
+    CompletableFuture<DataSnapshot> resultTwo = firebaseDataService.searchForDocument(
+        networkId, sndDocName);
 
-      DataSnapshot firstSnapshot = null;
-      DataSnapshot secondSnapshot = null;
-      Object response = new Object();
-      boolean isError = false;
+    DataSnapshot firstSnapshot = null;
+    DataSnapshot secondSnapshot = null;
+    Object response = new Object();
+    boolean isError = false;
 
-      try {
+    try {
+      firstSnapshot = resultOne.get();
+      secondSnapshot = resultTwo.get();
 
-			firstSnapshot = resultOne.get();
-			secondSnapshot = resultTwo.get();
+      if (!isError && firstSnapshot.exists() && secondSnapshot.exists()) {
 
-			if (!isError && firstSnapshot.exists() && secondSnapshot.exists()) {
+        try {
+          Document fstDocument = Document.convertToDocument(
+              (HashMap<String, Object>) firstSnapshot.getValue());
+          Document sndDocument = Document.convertToDocument(
+              (HashMap<String, Object>) secondSnapshot.getValue());
 
-				try {
-            Document fstDocument = Document.convertToDocument(
-							(HashMap<String, Object>) firstSnapshot.getValue());
-            Document sndDocument = Document.convertToDocument(
-							(HashMap<String, Object>) secondSnapshot.getValue());
-
-            if (!fstDocument.getUserId().contains(yourUserId)
-							|| !sndDocument.getUserId().contains(yourUserId)) {
-						response = "Your user does not have access to one of the documents";
-            } else {
-						response = fstDocument.compareTo(sndDocument);
-            }
-				} catch (IOException e) {
-            response = "An unexpected error has occurred.";
-				}
-
-			}
-      } catch (Exception e) {
-			response = "One or more of the documents does not exist";
+          if (!fstDocument.getUserId().contains(yourUserId)
+                || !sndDocument.getUserId().contains(yourUserId)) {
+            response = "Your user does not have access to one of the documents";
+          } else {
+            response = fstDocument.compareTo(sndDocument);
+          }
+        } catch (IOException e) {
+          response = "An unexpected error has occurred.";
+        }
       }
+    } catch (Exception e) {
+      response = "One or more of the documents does not exist";
+    }
 
-      ObjectMapper om = new ObjectMapper();
-      return om.writeValueAsString(response);
+    ObjectMapper om = new ObjectMapper();
+    return om.writeValueAsString(response);
   }
 
   /**
@@ -398,7 +396,7 @@ public class SweProjectApplication {
       DataSnapshot dataSnapshot = result.get();
       if (dataSnapshot.exists()) {
         Document myDocument = Document.convertToDocument(
-          (HashMap<String, Object>) dataSnapshot.getValue());
+            (HashMap<String, Object>) dataSnapshot.getValue());
         if (!myDocument.getUserId().contains(yourUserId)) {
           return new ResponseEntity<>(
         "You do not have ownership of this document", HttpStatus.FORBIDDEN);
@@ -412,8 +410,8 @@ public class SweProjectApplication {
         }
       }
     } catch (IOException e) {
-       return new ResponseEntity<>(
-    "An unexpected error has occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>("An unexpected error has occurred",
+          HttpStatus.INTERNAL_SERVER_ERROR);
     } catch (Exception e) {
       return new ResponseEntity<>("No such document exists", HttpStatus.NOT_FOUND);
     }
