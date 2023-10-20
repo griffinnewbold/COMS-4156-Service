@@ -100,7 +100,7 @@ uploads and downloads. To see more information on the method level specific api 
 
 ## Style Checking Report
 We used the tool "checkstyle" to check the style of our code and generate style checking reports. Here is the report
-as of the day of 10/19/23:
+as of the day of 10/19/23 (These can be found in the screenshots folder):
 
 ![Screenshot of a checkstyle report for our project, showing 0 warnings and errors](screenshots/checkstyle-report.png)
 ![Screenshot of another checkstyle report for our project, showing 0 warnings and errors](screenshots/checkstyle.png)
