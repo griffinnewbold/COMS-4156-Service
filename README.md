@@ -2,8 +2,14 @@
 This is the GitHub repository for the Team Project associated with COMS 4156 Advanced Software Engineering. Our team name is TheJavaEngineers and the following are our members: Griffin, Mohsin, Jeannie, Michael, and Abenezer.
 
 ## Building and Running a Local Instance
-You can build our project using the build command in IntelliJ using Java 17. From there, you can hit the "Run" button to start
-the service.
+In order to build and use our service you must install the following (This guide assumes Windows but the Maven README has instructions for both Windows and Mac):
+
+1. Maven 3.9.5: https://maven.apache.org/download.cgi Download and follow the installation instructions, be sure to set the bin as described in Maven's README as a new path variable by editing the system variables if you are on windows or by following the instructions for MacOS.
+2. JDK 17: This project used JDK 17 for development so that is what we recommend you use: https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+3. IntelliJ IDE: We recommend using IntelliJ but you are free to use any other IDE that you are comfortable with: https://www.jetbrains.com/idea/download/?section=windows
+4. When you open IntelliJ you have the option to clone from a GitHub repo, click the green code button and copy the http line that is provided there and give it to your IDE to clone.
+5. That should be it in order to build the project with maven you can run <code>mvn -B package --file pom.xml</code> and then you can either run the tests via the test files described below or the main application by running SweProjectApplication.java from your IDE.
+6. If you wish to run the style checker you can with <code>mvn checkstyle:check</code> or <code>mvn checkstyle:checkstyle</code> if you wish to generate the report. 
 
 Our endpoints are listed below in the "Endpoints" section, with brief descriptions of their parameters. For in-depth examples and system-level
 tests of them, see the section "Postman Test Documentation" below.
@@ -35,7 +41,7 @@ uploads and downloads. To see more information on the method level specific api 
 #### POST /upload-doc
 * Expected Input Parameters: network-id (String), document-name (String), user-id (String), contents (MultipartFile in the request body)
 * Expected Output: A String indicating the status of the upload.
-* Uploads the provided document to the database. Ideally you upload a document prior to performing other api calls but it is not an issue if you do not do this, you'll just have no luck. Upon success: <code>"File uploaded successfully"</code> is returned. Upon failure: <code>"File didn't upload"</code>. When providing the user-id if you wish to specify multiple users our code assumes for functionality purposes that users will be delimited by '/' so user1/user2 is defined in our project as two users, while there will be no crashes if this styling isn't followed there will be some incorrect outputs when counting users so please delimit users by '/'
+* Uploads the provided document to the database. Ideally you upload a document prior to performing other api calls but it is not an issue if you do not do this, you'll just have no luck. Upon success: <code>"File uploaded successfully"</code> is returned. Upon failure: <code>"File didn't upload"</code>. When providing the user-id if you wish to specify multiple users our code assumes for functionality purposes that users will be delimited by '/' so user1/user2 is defined in our project as two users, while there will be no crashes if this styling isn't followed there will be some incorrect outputs when counting users so please delimit users by '/' If the file you attempt to upload cannot be found on your computer then <code>HTTP INTERNAL_SERVER_ERROR Status</code> will be returned to postman, but the program will remain running.
 
 #### PATCH /share-document
 * Expected Input Parameters: network-id (string), document-name (string), your-user-id (string), their-user-id (string)
@@ -94,7 +100,7 @@ uploads and downloads. To see more information on the method level specific api 
 
 ## Style Checking Report
 We used the tool "checkstyle" to check the style of our code and generate style checking reports. Here is the report
-as of the day of 10/19/23:
+as of the day of 10/19/23 (These can be found in the screenshots folder):
 
 ![Screenshot of a checkstyle report for our project, showing 0 warnings and errors](screenshots/checkstyle-report.png)
 ![Screenshot of another checkstyle report for our project, showing 0 warnings and errors](screenshots/checkstyle.png)
