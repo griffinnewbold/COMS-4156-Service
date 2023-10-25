@@ -15,7 +15,11 @@ Our endpoints are listed below in the "Endpoints" section, with brief descriptio
 tests of them, see the section "Postman Test Documentation" below.
 
 ## Running a Cloud based Instance
-Our service will temporarily be able to be accessed via google cloud, below are the instructions once they become available!
+For a short time you'll be able to reach our service by the magic of cloud computing here is what you need to do: 
+1. When running tests in Postman point them to: http:// 34.145.232.193/ endpoint
+2. For example and to see if the cloud service is still operational please see if the following displays "hello world" http://34.145.232.193/hello
+3. If the above produced "hello world" that means the service is operational via the cloud, you are still welcome to make your own instance locally as per the instructions above!
+4. Happy Hacking!
 
 ## Running Tests
 Our unit tests are located under the directory 'src/test'. To run our project's tests in IntelliJ using Java 17, you must first build the project.
