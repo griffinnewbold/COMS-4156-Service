@@ -51,18 +51,17 @@ public class SweProjectApplication {
    * once in the client's lifetime.
    *
    * @return A JSON response indicating the successful registration with a network Id.
-   * @throws JsonProcessingException If there's an issue processing JSON data
    */
   @PostMapping(value = "/register-client", produces = MediaType.APPLICATION_JSON_VALUE)
-  public String registerClient() throws JsonProcessingException {
+  public ResponseEntity<?> registerClient() {
     try {
       String networkId = firebaseDataService.generateNetworkId();
       firebaseDataService.createCollection(networkId);
-      ObjectMapper om = new ObjectMapper();
-      return om.writeValueAsString(new RegisterClientResponse(networkId));
-    } catch (JsonProcessingException e) {
+      return new ResponseEntity<>(new RegisterClientResponse(networkId), HttpStatus.OK );
+    } catch (Exception e) {
       System.out.println(e.getMessage());
-      return new ObjectMapper().writeValueAsString("An unexpected error has occurred");
+      return new ResponseEntity<>("An unexpected error has occurred",
+          HttpStatus.INTERNAL_SERVER_ERROR );
     }
   }
 
@@ -76,22 +75,27 @@ public class SweProjectApplication {
    * @param contents      The file to upload.
    *
    * @return A JSON response indicating whether the file was successfully uploaded.
-   * @throws JsonProcessingException If there's an issue processing JSON data
    */
   @PostMapping(value = "/upload-doc")
-  public String uploadDoc(@RequestParam(value = "network-id") String networkId,
+  public ResponseEntity<?> uploadDoc(@RequestParam(value = "network-id") String networkId,
                           @RequestParam(value = "document-name") String documentName,
                           @RequestParam(value = "user-id") String userId,
-                          @RequestBody MultipartFile contents) throws JsonProcessingException {
-    ObjectMapper om = new ObjectMapper();
+                          @RequestBody MultipartFile contents) {
     try {
+      CompletableFuture<DataSnapshot> doesExist = firebaseDataService.searchForDocument(
+          networkId, documentName);
+      DataSnapshot dataSnapshot = doesExist.get();
+      if (dataSnapshot != null) {
+        return new ResponseEntity<>("File already exists!", HttpStatus.OK);
+      }
       CompletableFuture<Object> uploadResult = firebaseDataService.uploadFile(
-            contents, networkId, documentName, userId);
+          contents, networkId, documentName, userId);
       uploadResult.get();
-      return om.writeValueAsString("File uploaded successfully");
+      return new ResponseEntity<>("File Uploaded Successfully!", HttpStatus.OK);
     } catch (Exception e) {
       System.out.println(e.getMessage());
-      return om.writeValueAsString("File didn't upload");
+      return new ResponseEntity<>("File didn't upload",
+          HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -105,42 +109,43 @@ public class SweProjectApplication {
    *                      to share the document with.
    * @return A String describing whether the document was successfully shared or not
    *         and the reason why.
-   * @throws JsonProcessingException If there's an issue processing JSON data.
    */
   @PatchMapping(value = "/share-document", produces = MediaType.APPLICATION_JSON_VALUE)
-  public String shareDocument(@RequestParam(value = "network-id") String networkId,
+  public ResponseEntity<?> shareDocument(@RequestParam(value = "network-id") String networkId,
                               @RequestParam(value = "document-name") String documentName,
                               @RequestParam(value = "your-user-id") String yourUserId,
-                              @RequestParam(value = "their-user-id") String theirUserId)
-                              throws JsonProcessingException {
+                              @RequestParam(value = "their-user-id") String theirUserId) {
     CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(
         networkId, documentName);
-    Object response = new Object();
     try {
       DataSnapshot dataSnapshot = result.get();
       if (dataSnapshot.exists()) {
-        response = dataSnapshot.getValue();
+        Object response = dataSnapshot.getValue();
         Document myDocument = Document.convertToDocument((HashMap<String, Object>) response);
 
         if (!myDocument.getUserId().contains(yourUserId)) {
-          response = "Your user does not have access to this document";
+          return new ResponseEntity<>("User does not have access to this document!",
+              HttpStatus.OK);
         } else if (myDocument.getUserId().contains(yourUserId)
             && myDocument.getUserId().contains(theirUserId)) {
-          response = "This document has already been shared with the desired user";
+          return new ResponseEntity<>("This document has already been shared with " +
+              "the desired user", HttpStatus.OK);
         } else {
           String newIds = myDocument.getUserId() + "/" + theirUserId;
           String collectionToUpdate = myDocument.getClientId() + "/" + myDocument.getDocId();
           firebaseDataService.updateEntry(collectionToUpdate, "userId", newIds);
-          response = "The document has been shared with the desired user";
+          return new ResponseEntity<>("The document has been shared with the desired user",
+              HttpStatus.OK);
         }
       }
     } catch (IOException e) {
-      response = "An unexpected error has occurred.";
+      return new ResponseEntity<>("An unexpected error has occurred.",
+          HttpStatus.INTERNAL_SERVER_ERROR);
     } catch (Exception e) {
-      response = "no such document exists";
+      return new ResponseEntity<>("No such document exists.",
+          HttpStatus.OK);
     }
-    ObjectMapper om = new ObjectMapper();
-    return om.writeValueAsString(response);
+    return new ResponseEntity<>("Service executed", HttpStatus.OK);
   }
 
   /**
@@ -151,38 +156,38 @@ public class SweProjectApplication {
    * @param yourUserId     A String representing your user Id.
    * @return A JSON response verifying whether the document was successfully deleted
    *         and providing a reason if it could not be deleted.
-   * @throws JsonProcessingException If there's an issue processing JSON data.
    */
   @DeleteMapping(value = "/delete-doc")
-  public String deleteDoc(@RequestParam(value = "network-id") String networkId,
+  public ResponseEntity<?> deleteDoc(@RequestParam(value = "network-id") String networkId,
                           @RequestParam(value = "document-name") String documentName,
-                          @RequestParam(value = "your-user-id")  String yourUserId)
-                          throws JsonProcessingException {
+                          @RequestParam(value = "your-user-id")  String yourUserId) {
     CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(
         networkId, documentName);
-    Object response = new Object();
     try {
       DataSnapshot dataSnapshot = result.get();
       if (dataSnapshot.exists()) {
-        response = dataSnapshot.getValue();
+        Object response = dataSnapshot.getValue();
         Document myDocument = Document.convertToDocument((HashMap<String, Object>) response);
 
         if (!myDocument.getUserId().contains(yourUserId)) {
-          response = "Your user does not have ownership of this document";
+          return new ResponseEntity<>("Your user does not have ownership of this document",
+              HttpStatus.OK);
         } else {
           String documentId = myDocument.getDocId();
           String databaseLocation = networkId + "/" + documentId;
           firebaseDataService.deleteCollection(databaseLocation);
-          response = "Your document was successfully deleted";
+          return new ResponseEntity<>("Your document was successfully deleted",
+              HttpStatus.OK);
         }
       }
     } catch (IOException e) {
-      response = "An unexpected error has occurred.";
+      return new ResponseEntity<>("An unexpected error has occurred.",
+          HttpStatus.INTERNAL_SERVER_ERROR);
     } catch (Exception e) {
-      response = "no such document exists";
+      return new ResponseEntity<>("No such document exists.",
+          HttpStatus.OK);
     }
-    ObjectMapper om = new ObjectMapper();
-    return om.writeValueAsString(response);
+    return new ResponseEntity<>("Service executed", HttpStatus.OK);
   }
 
   /**
@@ -197,7 +202,7 @@ public class SweProjectApplication {
    * @throws JsonProcessingException If there's an issues processing JSON data.
    */
   @GetMapping(value = "/check-for-doc", produces = MediaType.APPLICATION_JSON_VALUE)
-  public String checkForDoc(@RequestParam(value = "network-id") String networkId,
+  public ResponseEntity<?> checkForDoc(@RequestParam(value = "network-id") String networkId,
                             @RequestParam(value = "document-name") String documentName,
                             @RequestParam(value = "your-user-id")  String yourUserId)
                             throws JsonProcessingException {
@@ -211,14 +216,16 @@ public class SweProjectApplication {
         response = dataSnapshot.getValue();
         Document myDocument = Document.convertToDocument((HashMap<String, Object>) response);
         if (!myDocument.getUserId().contains(yourUserId)) {
-          response = "Your user does not have access to this document";
+          return new ResponseEntity<>("Your user does not have ownership of this document",
+              HttpStatus.OK);
         }
       }
     } catch (Exception e) {
-      response = "No such document exists";
+      return new ResponseEntity<>("No such document exists.",
+          HttpStatus.OK);
     }
     ObjectMapper om = new ObjectMapper();
-    return om.writeValueAsString(response);
+    return new ResponseEntity<>(om.writeValueAsString(response), HttpStatus.OK);
   }
 
   /**
@@ -234,7 +241,7 @@ public class SweProjectApplication {
    * @throws JsonProcessingException If there's an issue processing JSON data.
    */
   @GetMapping(value = "/see-previous-version", produces = MediaType.APPLICATION_JSON_VALUE)
-  public String seePreviousVersion(@RequestParam(value = "network-id") String networkId,
+  public ResponseEntity<?> seePreviousVersion(@RequestParam(value = "network-id") String networkId,
                                    @RequestParam(value = "document-name") String documentName,
                                    @RequestParam(value = "your-user-id") String yourUserId,
                                    @RequestParam(value = "revision-number") int revisionNumber)
@@ -249,18 +256,20 @@ public class SweProjectApplication {
         response = dataSnapshot.getValue();
         Document myDocument = Document.convertToDocument((HashMap<String, Object>) response);
         if (!myDocument.getUserId().contains(yourUserId)) {
-          return "Your user does not have access to this document";
+          return new ResponseEntity<>("Your user does not have access to this document",
+              HttpStatus.OK);
         }
         if (revisionNumber <= 0 || revisionNumber >= myDocument.getPreviousVersions().size()) {
-          return "This is not a valid revision number";
+          return new ResponseEntity<>("This is not a valid revision number", HttpStatus.OK);
         }
         response = myDocument.getPreviousVersions().get(revisionNumber);
       }
     } catch (Exception e) {
-      return "No such document exists";
+      return new ResponseEntity<>("No such document exists.",
+          HttpStatus.OK);
     }
     ObjectMapper om = new ObjectMapper();
-    return om.writeValueAsString(response);
+    return new ResponseEntity<>(om.writeValueAsString(response), HttpStatus.OK);
   }
 
   /**
@@ -274,7 +283,7 @@ public class SweProjectApplication {
    * @throws JsonProcessingException If there's an issue processing JSON data.
    */
   @GetMapping(value = "/see-document-stats", produces = MediaType.APPLICATION_JSON_VALUE)
-  public String seeDocumentStats(@RequestParam(value = "network-id") String networkId,
+  public ResponseEntity<?> seeDocumentStats(@RequestParam(value = "network-id") String networkId,
                                  @RequestParam(value = "document-name") String documentName,
                                  @RequestParam(value = "your-user-id") String yourUserId)
                                  throws JsonProcessingException {
@@ -293,12 +302,13 @@ public class SweProjectApplication {
         }
       }
     } catch (IOException e) {
-      response = "An unexpected error has occurred.";
+      return new ResponseEntity<>("An unexpected error has occurred.",
+          HttpStatus.INTERNAL_SERVER_ERROR);
     } catch (Exception e) {
       response = "no such document exists";
     }
     ObjectMapper om = new ObjectMapper();
-    return om.writeValueAsString(response);
+    return new ResponseEntity<>(om.writeValueAsString(response), HttpStatus.OK);
   }
 
   /**
@@ -312,7 +322,7 @@ public class SweProjectApplication {
    * @throws JsonProcessingException If there's an issue processing JSON data.
    */
   @GetMapping(value = "/generate-difference-summary", produces = MediaType.APPLICATION_JSON_VALUE)
-  public String generateDifferenceSummary(@RequestParam(value = "network-id") String networkId,
+  public ResponseEntity<?> generateDifferenceSummary(@RequestParam(value = "network-id") String networkId,
                                           @RequestParam(value = "fst-doc-name") String fstDocName,
                                           @RequestParam(value = "snd-doc-name") String sndDocName,
                                           @RequestParam(value = "your-user-id") String yourUserId)
@@ -346,7 +356,8 @@ public class SweProjectApplication {
             response = fstDocument.compareTo(sndDocument);
           }
         } catch (IOException e) {
-          response = "An unexpected error has occurred.";
+          return new ResponseEntity<>("An unexpected error has occurred.",
+              HttpStatus.INTERNAL_SERVER_ERROR);
         }
       }
     } catch (Exception e) {
@@ -354,7 +365,7 @@ public class SweProjectApplication {
     }
 
     ObjectMapper om = new ObjectMapper();
-    return om.writeValueAsString(response);
+    return new ResponseEntity<>(om.writeValueAsString(response), HttpStatus.OK);
   }
 
   /**
