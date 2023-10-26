@@ -57,11 +57,11 @@ public class SweProjectApplication {
     try {
       String networkId = firebaseDataService.generateNetworkId();
       firebaseDataService.createCollection(networkId);
-      return new ResponseEntity<>(new RegisterClientResponse(networkId), HttpStatus.OK );
+      return new ResponseEntity<>(new RegisterClientResponse(networkId), HttpStatus.OK);
     } catch (Exception e) {
       System.out.println(e.getMessage());
       return new ResponseEntity<>("An unexpected error has occurred",
-          HttpStatus.INTERNAL_SERVER_ERROR );
+          HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -128,8 +128,8 @@ public class SweProjectApplication {
               HttpStatus.OK);
         } else if (myDocument.getUserId().contains(yourUserId)
             && myDocument.getUserId().contains(theirUserId)) {
-          return new ResponseEntity<>("This document has already been shared with " +
-              "the desired user", HttpStatus.OK);
+          return new ResponseEntity<>("This document has already been shared with "
+              + "the desired user", HttpStatus.OK);
         } else {
           String newIds = myDocument.getUserId() + "/" + theirUserId;
           String collectionToUpdate = myDocument.getClientId() + "/" + myDocument.getDocId();
@@ -322,7 +322,7 @@ public class SweProjectApplication {
    * @throws JsonProcessingException If there's an issue processing JSON data.
    */
   @GetMapping(value = "/generate-difference-summary", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> generateDifferenceSummary(@RequestParam(value = "network-id") String networkId,
+  public ResponseEntity<?> generateDiffSummary(@RequestParam(value = "network-id") String networkId,
                                           @RequestParam(value = "fst-doc-name") String fstDocName,
                                           @RequestParam(value = "snd-doc-name") String sndDocName,
                                           @RequestParam(value = "your-user-id") String yourUserId)
