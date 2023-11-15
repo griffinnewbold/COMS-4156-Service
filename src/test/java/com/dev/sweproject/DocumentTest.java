@@ -299,7 +299,9 @@ class DocumentTest {
     result += "This document belongs to the following network: " + doc.getClientId() + "\n";
     result += "The word count is: " + doc.getWordCount() + "\n";
     result += "There are 1 able to see the document.\n";
-    result += "There is/are 0previous versions on record";
+    result += "The following users are able to see the document:\n";
+    result += "userId\n";
+    result += "There is/are 0 previous versions on record";
 
     assertEquals(result, doc.generateUsageStatistics());
   }
