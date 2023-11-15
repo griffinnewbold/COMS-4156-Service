@@ -163,12 +163,12 @@ class FirebaseServiceTest {
   @Order(8)
   public void testSearchSuccess() {
     CompletableFuture<DataSnapshot> future = firebaseService.searchForDocument("testCollectionDocs",
-        "my second doc");
+        "yourFileName");
     try {
       DataSnapshot dataSnapshot = future.get();
       assertNotNull(dataSnapshot);
       assertTrue(dataSnapshot.exists());
-      assertEquals("my second doc", Document.convertToDocument(
+      assertEquals("yourFileName", Document.convertToDocument(
           (HashMap<String, Object>) dataSnapshot.getValue()).getTitle());
       System.out.println("element found: " + dataSnapshot.getValue());
     } catch (Exception e) {
