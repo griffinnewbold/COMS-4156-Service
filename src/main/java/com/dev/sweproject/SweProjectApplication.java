@@ -86,7 +86,11 @@ public class SweProjectApplication {
           networkId, documentName);
       DataSnapshot dataSnapshot = doesExist.get();
       if (dataSnapshot != null) {
-        return new ResponseEntity<>("File already exists!", HttpStatus.OK);
+        String fileString = dataSnapshot.child("fileString").getValue(String.class);
+        String currFileString = "#" + Base64.getEncoder().encodeToString(contents.getBytes());
+        if (currFileString.equals(fileString)) {
+          return new ResponseEntity<>("File already exists!", HttpStatus.OK);
+        }
       }
       CompletableFuture<Object> uploadResult = firebaseDataService.uploadFile(
           contents, networkId, documentName, userId);
@@ -125,7 +129,7 @@ public class SweProjectApplication {
 
         if (!myDocument.getUserId().contains(yourUserId)) {
           return new ResponseEntity<>("User does not have access to this document!",
-              HttpStatus.OK);
+              HttpStatus.FORBIDDEN);
         } else if (myDocument.getUserId().contains(yourUserId)
             && myDocument.getUserId().contains(theirUserId)) {
           return new ResponseEntity<>("This document has already been shared with "
@@ -143,7 +147,7 @@ public class SweProjectApplication {
           HttpStatus.INTERNAL_SERVER_ERROR);
     } catch (Exception e) {
       return new ResponseEntity<>("No such document exists.",
-          HttpStatus.OK);
+          HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<>("Service executed", HttpStatus.OK);
   }
@@ -171,7 +175,7 @@ public class SweProjectApplication {
 
         if (!myDocument.getUserId().contains(yourUserId)) {
           return new ResponseEntity<>("Your user does not have ownership of this document",
-              HttpStatus.OK);
+              HttpStatus.FORBIDDEN);
         } else {
           String documentId = myDocument.getDocId();
           String databaseLocation = networkId + "/" + documentId;
@@ -185,7 +189,7 @@ public class SweProjectApplication {
           HttpStatus.INTERNAL_SERVER_ERROR);
     } catch (Exception e) {
       return new ResponseEntity<>("No such document exists.",
-          HttpStatus.OK);
+          HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<>("Service executed", HttpStatus.OK);
   }
@@ -217,12 +221,12 @@ public class SweProjectApplication {
         Document myDocument = Document.convertToDocument((HashMap<String, Object>) response);
         if (!myDocument.getUserId().contains(yourUserId)) {
           return new ResponseEntity<>("Your user does not have ownership of this document",
-              HttpStatus.OK);
+              HttpStatus.FORBIDDEN);
         }
       }
     } catch (Exception e) {
       return new ResponseEntity<>("No such document exists.",
-          HttpStatus.OK);
+          HttpStatus.NOT_FOUND);
     }
     ObjectMapper om = new ObjectMapper();
     return new ResponseEntity<>(om.writeValueAsString(response), HttpStatus.OK);
@@ -257,16 +261,17 @@ public class SweProjectApplication {
         Document myDocument = Document.convertToDocument((HashMap<String, Object>) response);
         if (!myDocument.getUserId().contains(yourUserId)) {
           return new ResponseEntity<>("Your user does not have access to this document",
-              HttpStatus.OK);
+              HttpStatus.FORBIDDEN);
         }
         if (revisionNumber <= 0 || revisionNumber >= myDocument.getPreviousVersions().size()) {
-          return new ResponseEntity<>("This is not a valid revision number", HttpStatus.OK);
+          return new ResponseEntity<>("This is not a valid revision number",
+              HttpStatus.BAD_REQUEST);
         }
         response = myDocument.getPreviousVersions().get(revisionNumber);
       }
     } catch (Exception e) {
       return new ResponseEntity<>("No such document exists.",
-          HttpStatus.OK);
+          HttpStatus.NOT_FOUND);
     }
     ObjectMapper om = new ObjectMapper();
     return new ResponseEntity<>(om.writeValueAsString(response), HttpStatus.OK);
@@ -297,6 +302,8 @@ public class SweProjectApplication {
         Document myDocument = Document.convertToDocument((HashMap<String, Object>) response);
         if (!myDocument.getUserId().contains(yourUserId)) {
           response = "Your user does not have access to this document";
+          return new ResponseEntity<>(new ObjectMapper().writeValueAsString(response),
+              HttpStatus.FORBIDDEN);
         } else {
           response = myDocument.generateUsageStatistics();
         }
@@ -305,7 +312,9 @@ public class SweProjectApplication {
       return new ResponseEntity<>("An unexpected error has occurred.",
           HttpStatus.INTERNAL_SERVER_ERROR);
     } catch (Exception e) {
-      response = "no such document exists";
+      response = "No such document exists";
+      return new ResponseEntity<>(new ObjectMapper().writeValueAsString(response),
+          HttpStatus.NOT_FOUND);
     }
     ObjectMapper om = new ObjectMapper();
     return new ResponseEntity<>(om.writeValueAsString(response), HttpStatus.OK);
@@ -352,6 +361,8 @@ public class SweProjectApplication {
           if (!fstDocument.getUserId().contains(yourUserId)
                 || !sndDocument.getUserId().contains(yourUserId)) {
             response = "Your user does not have access to one of the documents";
+            return new ResponseEntity<>(new ObjectMapper().writeValueAsString(response),
+                HttpStatus.FORBIDDEN);
           } else {
             response = fstDocument.compareTo(sndDocument);
           }
@@ -362,6 +373,8 @@ public class SweProjectApplication {
       }
     } catch (Exception e) {
       response = "One or more of the documents does not exist";
+      return new ResponseEntity<>(new ObjectMapper().writeValueAsString(response),
+          HttpStatus.NOT_FOUND);
     }
 
     ObjectMapper om = new ObjectMapper();

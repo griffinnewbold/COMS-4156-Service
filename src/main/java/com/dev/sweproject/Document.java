@@ -54,7 +54,7 @@ public class Document {
     this.previousVersions.add(new Document());
     if (file != null) {
       this.fileContents = file.getBytes();
-      this.thisfileContents = "#" + Base64.getEncoder().encodeToString(file.getBytes());
+      this.thisfileContents = "#" + Base64.getEncoder().encodeToString(fileContents);
     }
   }
 
@@ -78,7 +78,7 @@ public class Document {
     this.previousVersions.add(new Document());
     if (file != null) {
       this.fileContents = file.getBytes();
-      this.thisfileContents = "#" + Base64.getEncoder().encodeToString(file.getBytes());
+      this.thisfileContents = "#" + Base64.getEncoder().encodeToString(fileContents);
     }
   }
 
@@ -106,7 +106,7 @@ public class Document {
     this.previousVersions = previousVersions;
     if (file != null) {
       this.fileContents = file.getBytes();
-      this.thisfileContents = "#" + Base64.getEncoder().encodeToString(file.getBytes());
+      this.thisfileContents = "#" + Base64.getEncoder().encodeToString(fileContents);
     }
   }
 
@@ -383,28 +383,32 @@ public class Document {
    *     amount of previous versions) on a document
    */
   public String generateUsageStatistics() {
-    String result = "";
-    result += "This document belongs to the following network: " + clientId + "\n";
-    result += "The word count is: " + wordCount + "\n";
-    result += "There are " + countUsers() + " able to see the document.\n";
-    result += "The following users are able to see the document:\n";
+    StringBuilder result = new StringBuilder();
+
+    result.append("This document belongs to the following network: ").append(clientId).append("\n");
+    result.append("The word count is: ").append(wordCount).append("\n");
+    result.append("There are ").append(countUsers()).append(" able to see the document.\n");
+    result.append("The following users are able to see the document:\n");
 
     int slashLocation = userId.indexOf("/");
     int start = 0;
     for (int i = 0; i < countUsers(); i++) {
       if (slashLocation != -1) {
-        result += userId.substring(start, slashLocation);
+        result.append(userId.substring(start, slashLocation));
       } else {
-        result += userId.substring(start);
+        result.append(userId.substring(start));
       }
-      result += "\n";
+      result.append("\n");
       start = slashLocation + 1;
       slashLocation = userId.indexOf("/", start);
     }
 
-    result += "There is/are " + (previousVersions.size() - 1) + " previous versions on record";
-    return result;
+    result.append("There is/are ").append(previousVersions.size() - 1)
+        .append(" previous versions on record");
+
+    return result.toString();
   }
+
 
   //private helper method for counting users expects '/' as delimiter.
   private int countUsers() {
