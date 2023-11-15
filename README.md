@@ -41,22 +41,36 @@ Any malformed request such that there is an error in your wording i.e. you do no
 #### POST /register-client
 * Expected Input Parameters: N/A
 * Expected Output: networkId (String)
-* Registers the client with the service, should be done only ONCE per the lifetime of the client. This endpoint MUST be called prior to any other calls being made. Upon success, the <code>networkId</code> is returned. Upon failure <code>"An unexpected error has occurred"</code> is returned. 
+* Registers the client with the service, should be done only ONCE per the lifetime of the client. This endpoint MUST be called prior to any other calls being made.
+* Upon Success: HTTP 200 Status Code is returned along with the networkID in the response body
+* Upon Failure: HTTP 500 Status Code is returned along with "An unexpected error has occurred" in the response body. 
 
 #### POST /upload-doc
 * Expected Input Parameters: network-id (String), document-name (String), user-id (String), contents (MultipartFile in the request body)
 * Expected Output: A String indicating the status of the upload.
-* Uploads the provided document to the database. Ideally you upload a document prior to performing other api calls but it is not an issue if you do not do this, you'll just have no luck. Upon success: <code>"File uploaded successfully"</code> is returned. Upon failure: <code>"File didn't upload"</code>. When providing the user-id if you wish to specify multiple users our code assumes for functionality purposes that users will be delimited by '/' so user1/user2 is defined in our project as two users, while there will be no crashes if this styling isn't followed there will be some incorrect outputs when counting users so please delimit users by '/' If the file you attempt to upload cannot be found on your computer then <code>HTTP INTERNAL_SERVER_ERROR Status</code> will be returned to postman, but the program will remain running.
+* Uploads the provided document to the database. Ideally you upload a document prior to performing other api calls but it is not an issue if you do not do this, you'll just have no luck.
+* Upon Success: HTTP 200 Status Code is returned along with either "File Uploaded Successfully" or "File already exists!" in the response body.
+* Upon Failure: HTTP 500 Status Code is returned along with "File didn't upload" in the response body.
 
 #### PATCH /share-document
 * Expected Input Parameters: network-id (string), document-name (string), your-user-id (string), their-user-id (string)
 * Expected Output: A String indicating the result of the operation.
-* Shares the specified document with the specified user, Upon success: <code>"The document has been shared with the desired user"</code> is returned. If the specified user already has access to the document then <code>"This document has already been shared with the desired user"</code> is returned. If the calling user (represented by your-user-id) does not have access to the document then <code>"Your user does not have access to this document"</code> is returned. If the specified document is not present in the database then <code>"no such document exists"</code> is returned. If anything happens while the operations are taking place that is unexpected then <code>"An unexpected error has occurred."</code> is returned. When providing their-user-id if you wish to specify multiple users our code assumes for functionality purposes that users will be delimited by '/' so user1/user2 is defined in our project as two users, while there will be no crashes if this styling isn't followed there will be some incorrect outputs when counting users so please delimit users by '/'
+* Shares the specified document with the specified user.
+* Upon Success: HTTP 200 Status Code is returned along with either "The document has been shared with the desired user" or "This document has already been shared with the desired user" in the response body.
+* Upon Failure:
+   * HTTP 403 Status Code with "User does not have access to this document!" in the body if the specified user does not have access to the specified document
+   * HTTP 404 Status Code with "No such document exists." If the specified document does not exist.
+   * HTTP 500 Status Code with "An unexpected error has occurred" in the response body.
 
 #### DEL /delete-doc
 * Expected Input Parameters: network-id (String), document-name (String), your-user-id (String)
 * Expected Output: A String indicating the status of the deletion.
-* Deletes the specified document from the client's network in the database. Upon success <code>"Your document was successfully deleted"</code> is returned. If the specified user does not have access to the document then <code>"Your user does not have ownership of this document"</code> is returned. If the specified document does not exist then <code>"no such document exists"</code> is returned. If anything happens while the operations are taking place that is unexpected then <code>"An unexpected error has occurred."</code> is returned. 
+* Deletes the specified document from the client's network in the database.
+* Upon Success: HTTP 200 Status Code is returned along with "Your document was successfully deleted" in the response body.
+* Upon Failure:
+   * HTTP 403 Status Code with "Your user does not have ownership of this document" in the body if the specified user does not have access to the specified document
+   * HTTP 404 Status Code with "No such document exists." If the specified document does not exist.
+   * HTTP 500 Status Code with "An unexpected error has occurred" in the response body.
 
 #### GET /check-for-doc
 * Expected Input Parameters: network-id (String), document-name (String), your-user-id (String)
@@ -74,7 +88,12 @@ Any malformed request such that there is an error in your wording i.e. you do no
 * * * title (string): see above
 * * * userId (string): see above
 * * * fileString (string): see above
-* Searches within the client's network on the database for the specified document. Upon success see the above for what the expected output should be. If the user does not have access to the specified document <code>"Your user does not have access to this document"</code> is returned. If the specified document does not exist then <code>"No such document exists"</code> is returned.
+* Searches within the client's network on the database for the specified document.
+* Upon Success: HTTP 200 Status Code is returned along with the document contents in a JSON structure.
+* Upon Failure:
+   * HTTP 403 Status Code with "Your user does not have ownership of this document" in the body if the specified user does not have access to the specified document
+   * HTTP 404 Status Code with "No such document exists." If the specified document does not exist.
+   * HTTP 500 Status Code with "An unexpected error has occurred" in the response body.
 
 #### GET /see-previous-version
 * Expected Input Parameters: network-id (String), document-name (String), your-user-id (String), revision-number (int)
@@ -85,23 +104,45 @@ Any malformed request such that there is an error in your wording i.e. you do no
 * * title      (String): see above
 * * userId     (String): see above
 * * fileString (String): see above
-* Retrieves the specified previous version of a document if it is able to be retrieved. Upon success see above for details on what is returned. If the specified user does not have access to the specified document then <code>"Your user does not have access to this document"</code> is returned. If an invalid revision number is provided then <code>"This is not a valid revision number</code> is returned. If the specified document does not exist then <code>"No such document exists"</code> is returned.
+* Retrieves the specified previous version of a document if it is able to be retrieved.
+* Upon Success: HTTP 200 Status Code is returned along with the document contents in a JSON structure.
+* Upon Failure:
+   * HTTP 403 Status Code with "Your user does not have ownership of this document" in the body if the specified user does not have access to the specified document
+   * HTTP 404 Status Code with "No such document exists." If the specified document does not exist.
+   * HTTP 400 Status Code with "This is not a valid revision number" in the response body.
+
 
 #### GET /see-document-stats
 * Expected Input Parameters: network-id (String), document-name (String), your-user-id (String)
 * Expected Output: A String containing document information, including word count, how many users have access, and number of revisions stored.
-* Retrieves common statistics about the specified doucment. Upon success see the above for the expected output. If the specified user does not have access to the document <code>"Your user does not have access to this document"</code> is returned. If the specified document does not exist then <code>"no such document exists"</code> is returned. If an unexpected error occurs then <code>"An unexpected error has occurred."</code> is returned.
+* Retrieves common statistics about the specified doucment.
+* Upon Success: HTTP 200 Status Code is returned along with the document statistics.
+* Upon Failure:
+   * HTTP 403 Status Code with "Your user does not have ownership of this document" in the body if the specified user does not have access to the specified document
+   * HTTP 404 Status Code with "No such document exists." If the specified document does not exist.
+   * HTTP 500 Status Code with "An unexpected error has occurred" in the response body.
 
 #### GET /generate-difference-summary
 * Expected Input Parameters: network-id (String), fst-doc-name (String representing the first document name), snd-doc-name (String representing the second document name), your-user-id (String)
 * Expected Output: A String containing difference information between the two given documents, including word count difference, user count difference, and version count difference.
-* Generates a summary of differences between the two specified documents, from the perspective of the first document specified, meaning if the first document has 2 users and the second document has 1 it is expected to see that first document has 1 more user than second document. Upon success see the above for the expected output. If the specified user does not have access to one or both of the specified documents then <code>"Your user does not have access to one of the documents"</code> is returned. If one of the specified documents does not exist within the client's network then <code>"One or more of the documents does not exist"</code> is returned. If an unexpected error occurs then <code>"An unexpected error has occurred."</code> is returned. 
+* Generates a summary of differences between the two specified documents, from the perspective of the first document specified, meaning if the first document has 2 users and the second document has 1 it is expected to see that first document has 1 more user than second document.
+* Upon Success: HTTP 200 Status Code is returned along with the difference summary.
+* Upon Failure:
+   * HTTP 403 Status Code with "Your user does not have access to one of the documents" in the body if the specified user does not have access to the specified document
+   * HTTP 404 Status Code with "One or more of the documents does not exist" If the specified document does not exist.
+   * HTTP 500 Status Code with "An unexpected error has occurred" in the response body.
 
+  
 #### GET /download-doc
 * Exoected Input Parameters: network-id (String), document-name (String), your-user-id (String)
 * Optional Input Body: A JSON string containing a document to be downloaded.
 * Expected Output: HTTP OK Status along with the raw text contents of the document in the response body.
-* Retrieves the raw contents of the document and returns it with <code>HTTP OK Status</code> upon success. If a JSON body is provided it it takes precedent and the other parameters do not matter. If the JSON body is present and malformed then an <code>HTTP BAD_REQUEST Status</code> is returned along with <code>"The request body is malformed"</code> in the response body. The following assumes no JSON body is present in the HTTP request and some failure occurs: If the specified user does not have access to the specified document then <code>HTTP FORBIDDEN Status</code> is returned along with <code>"You do not have ownership of this document"</code> in the response body. If the specified document does not exist then <code>HTTP NOT_FOUND Status</code> is returned along with <code>"No such document exists"</code> in the response body. If an unexpected error occurs then <code>HTTP INTERNAL_SERVER_ERROR Status</code> is returned along with <code>"An unexpected error has occurred"</code> in the response body.
+* Retrieves the raw contents of the document.
+* Upon Success: HTTP 200 Status Code is returned along with the contents of the document requested.
+* Upon Failure:
+   * HTTP 403 Status Code with "You do not have ownership of this document" in the body if the specified user does not have access to the specified document
+   * HTTP 400 Status Code with "The request body is malformed" If the optional body is malformed.
+   * HTTP 500 Status Code with "An unexpected error has occurred" in the response body.
 
 ## Style Checking Report
 We used the tool "checkstyle" to check the style of our code and generate style checking reports. Here is the report
