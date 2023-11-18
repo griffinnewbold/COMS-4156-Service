@@ -128,6 +128,13 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<excludes>
+						<exclude>com/dev/sweproject/RegisterClientResponse.java</exclude>
+						<exclude>com/dev/sweproject/ByteArrayMultipart.java</exclude>
+						<exclude>com/dev/sweproject/SweProjectApplication.java</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
