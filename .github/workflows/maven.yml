@@ -42,8 +42,10 @@ jobs:
         # The output formats and scope (separated by semicolon) Values: Badges, Clover, Cobertura, CsvSummary, Html, HtmlChart, HtmlInline, HtmlInline_AzurePipelines, HtmlInline_AzurePipelines_Dark, HtmlSummary, Html_BlueRed_Summary, JsonSummary, Latex, LatexSummary, lcov, MHtml, SvgChart, SonarQube, TeamCitySummary, TextSummary, Xml, XmlSummary
         reporttypes: HtmlInline;Cobertura;TextSummary
         # Optional directories which contain the corresponding source code (separated by semicolon). The source directories are used if coverage report contains classes without path information.
-        # sourcedirs: # optional, default is 
+        sourcedirs: src/main/java/com/dev/sweproject # optional, default is 
         # The verbosity level of the log messages. Values: Verbose, Info, Warning, Error, Off
         # verbosity: # optional, default is Info
         # Optional title.
         title: JaCoCo code coverage report
+    - name: JaCoCoSummary
+      run: cat coveragereport/Summary.txt
