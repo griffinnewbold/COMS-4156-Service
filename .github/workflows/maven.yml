@@ -30,5 +30,3 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Run JUnit tests with Maven
       run: mvn test
-    - name: Run Cobertura
-      run: mvn cobertura:cobertura

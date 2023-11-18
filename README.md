@@ -167,7 +167,8 @@ This section includes notes on tools and technologies used in building this proj
   * TODO: Will do static analysis with SonarQube in second iteration.
 * JUnit
   * JUnit tests get run automatically as part of the CI pipeline.
-* Cobertura
-  * We use Cobertura for generating code coverage reports.
+* JaCoCo
+  * We use JaCoCo for generating code coverage reports.
+  * Originally we were planning on using Cobertura, however Cobertura does not support our version of Java.
 * Postman
   * We used Postman for testing that the APIs work.
