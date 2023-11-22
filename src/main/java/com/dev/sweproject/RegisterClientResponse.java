@@ -18,4 +18,9 @@ public class RegisterClientResponse {
   public RegisterClientResponse(String networkId) {
     this.networkId = networkId;
   }
+
+
+  public String getNetworkId() {
+    return this.networkId;
+  }
 }
