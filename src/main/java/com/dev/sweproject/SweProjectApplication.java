@@ -40,10 +40,18 @@ public class SweProjectApplication {
    * @param args The command-line arguments
    */
   public static void main(String[] args) {
+    setup();
+  }
+
+  public static void setup() {
     ApplicationContext context = SpringApplication.run(
-        SweProjectApplication.class, args);
+            SweProjectApplication.class);
 
     firebaseDataService = context.getBean(FirebaseService.class);
+  }
+
+  public void setFirebaseDataService(FirebaseService fb) {
+      firebaseDataService = fb;
   }
 
   /**
