@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.firebase.database.DataSnapshot;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -208,6 +210,66 @@ class FirebaseServiceTest {
       CompletableFuture<Object> result =
               firebaseService.uploadFile(mockFile, collectionName, fileName, userId);
       assertNotNull(result);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  @Order(11)
+  public void testEntryCollectionNonEmpty() {
+    String collectionName = "testCollectionDocs";
+    String userId = "yourUserId";
+
+    try {
+      CompletableFuture<Object> result = firebaseService.collectEntries(collectionName, userId);
+      assertNotNull(result);
+
+      ArrayList<DataSnapshot> myObject = (ArrayList<DataSnapshot>) result.get();
+      assertEquals(1, myObject.size());
+
+      for (DataSnapshot o : myObject) {
+        Document myDoc = Document.convertToDocument((HashMap<String, Object>) o.getValue());
+        assertNotNull(myDoc);
+        assertEquals("yourFileName: 3", myDoc.toString());
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  @Order(12)
+  public void testEntryCollectionEmpty() {
+    String collectionName = "testCollectionDocs";
+    String userId = "yourUserId2";
+
+    try {
+      CompletableFuture<Object> result = firebaseService.collectEntries(collectionName, userId);
+      assertNotNull(result);
+
+      ArrayList<DataSnapshot> myObject = (ArrayList<DataSnapshot>) result.get();
+      assertEquals(0, myObject.size());
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  @Order(13)
+  public void testEntryCollectionEmptyUser() {
+    String collectionName = "testCollectionDocs";
+    String userId = "";
+
+    try {
+      CompletableFuture<Object> result = firebaseService.collectEntries(collectionName, userId);
+      assertNotNull(result);
+
+      ArrayList<DataSnapshot> myObject = (ArrayList<DataSnapshot>) result.get();
+      assertEquals(0, myObject.size());
+
     } catch (Exception e) {
       e.printStackTrace();
     }

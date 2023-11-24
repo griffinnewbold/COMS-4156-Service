@@ -7,9 +7,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,6 +80,42 @@ public class FirebaseService {
       } else {
         System.out.println("Data added successfully.");
         resultFuture.complete(value);
+      }
+    });
+
+    return resultFuture;
+  }
+
+  public CompletableFuture<Object> collectEntries(String collectionName, String user) {
+    CompletableFuture<Object> resultFuture = new CompletableFuture<>();
+    List<DataSnapshot> matchingEntries = new ArrayList<>();
+
+    if (user.isEmpty()) {
+      resultFuture.complete(matchingEntries);
+      return resultFuture;
+    }
+
+    DatabaseReference databaseReference = getDatabaseReference();
+    DatabaseReference collectionReference = databaseReference.child(collectionName);
+
+    collectionReference.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        for (DataSnapshot subcollection : dataSnapshot.getChildren()) {
+          if (subcollection.hasChild("userId")) {
+            String userIdValue = subcollection.child("userId").getValue(String.class);
+            if (userIdValue != null && userIdValue.contains(user)) {
+              matchingEntries.add(subcollection);
+            }
+          }
+        }
+
+        resultFuture.complete(matchingEntries);
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+        resultFuture.completeExceptionally(databaseError.toException());
       }
     });
 
