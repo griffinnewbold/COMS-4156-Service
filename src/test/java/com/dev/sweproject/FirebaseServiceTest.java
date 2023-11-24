@@ -226,6 +226,7 @@ class FirebaseServiceTest {
       assertNotNull(result);
 
       ArrayList<DataSnapshot> myObject = (ArrayList<DataSnapshot>) result.get();
+
       assertEquals(1, myObject.size());
 
       for (DataSnapshot o : myObject) {
