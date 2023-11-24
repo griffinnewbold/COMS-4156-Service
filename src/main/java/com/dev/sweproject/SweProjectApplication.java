@@ -5,8 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.database.DataSnapshot;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.HashMap;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -449,5 +448,28 @@ public class SweProjectApplication {
       return new ResponseEntity<>("No such document exists", HttpStatus.NOT_FOUND);
     }
     return ResponseEntity.ok().headers(responseHeaders).body(resource);
+  }
+
+  @GetMapping(value = "/retrieve-docs", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+  public ResponseEntity<?> downloadDoc(@RequestParam(value = "network-id") String networkId,
+                                       @RequestParam(value = "user-id")    String userId) {
+    try {
+      CompletableFuture<Object> result = firebaseDataService.collectEntries(networkId, userId);
+      ArrayList<DataSnapshot> documentSnapList = (ArrayList<DataSnapshot>) result.get();
+
+      List<HashMap<String, Object>> documents = new ArrayList<>();
+
+      for (DataSnapshot dataSnapshot : documentSnapList) {
+        HashMap<String, Object> documentData = (HashMap<String, Object>) dataSnapshot.getValue();
+        documents.add(documentData);
+      }
+
+      HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(MediaType.APPLICATION_JSON);
+      return new ResponseEntity<>(documents, headers, HttpStatus.OK);
+
+    } catch (Exception e) {
+      return new ResponseEntity<>("An unexpected error has occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
