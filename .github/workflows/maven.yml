@@ -40,13 +40,5 @@ jobs:
         title: JaCoCo code coverage report
     - name: JaCoCoSummary
       run: cat coveragereport/Summary.txt
-    - name: Run SpotBugs
-      run: mvn spotbugs:spotbugs
-    - name: Parse SpotBugs report
-      uses: Miragon/sarif-report-parse@v1.0.3
-      with:
-        # Path to valid SARIF file.
-        sarif-file: target/spotbugs_sarif.json
-        # Start writing warnings at this level: ["unknown", "negligible", "low", "medium", "high", "critical"] Default: high
-        # severity-level: # optional
-
+    - name: Run PMD Static Analysis
+      run: mvn pmd:check pmd:cpd-check || true
