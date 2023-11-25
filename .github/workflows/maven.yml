@@ -40,17 +40,8 @@ jobs:
         title: JaCoCo code coverage report
     - name: JaCoCoSummary
       run: cat coveragereport/Summary.txt
-    - name: Publish SpotBugs report
-      uses: lcollins/spotbugs-github-action@v2.0.0
-      with:
-        # A file, directory or wildcard pattern that describes where to find the reports
-        path: src/main/java/com/dev/sweproject
-        # Check run name under which the report is created
-        # name: # optional, default is SpotBugs
-        # Check run title under which the report is created
-        # title: # optional, default is SpotBugs Source Code Analyzer report
-        # Personal access token (PAT) used to fetch the repository. The PAT is configured with the local git config, which enables your scripts to run authenticated git commands. The post-job step removes the PAT. We recommend using a service account with the least permissions necessary. Also when generating a new PAT, select the least scopes necessary. [Learn more about creating and using encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
-        # token: # optional, default is ${{ github.token }}
+    - name: Run SpotBugs
+      run: mvn spotbugs:spotbugs
           
     
     
