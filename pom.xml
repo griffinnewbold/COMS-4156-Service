@@ -133,7 +133,7 @@
 
 				<configuration>
 					<excludes>
-						<exclude>com/dev/sweproject/SweProjectApplication.java</exclude>
+						<exclude>com/dev/sweproject/SweProjectApplication*</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
