@@ -138,21 +138,21 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>com.github.spotbugs</groupId>
-				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.8.1.0</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.21.2</version>
 				<configuration>
-					<relaxed></relaxed>
-					<sarifOutput>true</sarifOutput>
-					<sarifOutputFilename>spotbugs_sarif.json</sarifOutputFilename>
+					<printFailingErrors>true</printFailingErrors>
+					<verbose>true</verbose>
 				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>com.github.spotbugs</groupId>
-						<artifactId>spotbugs</artifactId>
-						<version>4.8.1</version>
-					</dependency>
-				</dependencies>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+							<goal>cpd-check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
