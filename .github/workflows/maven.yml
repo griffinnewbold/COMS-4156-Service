@@ -42,26 +42,11 @@ jobs:
       run: cat coveragereport/Summary.txt
     - name: Run SpotBugs
       run: mvn spotbugs:spotbugs
-          
-    
-    
-    # - name: RunStaticAnalysis
-    #   uses: sscpac/statick-action@v0.9.2
-    #   with:
-    #     # Fail on any Statick warning
-    #     check: false
-    #     # Configuration
-    #     # config: # optional, default is config.yaml
-    #     # Scan level to use.  Overrides levels specified by the profile.
-    #     # level: # optional
-    #     # Log verbosity level
-    #     # log_level: # optional, default is INFO
-    #     # Path to store output logs
-    #     # output_path: # optional, default is /tmp/statick_output
-    #     # Path to search for files
-    #     package_path: src/main/java/com/dev/sweproject # optional, default is .
-    #     # Profile configuration
-    #     # profile: # optional, default is profile.yaml
-    #     # Paths (comma delimited) for user-defined configuration
-    #     # user_paths: # optional
-          
+    - name: Parse SpotBugs report
+      uses: Miragon/sarif-report-parse@v1.0.3
+      with:
+        # Path to valid SARIF file.
+        sarif-file: target/spotbugs_sarif.json
+        # Start writing warnings at this level: ["unknown", "negligible", "low", "medium", "high", "critical"] Default: high
+        # severity-level: # optional
+
