@@ -163,8 +163,9 @@ This section includes notes on tools and technologies used in building this proj
 * Checkstyle
   * We use Checkstyle for code reporting. Note that Checkstyle does NOT get run as part of the CI pipeline.
   * For running Checkstyle manually, you can use the "Checkstyle-IDEA" plugin for IntelliJ.
-* SonarQube
-  * TODO: Will do static analysis with SonarQube in second iteration.
+* PMD
+  * We are using PMD to do static analysis of our Java code.
+  * Originally we were planning on using SonarQube, however we did not do this as it requires us to either pay or setup a server to host a SonarQube instance.
 * JUnit
   * JUnit tests get run automatically as part of the CI pipeline.
 * JaCoCo
