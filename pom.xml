@@ -134,6 +134,7 @@
 				<configuration>
 					<excludes>
 						<exclude>com/dev/sweproject/SweProjectApplication*</exclude>
+						<exclude>com/dev/sweproject/ByteArrayMultipart*</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
