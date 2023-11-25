@@ -144,6 +144,10 @@
 				<configuration>
 					<printFailingErrors>true</printFailingErrors>
 					<verbose>true</verbose>
+					<rulesets>
+						<ruleset>/category/java/errorprone.xml</ruleset>
+						<ruleset>/rulesets/java/maven-pmd-plugin-default.xml</ruleset>
+					</rulesets>
 				</configuration>
 				<executions>
 					<execution>
