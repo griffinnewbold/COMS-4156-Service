@@ -361,7 +361,7 @@ public class FirebaseService {
     Document documentToUpload;
 
     if (previousDoc != null) {
-      documentToUpload = new Document(userId, collectionName, file, documentId,
+      documentToUpload = new Document(previousDoc.getUserId(), collectionName, file, documentId,
           fileName, Document.countWords(file.getBytes()), previousDoc.getPreviousVersions());
       previousDoc.setPreviousVersions(null);
 

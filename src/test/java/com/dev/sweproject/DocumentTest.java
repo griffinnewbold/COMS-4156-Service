@@ -297,6 +297,7 @@ class DocumentTest {
             "Title", 100);
     String result = "";
     result += "This document belongs to the following network: " + doc.getClientId() + "\n";
+    result += "The creator of the document is: userId" + "\n";
     result += "The word count is: " + doc.getWordCount() + "\n";
     result += "There are 1 able to see the document.\n";
     result += "The following users are able to see the document:\n";

@@ -386,6 +386,7 @@ public class Document {
     StringBuilder result = new StringBuilder();
 
     result.append("This document belongs to the following network: ").append(clientId).append("\n");
+    result.append("The creator of the document is: ").append(getOriginalUser()).append("\n");
     result.append("The word count is: ").append(wordCount).append("\n");
     result.append("There are ").append(countUsers()).append(" able to see the document.\n");
     result.append("The following users are able to see the document:\n");
@@ -467,6 +468,14 @@ public class Document {
       result += this.getTitle() + " has the same version count " + other.getTitle();
     }
     return result;
+  }
+
+  private String getOriginalUser() {
+    int idx = userId.indexOf("/");
+    if (idx == -1) {
+      return userId;
+    }
+    return userId.substring(0, idx);
   }
 
 }
