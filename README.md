@@ -1,5 +1,8 @@
 # COMS-4156-Project
-This is the GitHub repository for the Team Project associated with COMS 4156 Advanced Software Engineering. Our team name is TheJavaEngineers and the following are our members: Griffin, Mohsin, Jeannie, Michael, and Abenezer.
+This is the GitHub repository for the **service portion** Team Project associated with COMS 4156 Advanced Software Engineering. Our team name is TheJavaEngineers and the following are our members: Griffin, Mohsin, Jeannie, Michael, and Abenezer.
+
+## Viewing the Client App Repository
+Please use the following link to view the repository relevant to the app: https://github.com/griffinnewbold/COMS-4156-App
 
 ## Building and Running a Local Instance
 In order to build and use our service you must install the following (This guide assumes Windows but the Maven README has instructions for both Windows and Mac):
@@ -144,6 +147,18 @@ Any malformed request such that there is an error in your wording i.e. you do no
    * HTTP 400 Status Code with "The request body is malformed" If the optional body is malformed.
    * HTTP 500 Status Code with "An unexpected error has occurred" in the response body.
 
+## Additions Since First Iteration
+We found that as we were developing the client app that there were some features that we needed that we didn't have already implemented so the additional functionality was provided
+so we have the full scope of our revised proposal AND more. The javadoc link has also been updated to reflect the latest changes. 
+
+#### GET /retrieve-doc
+* Expected Input Parameters: network-id (String), user-id (String)
+* Expected Output: HTTP OK Status along with a JSON string containing all documents that contain user-id
+* Retrieves all documents that contain the specified user-id
+* Upon Success: HTTP 200 Status Code is returned along with a JSON string containing all documents that contain user-id
+* Upon Failure:
+   * HTTP 500 Status Code with "An unexpected error has occurred" in the response body.
+
 ## Style Checking Report
 We used the tool "checkstyle" to check the style of our code and generate style checking reports. Here is the report
 as of the day of 10/19/23 (These can be found in the screenshots folder):
@@ -151,6 +166,15 @@ as of the day of 10/19/23 (These can be found in the screenshots folder):
 ![Screenshot of a checkstyle report for our project, showing 0 warnings and errors](screenshots/checkstyle-report.png)
 ![Screenshot of another checkstyle report for our project, showing 0 warnings and errors](screenshots/checkstyle.png)
 ![Screenshot of a checkstyle report from the plugin, showing 0 warnings and errors](screenshots/checkstyle-plugin.png)
+
+## Branch Coverage Reporting
+We used JaCoCo to perform branch analysis in order to see the branch coverage of the relevant code within the code base. See below
+for screenshots demonstrating output.
+[insert image]
+
+## Static Code Analysis
+We used PMD to perform static analysis on our codebase, see below for the most recent output.
+[insert image]
 
 ## Tools used 🧰
 This section includes notes on tools and technologies used in building this project, as well as any additional details if applicable.
