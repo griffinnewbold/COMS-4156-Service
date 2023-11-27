@@ -365,7 +365,7 @@ public class FirebaseService {
           fileName, Document.countWords(file.getBytes()), previousDoc.getPreviousVersions());
       previousDoc.setPreviousVersions(null);
 
-      //do not track duplicate documents
+      // do not track duplicate documents
       if (!documentToUpload.equals(previousDoc)) {
         documentToUpload.addPreviousVersion(previousDoc);
       }

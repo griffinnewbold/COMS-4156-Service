@@ -319,7 +319,8 @@ public class Document {
         && (this.getTitle().equals(other.getTitle()))
         && (this.getDocId().equals(other.getDocId()))
         && (this.getClientId().equals(other.getClientId()))
-        && (this.getUserId().equals(other.getUserId()));
+        && (this.getUserId().equals(other.getUserId()))
+        && (this.getFileString().equals(other.getFileString()));
   }
 
   /**
