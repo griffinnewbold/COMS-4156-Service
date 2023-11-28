@@ -288,7 +288,9 @@ class DocumentTest {
     Document doc2 = new Document("userId", "clientId", null, "docId",
         "Title", 100);
     boolean isEqual = doc.equals(doc2);
+    boolean isEqualSame = doc.equals(doc);
     assertTrue(isEqual);
+    assertTrue(isEqualSame);
   }
 
   /**
@@ -299,8 +301,16 @@ class DocumentTest {
   @Test
   void testNotEquals() throws IOException {
     Document document1 = new Document("user1", "client1", null, "doc1", "Title", 100);
-    Document document2 = new Document("user2", "client2", null, "doc2", "Different Title", 200);
+    Document document2 = new Document("user1", "client1", null, "doc1", "Title", 200);
+    Document document3 = new Document("user1", "client1", null, "doc1", "Different Title", 100);
+    Document document4 = new Document("user1", "client1", null, "doc2", "Title", 100);
+    Document document5 = new Document("user1", "client2", null, "doc1", "Title", 100);
+    Document document6 = new Document("user2", "client1", null, "doc1", "Title", 100);
     assertFalse(document1.equals(document2));
+    assertFalse(document1.equals(document3));
+    assertFalse(document1.equals(document4));
+    assertFalse(document1.equals(document5));
+    assertFalse(document1.equals(document6));
   }
 
   /**
@@ -376,6 +386,37 @@ class DocumentTest {
     expected2 += doc.getTitle() + " has 1 more users than " + doc2.getTitle();
     expected2 += "\n";
     expected2 += doc.getTitle() + " has the same version count " + doc2.getTitle();
+    assertEquals(expected1, doc.compareTo(doc2));
+    assertEquals(expected2, doc2.compareTo(doc));
+  }
+
+  /**
+   * Tests compareTo() with a difference in version count.
+   *
+   * @throws IOException if an I/O exception occurs during the test.
+   */
+  @Test
+  public void testCompareToVersionCount() throws IOException {
+    Document doc = new Document("userId", "clientId", null, "docId",
+            "Title", 80);
+    Document doc_prev = new Document("userId", "clientId", null, "docId",
+            "Title", 80);
+    doc.addPreviousVersion(doc_prev);
+
+    Document doc2 = new Document("userId/userId", "clientId", null, "docId",
+            "Title", 80);
+
+    String expected1 = doc.getTitle() + " has the same word count " + doc2.getTitle();
+    expected1 += "\n";
+    expected1 += doc.getTitle() + " has 1 less users than " + doc2.getTitle();
+    expected1 += "\n";
+    expected1 += doc.getTitle() + " has 1 more versions than " + doc2.getTitle();
+
+    String expected2 = doc2.getTitle() + " has the same word count " + doc.getTitle();
+    expected2 += "\n";
+    expected2 += doc2.getTitle() + " has 1 more users than " + doc.getTitle();
+    expected2 += "\n";
+    expected2 += doc2.getTitle() + " has 1 less versions than " + doc.getTitle();
     assertEquals(expected1, doc.compareTo(doc2));
     assertEquals(expected2, doc2.compareTo(doc));
   }
