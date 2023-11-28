@@ -52,6 +52,8 @@ public class Document {
     this.wordCount = wordCount;
     this.previousVersions = new ArrayList<>(DOC_ID_LENGTH);
     this.previousVersions.add(new Document());
+    this.fileContents = new byte[0];
+    this.thisfileContents = "#";
     if (file != null) {
       this.fileContents = file.getBytes();
       this.thisfileContents = "#" + Base64.getEncoder().encodeToString(fileContents);
@@ -76,6 +78,8 @@ public class Document {
     this.wordCount = 0;
     this.previousVersions = new ArrayList<>(DOC_ID_LENGTH);
     this.previousVersions.add(new Document());
+    this.fileContents = new byte[0];
+    this.thisfileContents = "#";
     if (file != null) {
       this.fileContents = file.getBytes();
       this.thisfileContents = "#" + Base64.getEncoder().encodeToString(fileContents);
@@ -104,6 +108,8 @@ public class Document {
     this.title = title;
     this.wordCount = wordCount;
     this.previousVersions = previousVersions;
+    this.fileContents = new byte[0];
+    this.thisfileContents = "#";
     if (file != null) {
       this.fileContents = file.getBytes();
       this.thisfileContents = "#" + Base64.getEncoder().encodeToString(fileContents);
