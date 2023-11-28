@@ -237,7 +237,7 @@ class DocumentTest {
   public void testGetFileString() throws IOException {
     Document doc = new Document("userId", "clientId", null, "docId",
             "Title", 100);
-    assertNull(doc.getFileString());
+    assertEquals(doc.getFileString(), "#");
   }
 
   /**
@@ -262,7 +262,8 @@ class DocumentTest {
   public void testEquals() throws IOException {
     Document doc = new Document("userId", "clientId", null, "docId",
             "Title", 100);
-    Document doc2 = doc;
+    Document doc2 = new Document("userId", "clientId", null, "docId",
+        "Title", 100);
     boolean isEqual = doc.equals(doc2);
     assertTrue(isEqual);
   }
