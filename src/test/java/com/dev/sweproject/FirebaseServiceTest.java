@@ -1,11 +1,5 @@
 package com.dev.sweproject;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
@@ -21,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for Firebase methods.
@@ -215,8 +211,52 @@ class FirebaseServiceTest {
     }
   }
 
+  /**
+   * Tests for successful upload of file with same name.
+   */
   @Test
   @Order(11)
+  public void testUploadRepeatedFileSuccess() {
+    String collectionName = "testCollectionDocs";
+    String fileName = "yourFileName";
+    String userId = "yourUserId";
+
+    byte[] fileContent = "Sample repeated file content".getBytes();
+    MockMultipartFile mockFile = new MockMultipartFile("file", fileName, "text/plain", fileContent);
+    try {
+      CompletableFuture<Object> result =
+              firebaseService.uploadFile(mockFile, collectionName, fileName, userId);
+      assertNotNull(result);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Tests for successful upload of file with new name.
+   */
+  @Test
+  @Order(12)
+  public void testUploadNewFileSuccess() {
+    String fileName = "newFileName";
+    String userId = "newUserId";
+
+    byte[] fileContent = "Sample new file content".getBytes();
+    MockMultipartFile mockFile = new MockMultipartFile("file", fileName, "text/plain", fileContent);
+    try {
+      CompletableFuture<Object> result =
+              firebaseService.uploadFile(mockFile, collectionName, fileName, userId);
+      assertNotNull(result);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Tests for correct entry count for non-empty collection.
+   */
+  @Test
+  @Order(13)
   public void testEntryCollectionNonEmpty() {
     String collectionName = "testCollectionDocs";
     String userId = "yourUserId";
@@ -232,7 +272,7 @@ class FirebaseServiceTest {
       for (DataSnapshot o : myObject) {
         Document myDoc = Document.convertToDocument((HashMap<String, Object>) o.getValue());
         assertNotNull(myDoc);
-        assertEquals("yourFileName: 3", myDoc.toString());
+        assertEquals("yourFileName: 4", myDoc.toString());
       }
 
     } catch (Exception e) {
@@ -240,8 +280,11 @@ class FirebaseServiceTest {
     }
   }
 
+  /**
+   * Tests for correct entry count for empty collection.
+   */
   @Test
-  @Order(12)
+  @Order(14)
   public void testEntryCollectionEmpty() {
     String collectionName = "testCollectionDocs";
     String userId = "yourUserId2";
@@ -258,8 +301,11 @@ class FirebaseServiceTest {
     }
   }
 
+  /**
+   * Tests for correct entry count of collection with empty user.
+   */
   @Test
-  @Order(13)
+  @Order(15)
   public void testEntryCollectionEmptyUser() {
     String collectionName = "testCollectionDocs";
     String userId = "";
@@ -274,6 +320,36 @@ class FirebaseServiceTest {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Tests for successful removal of collection.
+   */
+  @Test
+  @Order(16)
+  public void testRemoveCollectionSuccessfully() {
+    CompletableFuture<String> result = firebaseService.deleteCollection(collectionName);
+
+    try {
+      String resultValue = result.get();
+      assertNotNull(resultValue);
+      assertEquals(collectionName, resultValue);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Tests for successful and random generation of network ID.
+   */
+  @Test
+  @Order(17)
+  public void testGenerateNetworkID() {
+    String result1 = firebaseService.generateNetworkId();
+    String result2 = firebaseService.generateNetworkId();
+    assertNotNull(result1);
+    assertNotNull(result2);
+    assertNotEquals(result1, result2);
   }
 
 }
