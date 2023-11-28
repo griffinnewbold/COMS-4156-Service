@@ -1,5 +1,5 @@
 # COMS-4156-Project
-This is the GitHub repository for the **service portion** Team Project associated with COMS 4156 Advanced Software Engineering. Our team name is TheJavaEngineers and the following are our members: Griffin, Mohsin, Jeannie, Michael, and Abenezer.
+This is the GitHub repository for the **service portion** of the Team Project associated with COMS 4156 Advanced Software Engineering. Our team name is TheJavaEngineers and the following are our members: Griffin, Mohsin, Jeannie, Michael, and Abenezer.
 
 ## Viewing the Client App Repository
 Please use the following link to view the repository relevant to the app: https://github.com/griffinnewbold/COMS-4156-App
