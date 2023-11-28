@@ -451,7 +451,7 @@ public class SweProjectApplication {
   }
 
   @GetMapping(value = "/retrieve-docs", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-  public ResponseEntity<?> downloadDoc(@RequestParam(value = "network-id") String networkId,
+  public ResponseEntity<?> retrieveDocs(@RequestParam(value = "network-id") String networkId,
                                        @RequestParam(value = "user-id")    String userId) {
     try {
       CompletableFuture<Object> result = firebaseDataService.collectEntries(networkId, userId);
@@ -469,7 +469,34 @@ public class SweProjectApplication {
       return new ResponseEntity<>(documents, headers, HttpStatus.OK);
 
     } catch (Exception e) {
-      return new ResponseEntity<>("An unexpected error has occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>("An unexpected error has occurred",
+          HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @GetMapping(value = "/retrieve-doc-names", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+  public ResponseEntity<?> retrieveDocument(@RequestParam(value = "network-id") String networkId,
+                                            @RequestParam(value = "user-id")    String userId) {
+    try {
+      CompletableFuture<List<String>> result = firebaseDataService.getDocumentTitles(networkId,
+          userId);
+      List<String> documentTitles = result.get();
+
+      String list_str = "[";
+      for (int i = 0; i < documentTitles.size(); i++) {
+        String new_entry = "\"" + documentTitles.get(i) + "\"";
+        list_str += new_entry;
+        if (i != documentTitles.size() - 1) list_str += ",";
+      }
+      list_str += "]";
+
+      HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(MediaType.APPLICATION_JSON);
+      return new ResponseEntity<>(list_str, headers, HttpStatus.OK);
+
+    } catch (Exception e) {
+      return new ResponseEntity<>("An unexpected error has occurred",
+          HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

@@ -377,4 +377,38 @@ public class FirebaseService {
     return addEntry(collectionName, documentId, documentToUpload);
   }
 
+  public CompletableFuture<List<String>> getDocumentTitles(String collectionName,
+                                                           String userId) {
+    CompletableFuture<List<String>> future = new CompletableFuture<>();
+
+    DatabaseReference databaseReference = getDatabaseReference();
+    DatabaseReference networkReference = databaseReference.child(collectionName);
+
+    networkReference.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        List<String> titles = new ArrayList<>();
+
+        for (DataSnapshot docSnapshot : dataSnapshot.getChildren()) {
+          String docUserId = docSnapshot.child("userId").getValue(String.class);
+          if (docUserId != null && docUserId.contains(userId)) {
+            String title = docSnapshot.child("title").getValue(String.class);
+            if (title != null) {
+              titles.add(title);
+            }
+          }
+        }
+        future.complete(titles);
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+        future.completeExceptionally(new RuntimeException("Error reading data from Firebase"));
+      }
+    });
+
+    return future;
+  }
+
+
 }
