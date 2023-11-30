@@ -84,7 +84,7 @@
 						{
 							"key": "contents",
 							"type": "file",
-							"src": "./document8.txt"
+							"src": "document8.txt"
 						}
 					]
 				},
@@ -152,7 +152,7 @@
 						{
 							"key": "contents",
 							"type": "file",
-							"src": "./document8.txt"
+							"src": "document8.txt"
 						}
 					]
 				},
