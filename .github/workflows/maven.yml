@@ -43,9 +43,7 @@ jobs:
       run: cat coveragereport/Summary.txt
     - name: Run PMD Static Analysis
       run: mvn pmd:check pmd:cpd-check || true
-    - name: Change working directory
-      run: cd postman
-    - name: Print Current Directory Contents
-      run: ls -la
     - name: Run Postman Tests
-      run: newman run postman/postman_tests.json
+      run: |
+        cd postman
+        newman run postman_tests.json
