@@ -32,6 +32,8 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Run JUnit tests with Maven
       run: mvn test
+    - name: Print Current Directory Contents
+      run: ls -la
     - name: Run Postman Tests
       run: newman run postman/postman_tests.json
     - name: ReportGenerator
