@@ -32,10 +32,6 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Run JUnit tests with Maven
       run: mvn test
-    - name: Print Current Directory Contents
-      run: ls -la
-    - name: Run Postman Tests
-      run: newman run postman/postman_tests.json
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.2.0
       with:
@@ -47,3 +43,9 @@ jobs:
       run: cat coveragereport/Summary.txt
     - name: Run PMD Static Analysis
       run: mvn pmd:check pmd:cpd-check || true
+    - name: Change working directory
+      run: cd postman
+    - name: Print Current Directory Contents
+      run: ls -la
+    - name: Run Postman Tests
+      run: newman run postman/postman_tests.json
