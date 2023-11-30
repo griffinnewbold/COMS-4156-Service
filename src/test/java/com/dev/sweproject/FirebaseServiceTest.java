@@ -165,8 +165,8 @@ class FirebaseServiceTest {
   @Test
   @Order(8)
   public void testSearchSuccess() {
-    CompletableFuture<DataSnapshot> future = firebaseService.searchForDocument("testCollectionDocs",
-        "yourFileName");
+    CompletableFuture<DataSnapshot> future = firebaseService.searchForDocument(
+        "testCollectionDocs", "yourFileName");
     try {
       DataSnapshot dataSnapshot = future.get();
       assertNotNull(dataSnapshot);
@@ -185,8 +185,8 @@ class FirebaseServiceTest {
   @Test
   @Order(9)
   public void testSearchFailure() {
-    CompletableFuture<DataSnapshot> future = firebaseService.searchForDocument("testCollectionDocs",
-        "i don't exist");
+    CompletableFuture<DataSnapshot> future = firebaseService.searchForDocument(
+        "testCollectionDocs", "i don't exist");
     try {
       DataSnapshot dataSnapshot = future.get();
       assertNull(dataSnapshot);
@@ -206,7 +206,8 @@ class FirebaseServiceTest {
     String userId = "yourUserId";
 
     byte[] fileContent = "Sample file content".getBytes();
-    MockMultipartFile mockFile = new MockMultipartFile("file", fileName, "text/plain", fileContent);
+    MockMultipartFile mockFile = new MockMultipartFile("file", fileName,
+        "text/plain", fileContent);
     try {
       CompletableFuture<Object> result =
               firebaseService.uploadFile(mockFile, collectionName, fileName, userId);
@@ -227,7 +228,8 @@ class FirebaseServiceTest {
     String userId = "yourUserId";
 
     byte[] fileContent = "Sample repeated file content".getBytes();
-    MockMultipartFile mockFile = new MockMultipartFile("file", fileName, "text/plain", fileContent);
+    MockMultipartFile mockFile = new MockMultipartFile("file", fileName,
+        "text/plain", fileContent);
     try {
       CompletableFuture<Object> result =
               firebaseService.uploadFile(mockFile, collectionName, fileName, userId);
@@ -247,7 +249,8 @@ class FirebaseServiceTest {
     String userId = "newUserId";
 
     byte[] fileContent = "Sample new file content".getBytes();
-    MockMultipartFile mockFile = new MockMultipartFile("file", fileName, "text/plain", fileContent);
+    MockMultipartFile mockFile = new MockMultipartFile("file", fileName,
+        "text/plain", fileContent);
     try {
       CompletableFuture<Object> result =
               firebaseService.uploadFile(mockFile, collectionName, fileName, userId);
@@ -328,16 +331,16 @@ class FirebaseServiceTest {
   }
 
   /**
-   * Tests for correct retrieval of document titles
+   * Tests for correct retrieval of document titles.
    */
   @Test
   @Order(15)
   public void testGetDocumentTitles() {
-//    String collectionName = "testCollectionDocs";
     String userId = "newUserId";
 
     try {
-      CompletableFuture<List<String>> result = firebaseService.getDocumentTitles(collectionName, userId);
+      CompletableFuture<List<String>> result = firebaseService.getDocumentTitles(collectionName,
+          userId);
       assertNotNull(result);
 
       ArrayList<String> myObject = (ArrayList<String>) result.get();
@@ -370,7 +373,7 @@ class FirebaseServiceTest {
    */
   @Test
   @Order(18)
-  public void testGenerateNetworkID() {
+  public void testGenerateNetworkId() {
     String result1 = firebaseService.generateNetworkId();
     String result2 = firebaseService.generateNetworkId();
     assertNotNull(result1);
