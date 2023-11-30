@@ -159,6 +159,14 @@ so we have the full scope of our revised proposal AND more. The javadoc link has
 * Upon Failure:
    * HTTP 500 Status Code with "An unexpected error has occurred" in the response body.
 
+#### GET /retrieve-doc-names
+* Expected Input Parameters: network-id (String), user-id (String)
+* Expected Output: HTTP OK Status along with a JSON string containing all documents names for which the document contains user-id
+* Retrieves all document names for which the document contains user-id
+* Upon Success: HTTP 200 Status Code is returned along with a JSON string containing all documents names for which the document contains user-id
+* Upon Failure:
+   * HTTP 500 Status Code with "An unexpected error has occurred" in the response body.
+
 ## Style Checking Report
 We used the tool "checkstyle" to check the style of our code and generate style checking reports. Here is the report
 as of the day of 10/19/23 (These can be found in the reports folder):
