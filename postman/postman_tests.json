@@ -35,10 +35,10 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/register-client",
+					"raw": "http://34.86.161.172/register-client",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -89,10 +89,10 @@
 					]
 				},
 				"url": {
-					"raw": "http://localhost:8080/upload-doc?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&user-id=griffinnewbold/mohsin/jeannie",
+					"raw": "http://34.86.161.172/upload-doc?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&user-id=griffinnewbold/mohsin/jeannie",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -157,10 +157,10 @@
 					]
 				},
 				"url": {
-					"raw": "http://localhost:8080/upload-doc?network-id=testCollectionDocs&document-name=postman%20upload%20test&user-id=griffinnewbold/mohsin/jeannie",
+					"raw": "http://34.86.161.172/upload-doc?network-id=testCollectionDocs&document-name=postman%20upload%20test&user-id=griffinnewbold/mohsin/jeannie",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -208,10 +208,10 @@
 				"method": "PATCH",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/share-document?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&your-user-id=griffinnewbold&their-user-id=michael",
+					"raw": "http://34.86.161.172/share-document?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&your-user-id=griffinnewbold&their-user-id=michael",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -263,10 +263,10 @@
 				"method": "PATCH",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/share-document?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&your-user-id=abenezer&their-user-id=michael",
+					"raw": "http://34.86.161.172/share-document?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&your-user-id=abenezer&their-user-id=michael",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -318,10 +318,10 @@
 				"method": "PATCH",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/share-document?network-id=testCollectionDocs&document-name=postman%20upload%20tests&your-user-id=abenezer&their-user-id=michael",
+					"raw": "http://34.86.161.172/share-document?network-id=testCollectionDocs&document-name=postman%20upload%20tests&your-user-id=abenezer&their-user-id=michael",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -372,10 +372,10 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/delete-doc?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&your-user-id=randomuser",
+					"raw": "http://34.86.161.172/delete-doc?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&your-user-id=randomuser",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -422,10 +422,10 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/delete-doc?network-id=demoEndtoEndTest&document-name=postman%20upload%20tests&your-user-id=griffinnewbold",
+					"raw": "http://34.86.161.172/delete-doc?network-id=demoEndtoEndTest&document-name=postman%20upload%20tests&your-user-id=griffinnewbold",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -472,10 +472,10 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/delete-doc?network-id=testCollectionDocs&document-name=postman%20upload%20test&your-user-id=griffinnewbold",
+					"raw": "http://34.86.161.172/delete-doc?network-id=testCollectionDocs&document-name=postman%20upload%20test&your-user-id=griffinnewbold",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -522,10 +522,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/retrieve-docs?network-id=demoEndtoEndTest&user-id=testdummy",
+					"raw": "http://34.86.161.172/retrieve-docs?network-id=demoEndtoEndTest&user-id=testdummy",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -568,10 +568,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/retrieve-doc-names?network-id=demoEndtoEndTest&user-id=testdummy",
+					"raw": "http://34.86.161.172/retrieve-doc-names?network-id=demoEndtoEndTest&user-id=testdummy",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -614,10 +614,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/see-document-stats?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&your-user-id=griffinnewbold",
+					"raw": "http://34.86.161.172/see-document-stats?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&your-user-id=griffinnewbold",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -664,10 +664,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/see-document-stats?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&your-user-id=griffinnewboldsds",
+					"raw": "http://34.86.161.172/see-document-stats?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&your-user-id=griffinnewboldsds",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -714,10 +714,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/see-document-stats?network-id=testCollectionDocs&document-name=postman%20upload%20tests&your-user-id=griffinnewbold",
+					"raw": "http://34.86.161.172/see-document-stats?network-id=testCollectionDocs&document-name=postman%20upload%20tests&your-user-id=griffinnewbold",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -764,10 +764,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/generate-difference-summary?network-id=demoEndtoEndTest&fst-doc-name=Sixth&snd-doc-name=Seventh&your-user-id=testdummy",
+					"raw": "http://34.86.161.172/generate-difference-summary?network-id=demoEndtoEndTest&fst-doc-name=Sixth&snd-doc-name=Seventh&your-user-id=testdummy",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -818,10 +818,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/generate-difference-summary?network-id=demoEndtoEndTest&fst-doc-name=Sixth5&snd-doc-name=Seventh&your-user-id=testdummy",
+					"raw": "http://34.86.161.172/generate-difference-summary?network-id=demoEndtoEndTest&fst-doc-name=Sixth5&snd-doc-name=Seventh&your-user-id=testdummy",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -872,10 +872,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/generate-difference-summary?network-id=demoEndtoEndTest&fst-doc-name=Sixth&snd-doc-name=Seventh&your-user-id=testdummys",
+					"raw": "http://34.86.161.172/generate-difference-summary?network-id=demoEndtoEndTest&fst-doc-name=Sixth&snd-doc-name=Seventh&your-user-id=testdummys",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -926,10 +926,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/see-previous-version?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserId&revision-number=2",
+					"raw": "http://34.86.161.172/see-previous-version?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserId&revision-number=2",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -980,10 +980,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/see-previous-version?network-id=testCollectionDocs&document-name=my%20first%20docs&your-user-id=user01&revision-number=2",
+					"raw": "http://34.86.161.172/see-previous-version?network-id=testCollectionDocs&document-name=my%20first%20docs&your-user-id=user01&revision-number=2",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -1034,10 +1034,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/see-previous-version?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserId2&revision-number=2",
+					"raw": "http://34.86.161.172/see-previous-version?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserId2&revision-number=2",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -1088,10 +1088,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/see-previous-version?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserId&revision-number=-1",
+					"raw": "http://34.86.161.172/see-previous-version?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserId&revision-number=-1",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -1142,10 +1142,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/check-for-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserId",
+					"raw": "http://34.86.161.172/check-for-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserId",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -1192,10 +1192,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/check-for-doc?network-id=testCollectionDocs&document-name=yourFileNames&your-user-id=yourUserId",
+					"raw": "http://34.86.161.172/check-for-doc?network-id=testCollectionDocs&document-name=yourFileNames&your-user-id=yourUserId",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -1242,10 +1242,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/check-for-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserIds",
+					"raw": "http://34.86.161.172/check-for-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserIds",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -1292,10 +1292,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/download-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserId",
+					"raw": "http://34.86.161.172/download-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserId",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -1361,10 +1361,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/download-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=user06",
+					"raw": "http://34.86.161.172/download-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=user06",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -1411,10 +1411,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/download-doc?network-id=testCollectionDocs&document-name=yourFileNames&your-user-id=yourUserId",
+					"raw": "http://34.86.161.172/download-doc?network-id=testCollectionDocs&document-name=yourFileNames&your-user-id=yourUserId",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -1461,10 +1461,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/download-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserIds",
+					"raw": "http://34.86.161.172/download-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserIds",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
@@ -1530,10 +1530,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/download-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=user06",
+					"raw": "http://34.86.161.172/download-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=user06",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"34.86.161.172"
 					],
 					"port": "8080",
 					"path": [
