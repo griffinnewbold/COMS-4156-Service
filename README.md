@@ -151,7 +151,7 @@ Any malformed request such that there is an error in your wording i.e. you do no
 We found that as we were developing the client app that there were some features that we needed that we didn't have already implemented so the additional functionality was provided
 so we have the full scope of our revised proposal AND more. The javadoc link has also been updated to reflect the latest changes. 
 
-#### GET /retrieve-doc
+#### GET /retrieve-docs
 * Expected Input Parameters: network-id (String), user-id (String)
 * Expected Output: HTTP OK Status along with a JSON string containing all documents that contain user-id
 * Retrieves all documents that contain the specified user-id
