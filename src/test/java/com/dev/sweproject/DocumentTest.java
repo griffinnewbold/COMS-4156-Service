@@ -447,6 +447,18 @@ class DocumentTest {
     result += "userId\n";
     result += "There is/are 0 previous versions on record";
 
+    Document doc2 = new Document("userId/otherUserId", "clientId", null, "docId",
+            "Title", 100);
+    String result2 = "";
+    result2 += "This document belongs to the following network: " + doc.getClientId() + "\n";
+    result2 += "The creator of the document is: userId" + "\n";
+    result2 += "The word count is: " + doc.getWordCount() + "\n";
+    result2 += "There are 2 able to see the document.\n";
+    result2 += "The following users are able to see the document:\n";
+    result2 += "userId\notherUserId\n";
+    result2 += "There is/are 0 previous versions on record";
+
     assertEquals(result, doc.generateUsageStatistics());
+    assertEquals(result2, doc2.generateUsageStatistics());
   }
 }
