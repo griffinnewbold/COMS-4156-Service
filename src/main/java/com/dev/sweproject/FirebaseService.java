@@ -7,7 +7,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,6 +90,14 @@ public class FirebaseService {
     return resultFuture;
   }
 
+  /**
+   * Retrieves the all entries that are associated with the specified user.
+   *
+   * @param collectionName A String denoting which collection this entry belongs to.
+   * @param user A String denoting which user to use during comparison.
+   * @return A CompletableFuture that completes with the values upon success
+   *         or completes exceptionally with an error message.
+   */
   public CompletableFuture<Object> collectEntries(String collectionName, String user) {
     CompletableFuture<Object> resultFuture = new CompletableFuture<>();
     List<DataSnapshot> matchingEntries = new ArrayList<>();
@@ -377,6 +389,14 @@ public class FirebaseService {
     return addEntry(collectionName, documentId, documentToUpload);
   }
 
+  /**
+   * Retrieves all document titles from the documents associated with the specified user.
+   *
+   * @param collectionName A String denoting which collection this entry belongs to.
+   * @param userId A String denoting which user to use during comparison.
+   * @return A CompletableFuture that completes with the values upon successful addition
+   *         or completes exceptionally with an error message.
+   */
   public CompletableFuture<List<String>> getDocumentTitles(String collectionName,
                                                            String userId) {
     CompletableFuture<List<String>> future = new CompletableFuture<>();
@@ -409,6 +429,4 @@ public class FirebaseService {
 
     return future;
   }
-
-
 }

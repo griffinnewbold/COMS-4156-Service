@@ -159,13 +159,21 @@ so we have the full scope of our revised proposal AND more. The javadoc link has
 * Upon Failure:
    * HTTP 500 Status Code with "An unexpected error has occurred" in the response body.
 
+#### GET /retrieve-doc-names
+* Expected Input Parameters: network-id (String), user-id (String)
+* Expected Output: HTTP OK Status along with a JSON string containing all documents names for which the document contains user-id
+* Retrieves all document names for which the document contains user-id
+* Upon Success: HTTP 200 Status Code is returned along with a JSON string containing all documents names for which the document contains user-id
+* Upon Failure:
+   * HTTP 500 Status Code with "An unexpected error has occurred" in the response body.
+
 ## Style Checking Report
 We used the tool "checkstyle" to check the style of our code and generate style checking reports. Here is the report
-as of the day of 10/19/23 (These can be found in the screenshots folder):
+as of the day of 10/19/23 (These can be found in the reports folder):
 
-![Screenshot of a checkstyle report for our project, showing 0 warnings and errors](screenshots/checkstyle-report.png)
-![Screenshot of another checkstyle report for our project, showing 0 warnings and errors](screenshots/checkstyle.png)
-![Screenshot of a checkstyle report from the plugin, showing 0 warnings and errors](screenshots/checkstyle-plugin.png)
+![Screenshot of a checkstyle report for our project, showing 0 warnings and errors](reports/checkstyle-report.png)
+![Screenshot of another checkstyle report for our project, showing 0 warnings and errors](reports/checkstyle.png)
+![Screenshot of a checkstyle report from the plugin, showing 0 warnings and errors](reports/checkstyle-plugin.png)
 
 ## Branch Coverage Reporting
 We used JaCoCo to perform branch analysis in order to see the branch coverage of the relevant code within the code base. See below
@@ -175,6 +183,18 @@ for screenshots demonstrating output.
 ## Static Code Analysis
 We used PMD to perform static analysis on our codebase, see below for the most recent output.
 [insert image]
+
+## Continuous Integration Report
+This repository using GitHub Actions to perform continous integration, to view the latest results go to the following link: https://github.com/griffinnewbold/COMS-4156-Service/actions/workflows/maven.yml
+
+Click on the latest job on the top under "X workflow runs" then Click 'build' under jobs finally click the drop down next to all the action items to read the logs made during their execution
+
+For convenience a recent CI Report has been manually created and is available for view in the reports directory under the appropriately named file.
+
+## An Initial Note to Developers
+If you are reading this then you would consider yourself a developer and you may also have a slight interest in developing your own app that uses the service provided in the given repository. Well in order to do so you would need to develop a project with a backend 
+capable of communicating with our API, many languages offer different libraries capable of making HTTP requests of different kinds. You'd want to make sure that you are hosting the service on your own hardware/server rather than relying on any of the non local resources that may influence the results of your own app, this is especially true since our project does not utilize docker containers. But you while you could clone this repository into the same directory as your app and make a monlith, we'd personally recommend
+against it. It can lead to confusion on what resources you are working with and need to update especially for more novice developers, separate directories make the process much simplier. If you wish to continue with the process of developing an app, please view the instructions for building, testing, and running a local instance above, and then check out the sister repository linked above and view it for how a client app could look that makes use of this service, finally view the section of the README titled: "A Final Note to Developers". An important note for both the service and client app, since they both rely on Firebase as the persistent storage option, you will need to provide your own configuration file in the directory containing the build file, for maven it would be the pom.xml file. To make your own database and config file, go to https://console.firebase.google.com/ and create your own project. Upon creation, navigate to Project Settings > Service Accounts and click "Generate a new private key" the file that downloads will be the file needed, it should be named "firebase_config.json" for proper use with our service, you should alter the value provided as a parameter in <code>FirebaseConfig.java</code> in the setDatabaseUrl() method and pass in the link to your database rather than ours assuming you wish to have your own separate database instance for your version of the service. 
 
 ## Tools used 🧰
 This section includes notes on tools and technologies used in building this project, as well as any additional details if applicable.
@@ -197,3 +217,7 @@ This section includes notes on tools and technologies used in building this proj
   * Originally we were planning on using Cobertura, however Cobertura does not support our version of Java.
 * Postman
   * We used Postman for testing that the APIs work.
+
+## Third Party API Documentation
+We made extensive use of Firebase Realtime Database provided by Google for both the service portion and the app portion of the project, here is a link to the full 
+documentation provided by Google on how to use the different components provided and gives insight into how we managed the development of this project while making use of it: https://firebase.google.com/docs/database/
