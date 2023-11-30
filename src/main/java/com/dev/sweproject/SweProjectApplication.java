@@ -7,9 +7,9 @@ import com.google.firebase.database.DataSnapshot;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.concurrent.CompletableFuture;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -42,9 +42,16 @@ public class SweProjectApplication {
    * @param args The command-line arguments
    */
   public static void main(String[] args) {
-    setup();
+    try {
+      setup();
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
   }
 
+  /**
+   * Establishes the SpringApplication and assigns the database.
+   */
   public static void setup() {
     ApplicationContext context = SpringApplication.run(
             SweProjectApplication.class);
@@ -52,8 +59,14 @@ public class SweProjectApplication {
     firebaseDataService = context.getBean(FirebaseService.class);
   }
 
+  /**
+   * Assigns the database reference, used solely for internal
+   * integration testing.
+   *
+   * @param fb A FirebaseService reference.
+   */
   public void setFirebaseDataService(FirebaseService fb) {
-      firebaseDataService = fb;
+    firebaseDataService = fb;
   }
 
   /**
@@ -399,7 +412,7 @@ public class SweProjectApplication {
    * @param yourUserId    A String representing your user ID.
    * @param jsonObject    An optional JSON Object String.
    * @return A ResponseEntity with the appropriate status code and document
-   *          as the response body if available.
+   *         as the response body if available.
    */
   @GetMapping(value = "/download-doc", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
   public ResponseEntity<?> downloadDoc(@RequestParam(value = "network-id") String networkId,
@@ -453,6 +466,15 @@ public class SweProjectApplication {
     return ResponseEntity.ok().headers(responseHeaders).body(resource);
   }
 
+  /**
+   * Retrieves a list of documents for a given network and user.
+   *
+   * @param networkId The ID of the network.
+   * @param userId    The ID of the user.
+   * @return A ResponseEntity containing a JSON array of documents as a list of HashMaps.
+   *         Returns HttpStatus.OK if successful with the list of documents,
+   *         or HttpStatus.INTERNAL_SERVER_ERROR with an error message if an error occurs.
+   */
   @GetMapping(value = "/retrieve-docs", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
   public ResponseEntity<?> retrieveDocs(@RequestParam(value = "network-id") String networkId,
                                        @RequestParam(value = "user-id")    String userId) {
@@ -477,6 +499,15 @@ public class SweProjectApplication {
     }
   }
 
+  /**
+   * Retrieves a list of document titles for a given network and user.
+   *
+   * @param networkId The ID of the network.
+   * @param userId    The ID of the user.
+   * @return A ResponseEntity containing a JSON array of document titles as a string.
+   *         Returns HttpStatus.OK if successful with the list of document titles,
+   *         or HttpStatus.INTERNAL_SERVER_ERROR with an error message if an error occurs.
+   */
   @GetMapping(value = "/retrieve-doc-names", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
   public ResponseEntity<?> retrieveDocument(@RequestParam(value = "network-id") String networkId,
                                             @RequestParam(value = "user-id")    String userId) {
@@ -485,17 +516,19 @@ public class SweProjectApplication {
           userId);
       List<String> documentTitles = result.get();
 
-      String list_str = "[";
+      StringBuilder listStr = new StringBuilder("[");
       for (int i = 0; i < documentTitles.size(); i++) {
-        String new_entry = "\"" + documentTitles.get(i) + "\"";
-        list_str += new_entry;
-        if (i != documentTitles.size() - 1) list_str += ",";
+        String newEntry = "\"" + documentTitles.get(i) + "\"";
+        listStr.append(newEntry);
+        if (i != documentTitles.size() - 1) {
+          listStr.append(",");
+        }
       }
-      list_str += "]";
+      listStr.append("]");
 
       HttpHeaders headers = new HttpHeaders();
       headers.setContentType(MediaType.APPLICATION_JSON);
-      return new ResponseEntity<>(list_str, headers, HttpStatus.OK);
+      return new ResponseEntity<>(listStr.toString(), headers, HttpStatus.OK);
 
     } catch (Exception e) {
       return new ResponseEntity<>("An unexpected error has occurred",

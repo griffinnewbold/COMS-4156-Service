@@ -1,7 +1,13 @@
 package com.dev.sweproject;
 
-import com.google.firebase.database.DataSnapshot;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.google.firebase.database.DataSnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
@@ -15,8 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for Firebase methods.
@@ -344,7 +348,7 @@ class FirebaseServiceTest {
    */
   @Test
   @Order(17)
-  public void testGenerateNetworkID() {
+  public void testGenerateNetworkId() {
     String result1 = firebaseService.generateNetworkId();
     String result2 = firebaseService.generateNetworkId();
     assertNotNull(result1);
