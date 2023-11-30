@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI with Maven
+name: Java CI with Maven and Postman
 
 on:
   push:
@@ -33,7 +33,6 @@ jobs:
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.2.0
       with:
-        # The coverage reports that should be parsed (separated by semicolon). Globbing is supported.
         reports: target/site/jacoco/jacoco.xml
         reporttypes: HtmlInline;Cobertura;TextSummary
         sourcedirs: src/main/java/com/dev/sweproject
@@ -42,3 +41,13 @@ jobs:
       run: cat coveragereport/Summary.txt
     - name: Run PMD Static Analysis
       run: mvn pmd:check pmd:cpd-check || true
+
+  postman-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install Newman
+      run: npm install -g newman
+    - name: Run Postman Tests
+      run: newman run postman/postman_tests.json
