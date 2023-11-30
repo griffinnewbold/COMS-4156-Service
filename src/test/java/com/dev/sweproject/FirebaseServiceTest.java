@@ -4,6 +4,7 @@ import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.MethodOrderer;
@@ -323,10 +324,31 @@ class FirebaseServiceTest {
   }
 
   /**
+   * Tests for correct retrieval of document titles
+   */
+  @Test
+  @Order(15)
+  public void testGetDocumentTitles() {
+//    String collectionName = "testCollectionDocs";
+    String userId = "newUserId";
+
+    try {
+      CompletableFuture<List<String>> result = firebaseService.getDocumentTitles(collectionName, userId);
+      assertNotNull(result);
+
+      ArrayList<String> myObject = (ArrayList<String>) result.get();
+      assertEquals(1, myObject.size());
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
    * Tests for successful removal of collection.
    */
   @Test
-  @Order(16)
+  @Order(17)
   public void testRemoveCollectionSuccessfully() {
     CompletableFuture<String> result = firebaseService.deleteCollection(collectionName);
 
@@ -343,7 +365,7 @@ class FirebaseServiceTest {
    * Tests for successful and random generation of network ID.
    */
   @Test
-  @Order(17)
+  @Order(18)
   public void testGenerateNetworkID() {
     String result1 = firebaseService.generateNetworkId();
     String result2 = firebaseService.generateNetworkId();
