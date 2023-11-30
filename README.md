@@ -161,11 +161,11 @@ so we have the full scope of our revised proposal AND more. The javadoc link has
 
 ## Style Checking Report
 We used the tool "checkstyle" to check the style of our code and generate style checking reports. Here is the report
-as of the day of 10/19/23 (These can be found in the screenshots folder):
+as of the day of 10/19/23 (These can be found in the reports folder):
 
-![Screenshot of a checkstyle report for our project, showing 0 warnings and errors](screenshots/checkstyle-report.png)
-![Screenshot of another checkstyle report for our project, showing 0 warnings and errors](screenshots/checkstyle.png)
-![Screenshot of a checkstyle report from the plugin, showing 0 warnings and errors](screenshots/checkstyle-plugin.png)
+![Screenshot of a checkstyle report for our project, showing 0 warnings and errors](reports/checkstyle-report.png)
+![Screenshot of another checkstyle report for our project, showing 0 warnings and errors](reports/checkstyle.png)
+![Screenshot of a checkstyle report from the plugin, showing 0 warnings and errors](reports/checkstyle-plugin.png)
 
 ## Branch Coverage Reporting
 We used JaCoCo to perform branch analysis in order to see the branch coverage of the relevant code within the code base. See below
