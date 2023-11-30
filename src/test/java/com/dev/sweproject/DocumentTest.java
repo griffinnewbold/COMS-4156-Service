@@ -3,6 +3,8 @@ package com.dev.sweproject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,12 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-//new
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import org.springframework.web.multipart.MultipartFile;
-
-
 
 /**
  * Tests for the constructors, getters, setters, and methods within the Document class.
@@ -79,7 +75,8 @@ class DocumentTest {
   @Test
   public void testAddPreviousVersion() throws IOException {
     Document document = new Document("userId", "clientId", null, "docId", "Title", 10);
-    Document newVersion = new Document("newUserId", "newClientId", null, "newDocId", "New Title", 20);
+    Document newVersion = new Document("newUserId", "newClientId", null, "newDocId",
+        "New Title", 20);
 
     document.addPreviousVersion(newVersion);
 
@@ -302,14 +299,14 @@ class DocumentTest {
   void testNotEquals() throws IOException {
     Document document1 = new Document("user1", "client1", null, "doc1", "Title", 100);
     Document document2 = new Document("user1", "client1", null, "doc1", "Title", 200);
-    Document document3 = new Document("user1", "client1", null, "doc1", "Different Title", 100);
-    Document document4 = new Document("user1", "client1", null, "doc2", "Title", 100);
-    Document document5 = new Document("user1", "client2", null, "doc1", "Title", 100);
-    Document document6 = new Document("user2", "client1", null, "doc1", "Title", 100);
     assertFalse(document1.equals(document2));
+    Document document3 = new Document("user1", "client1", null, "doc1", "Different Title", 100);
     assertFalse(document1.equals(document3));
+    Document document4 = new Document("user1", "client1", null, "doc2", "Title", 100);
     assertFalse(document1.equals(document4));
+    Document document5 = new Document("user1", "client2", null, "doc1", "Title", 100);
     assertFalse(document1.equals(document5));
+    Document document6 = new Document("user2", "client1", null, "doc1", "Title", 100);
     assertFalse(document1.equals(document6));
   }
 
@@ -399,9 +396,9 @@ class DocumentTest {
   public void testCompareToVersionCount() throws IOException {
     Document doc = new Document("userId", "clientId", null, "docId",
             "Title", 80);
-    Document doc_prev = new Document("userId", "clientId", null, "docId",
+    Document docPrev = new Document("userId", "clientId", null, "docId",
             "Title", 80);
-    doc.addPreviousVersion(doc_prev);
+    doc.addPreviousVersion(docPrev);
 
     Document doc2 = new Document("userId/userId", "clientId", null, "docId",
             "Title", 80);
@@ -427,7 +424,7 @@ class DocumentTest {
    * @throws IOException if an I/O exception occurs during the test.
    */
   @Test
-  public void testGenerateDocumentID() throws IOException {
+  public void testGenerateDocumentId() throws IOException {
     String generatedId = Document.generateDocumentId();
     assertNotNull(generatedId);
   }
