@@ -42,7 +42,7 @@ jobs:
     - name: JaCoCoSummary
       run: cat coveragereport/Summary.txt
     - name: Run PMD Static Analysis
-      run: mvn pmd:check pmd:cpd-check || true
+      run: mvn pmd:check || true
     - name: Run Postman Tests
       run: |
         cd postman
