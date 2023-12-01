@@ -179,7 +179,7 @@ as of the day of 10/19/23 (These can be found in the reports folder):
 ## Branch Coverage Reporting
 We used JaCoCo to perform branch analysis in order to see the branch coverage of the relevant code within the code base. See below
 for screenshots demonstrating output.
-[insert image]
+![Screenshot of a code coverage report from the plugin](reports/codecoverage-report1-november30.png)
 
 ## Static Code Analysis
 We used PMD to perform static analysis on our codebase, see below for the most recent output.
