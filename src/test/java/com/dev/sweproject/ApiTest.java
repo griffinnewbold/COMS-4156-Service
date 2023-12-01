@@ -94,6 +94,7 @@ class ApiTest {
     @Test
     @Order(5)
     void testDownloadDoc() throws Exception { //status code part works
+        Mockito.reset(fbService);
         String networkId = "HKB1700107179552";
         String documentName = "my%20first%20doc";
         String userId = "user01";
@@ -115,87 +116,171 @@ class ApiTest {
     }
 
     //Document Statistics (seeDocumentStats method):
-    /*@Test
+    @Test
     @Order(6)
     void testDocumentStats() throws Exception {
+        Mockito.reset(fbService);
         String networkId = "networkId";
         String documentName = "documentName";
         String userId = "userId";
 
-        ResponseEntity<?> responseEntity = myService.seeDocumentStats(networkId, documentName, userId);
-        System.out.println("docstat"+responseEntity.getBody().toString());
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-         String documentStats = "This document belongs to the following network: networkID The creator of the document is: userId\n" +
-                "The word count is: 2\n" +
-                "There are 1 able to see the document\n" +
-                "The following users are able to see the document: userId";
-
-        assertEquals(documentStats, responseEntity.getBody().toString().trim());
-    }*/
-
-    //Document Existence Check (checkForDoc method):
-   /* @Test
-    @Order(7)
-    void testCheckForDoc() throws Exception {
-        String networkId = "HKB1700107179552";
-        String documentName = "my first doc";
-        String userId = "user01";
-        //String jsonObject = "{\"clientId\":\"HKB1700107179552\",\"wordCount\":17,\"docId\":\"docDOD1700107250857\",\"previousVersions\":[{\"clientId\":\"\",\"wordCount\":0,\"docId\":\"\",\"title\":\"\",\"userId\":\"\",\"fileString\":\"#\"},{\"clientId\":\"HKB1700107179552\",\"wordCount\":16,\"docId\":\"docDOD1700107250857\",\"title\":\"my first doc\",\"userId\":\"user01/user02/user03\",\"fileString\":\"#VGhpcyBpcyBhIGRlbW8gZG9jdW1lbnQgZm9yIHRoZSBkZW1vIGluIGNsYXNzLg0KDQpDaGVmIE1pa2UncyBpcyBhIDEwLzEwLg==\"}],\"title\":\"my first doc\",\"userId\":\"user01/user02/user03\",\"fileString\":\"#VGhpcyBpcyBhIGRlbW8gZG9jdW1lbnQgZm9yIHRoZSBkZW1vIGluIGNsYXNzLg0KDQpDaGVmIE1pa2UncyBpcyBhIDEwLzEwLiA6RA==\"}";
-
         CompletableFuture<DataSnapshot> result = new CompletableFuture<>();
+
+        ArrayList<Document> docs = new ArrayList<>();
         DataSnapshot dataSnapshot = Mockito.mock(DataSnapshot.class);
         Mockito.when(dataSnapshot.exists()).thenReturn(true);
         HashMap<String, Object> documentData = new HashMap<>();
-        documentData.put("title", "my first doc");
+        documentData.put("title", documentName);
+        documentData.put("userId", "userId");
+        documentData.put("clientId", networkId);
+        documentData.put("docId", "testDocId");
+        documentData.put("fileString", "#VGhpcyBpcyBhIGRlbW8gZG9jdW1lbnQgZm9yIHRoZSBkZW1vIGluIGNsYXNzLg0KDQpDaGVmIE1pa2UncyBpcyBhIDEwLzEwLiA6RA==");
+        documentData.put("wordCount", 1L);
+        documentData.put("previousVersions", docs);
         Mockito.when(dataSnapshot.getValue()).thenReturn(documentData);
+
         result.complete(dataSnapshot);
-        Mockito.when(fbService.searchForDocument(networkId, documentName)).thenReturn(result);
-        System.out.println("prnt1:" +result);
-        ResponseEntity<?> responseEntity = myService.checkForDoc(networkId, documentName, userId);
-        System.out.println("prnt2:" +responseEntity.getBody());
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
-        //Prev version of the code:
-       /* String networkId = "HKB1700107179552";
-        String documentName = "my%20first%20doc";
-        String userId = "user01";
+        Mockito.when(fbService.searchForDocument(networkId, documentName))
+                .thenReturn(CompletableFuture.completedFuture(dataSnapshot));
 
-        String expectedFileContent = "{\"clientId\":\"HKB1700107179552\",\"wordCount\":17,\"docId\":\"docDOD1700107250857\",\"previousVersions\":[{\"clientId\":\"\",\"wordCount\":0,\"docId\":\"\",\"title\":\"\",\"userId\":\"\",\"fileString\":\"#\"},{\"clientId\":\"HKB1700107179552\",\"wordCount\":16,\"docId\":\"docDOD1700107250857\",\"title\":\"my first doc\",\"userId\":\"user01/user02/user03\",\"fileString\":\"#VGhpcyBpcyBhIGRlbW8gZG9jdW1lbnQgZm9yIHRoZSBkZW1vIGluIGNsYXNzLg0KDQpDaGVmIE1pa2UncyBpcyBhIDEwLzEwLg==\"}],\"title\":\"my first doc\",\"userId\":\"user01/user02/user03\",\"fileString\":\"#VGhpcyBpcyBhIGRlbW8gZG9jdW1lbnQgZm9yIHRoZSBkZW1vIGluIGNsYXNzLg0KDQpDaGVmIE1pa2UncyBpcyBhIDEwLzEwLiA6RA==\"}";
-        ResponseEntity<?> responseEntity = myService.checkForDoc(networkId, documentName, userId);
-
-        byte[] actualBytes = ((ByteArrayResource) responseEntity.getBody()).getByteArray();
-        String actualString = new String(actualBytes, StandardCharsets.UTF_8);
-        actualString = actualString.trim();
-        String trimmedDocumentContent = expectedFileContent.trim();
-
-        System.out.println("firCFD: " + trimmedDocumentContent);
-        System.out.println("secCFD: " + actualString);
+        ResponseEntity<?> responseEntity = myService.seeDocumentStats(networkId, documentName, userId);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertTrue(trimmedDocumentContent.equals(actualString));
-     }*/
+    }
 
-
-    //Document Deletion (deleteDoc method): works
-   /* @Test
-    @Order(8)
-    void testDeleteDocError() throws Exception {
+    //Document Existence Check (checkForDoc method):
+    @Test
+    @Order(7)
+    void testCheckForDoc() throws Exception {
+        Mockito.reset(fbService);
         String networkId = "networkId";
         String documentName = "documentName";
         String userId = "userId";
-        MockMultipartFile contents = new MockMultipartFile("contents", "file.txt",
-                "text/plain", "File Contents".getBytes());
 
-        Mockito.reset(fbService);
+        CompletableFuture<DataSnapshot> result = new CompletableFuture<>();
+
+        ArrayList<Document> docs = new ArrayList<>();
+        DataSnapshot dataSnapshot = Mockito.mock(DataSnapshot.class);
+        Mockito.when(dataSnapshot.exists()).thenReturn(true);
+        HashMap<String, Object> documentData = new HashMap<>();
+        documentData.put("title", "documentName");
+        documentData.put("userId", "userId");
+        documentData.put("clientId", "networkId");
+        documentData.put("docId", "testDocId");
+        documentData.put("fileString", "#VGhpcyBpcyBhIGRlbW8gZG9jdW1lbnQgZm9yIHRoZSBkZW1vIGluIGNsYXNzLg0KDQpDaGVmIE1pa2UncyBpcyBhIDEwLzEwLiA6RA==");
+        documentData.put("wordCount", 1L);
+        documentData.put("previousVersions", docs);
+        Mockito.when(dataSnapshot.getValue()).thenReturn(documentData);
+
+        result.complete(dataSnapshot);
+
         Mockito.when(fbService.searchForDocument(networkId, documentName))
-                .thenReturn(CompletableFuture.completedFuture(null));
+                .thenReturn(CompletableFuture.completedFuture(dataSnapshot));
+        ResponseEntity<?> responseEntity = myService.checkForDoc(networkId, documentName, userId);
+        System.out.println(responseEntity.getBody());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
 
-        Mockito.when(fbService.uploadFile(contents, networkId, documentName, userId))
-                .thenReturn(CompletableFuture.completedFuture("Upload Success"));
+    @Test
+    @Order(8)
+    void testSeePreviousVersion() throws Exception {
+        //Testing with doc that has no previous versions
+        Mockito.reset(fbService);
+        String networkId = "networkId";
+        String documentName = "documentName";
+        String userId = "userId";
 
+        CompletableFuture<DataSnapshot> result = new CompletableFuture<>();
+
+        ArrayList<Document> docs = new ArrayList<>();
+        DataSnapshot dataSnapshot = Mockito.mock(DataSnapshot.class);
+        Mockito.when(dataSnapshot.exists()).thenReturn(true);
+        HashMap<String, Object> documentData = new HashMap<>();
+        documentData.put("title", "documentName");
+        documentData.put("userId", "userId");
+        documentData.put("clientId", "networkId");
+        documentData.put("docId", "testDocId");
+        documentData.put("fileString", "#VGhpcyBpcyBhIGRlbW8gZG9jdW1lbnQgZm9yIHRoZSBkZW1vIGluIGNsYXNzLg0KDQpDaGVmIE1pa2UncyBpcyBhIDEwLzEwLiA6RA==");
+        documentData.put("wordCount", 1L);
+        documentData.put("previousVersions", docs);
+        Mockito.when(dataSnapshot.getValue()).thenReturn(documentData);
+
+        result.complete(dataSnapshot);
+
+        Mockito.when(fbService.searchForDocument(networkId, documentName))
+                .thenReturn(CompletableFuture.completedFuture(dataSnapshot));
+        ResponseEntity<?> responseEntity = myService.seePreviousVersion(networkId, documentName, userId,0);
+        System.out.println(responseEntity.getBody());
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+    }
+
+   /* @Test
+    @Order(9)
+    void testRetrieveDocs() throws Exception {
+        Mockito.reset(fbService);
+        String networkId = "networkId";
+        String documentName = "documentName";
+        String userId = "userId";
+        HashMap<String, Object> documentData = new HashMap<>();
+        documentData.put("title", "documentName");
+        documentData.put("userId", "userId");
+        documentData.put("clientId", "networkId");
+        documentData.put("docId", "testDocId");
+        documentData.put("fileString", "#VGhpcyBpcyBhIGRlbW8gZG9jdW1lbnQgZm9yIHRoZSBkZW1vIGluIGNsYXNzLg0KDQpDaGVmIE1pa2UncyBpcyBhIDEwLzEwLiA6RA==");
+        documentData.put("wordCount", 1L);
+
+        CompletableFuture<Object> result = new CompletableFuture<>();
+        DataSnapshot dataSnapshot1 = Mockito.mock(DataSnapshot.class);
+        Mockito.when(dataSnapshot1.getValue()).thenReturn(documentData);
+
+        DataSnapshot dataSnapshot2 = Mockito.mock(DataSnapshot.class);
+        Mockito.when(dataSnapshot2.getValue()).thenReturn(documentData);
+
+        List<DataSnapshot> documentSnapList = new ArrayList<>();
+            documentSnapList.add(dataSnapshot1);
+            documentSnapList.add(dataSnapshot2);
+
+        Mockito.when(result.get()).thenReturn(documentSnapList);
+
+        Mockito.when(fbService.collectEntries(networkId, documentName))
+                .thenReturn(CompletableFuture.completedFuture(result.get()));
+
+        // Test case: Successful retrieval of documents
+        ResponseEntity<?> responseEntity = myService.retrieveDocs(networkId, userId);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }*/
+
+    //Document Deletion (deleteDoc method)
+    @Test
+    @Order(8)
+    void testDeleteDoc() throws Exception {
+        String networkId = "networkId";
+        String documentName = "documentName";
+        String userId = "userId";
+
+        CompletableFuture<DataSnapshot> result = new CompletableFuture<>();
+
+        ArrayList<Document> docs = new ArrayList<>();
+        DataSnapshot dataSnapshot = Mockito.mock(DataSnapshot.class);
+        Mockito.when(dataSnapshot.exists()).thenReturn(true);
+        HashMap<String, Object> documentData = new HashMap<>();
+        documentData.put("title", "documentName");
+        documentData.put("userId", "userId");
+        documentData.put("clientId", "networkId");
+        documentData.put("docId", "testDocId");
+        documentData.put("fileString", "#VGhpcyBpcyBhIGRlbW8gZG9jdW1lbnQgZm9yIHRoZSBkZW1vIGluIGNsYXNzLg0KDQpDaGVmIE1pa2UncyBpcyBhIDEwLzEwLiA6RA==");
+        documentData.put("wordCount", 1L);
+        documentData.put("previousVersions", docs);
+        Mockito.when(dataSnapshot.getValue()).thenReturn(documentData);
+
+        result.complete(dataSnapshot);
+
+        Mockito.when(fbService.searchForDocument(networkId, documentName))
+                .thenReturn(CompletableFuture.completedFuture(dataSnapshot));
         ResponseEntity<?> responseEntity = myService.deleteDoc(networkId, documentName, userId);
-
-        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-        assertEquals("No such document exists.", responseEntity.getBody());
-    } */
+        System.out.println(responseEntity.getBody());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
 }
