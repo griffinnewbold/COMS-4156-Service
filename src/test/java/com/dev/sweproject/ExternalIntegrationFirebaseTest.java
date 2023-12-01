@@ -19,7 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * to check a box this exists.
  */
 @SpringBootTest(classes = SweProjectApplication.class)
-class ExternalIntegrationFirebase {
+class ExternalIntegrationFirebaseTest {
 
   @Autowired
   private FirebaseService firebaseService;
