@@ -184,9 +184,11 @@ for screenshots demonstrating output.
 ## Static Code Analysis
 We used PMD to perform static analysis on our codebase, see below for the most recent output. 
 
-![Screenshot of PMD analysis report](reports/static_analysis_report_november30.png)
+![Screenshot of PMD analysis report](reports/static_analysis_report_december1.png)
 
-There is a full pdf of the latest report from November 30 present in that directory as well.
+A report of from November 30 is present but is outdated as the image above is from December 1st. We made the decision to not include issues from priority levels 4 and 5 as PMD states (https://pmd.github.io/pmd/pmd_userdocs_configuring_rules.h) these are medium-low
+and low risks respectively. All of the Priority 5 issues that were displayed on the full report were false positives at best and disgruntled differences on variable placement at worst and has no effect on the execution of the service, while priority 4 was similar these
+were relatively few in number such that they were fixed.
 
 ## Continuous Integration Report
 This repository using GitHub Actions to perform continous integration, to view the latest results go to the following link: https://github.com/griffinnewbold/COMS-4156-Service/actions/workflows/maven.yml
