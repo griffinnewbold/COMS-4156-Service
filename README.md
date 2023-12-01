@@ -172,15 +172,20 @@ so we have the full scope of our revised proposal AND more. The javadoc link has
 We used the tool "checkstyle" to check the style of our code and generate style checking reports. Here is the report
 as of the day of 11/30/23 (These can be found in the reports folder):
 
+![Screenshot of a checkstyle with no errors](reports/checkstyle-report1-november30.png)
+![Second Screenshot of a checkstyle with no errors](reports/checkstyle-report2-november30.png)
 
 ## Branch Coverage Reporting
 We used JaCoCo to perform branch analysis in order to see the branch coverage of the relevant code within the code base. See below
 for screenshots demonstrating output.
+
 ![Screenshot of a code coverage report from the plugin](reports/codecoverage-report1-november30.png)
 
 ## Static Code Analysis
 We used PMD to perform static analysis on our codebase, see below for the most recent output. 
+
 ![Screenshot of PMD analysis report](reports/static_analysis_report_november30.png)
+
 There is a full pdf of the latest report from November 30 present in that directory as well.
 
 ## Continuous Integration Report
