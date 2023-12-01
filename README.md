@@ -170,11 +170,8 @@ so we have the full scope of our revised proposal AND more. The javadoc link has
 
 ## Style Checking Report
 We used the tool "checkstyle" to check the style of our code and generate style checking reports. Here is the report
-as of the day of 10/19/23 (These can be found in the reports folder):
+as of the day of 11/30/23 (These can be found in the reports folder):
 
-![Screenshot of a checkstyle report for our project, showing 0 warnings and errors](reports/checkstyle-report.png)
-![Screenshot of another checkstyle report for our project, showing 0 warnings and errors](reports/checkstyle.png)
-![Screenshot of a checkstyle report from the plugin, showing 0 warnings and errors](reports/checkstyle-plugin.png)
 
 ## Branch Coverage Reporting
 We used JaCoCo to perform branch analysis in order to see the branch coverage of the relevant code within the code base. See below
@@ -182,8 +179,9 @@ for screenshots demonstrating output.
 ![Screenshot of a code coverage report from the plugin](reports/codecoverage-report1-november30.png)
 
 ## Static Code Analysis
-We used PMD to perform static analysis on our codebase, see below for the most recent output.
-[insert image]
+We used PMD to perform static analysis on our codebase, see below for the most recent output. 
+![Screenshot of PMD analysis report](reports/static_analysis_report_november30.png)
+There is a full pdf of the latest report from November 30 present in that directory as well.
 
 ## Continuous Integration Report
 This repository using GitHub Actions to perform continous integration, to view the latest results go to the following link: https://github.com/griffinnewbold/COMS-4156-Service/actions/workflows/maven.yml
