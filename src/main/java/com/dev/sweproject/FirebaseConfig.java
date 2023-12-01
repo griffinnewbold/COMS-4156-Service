@@ -24,14 +24,13 @@ public class FirebaseConfig {
    */
   @Bean
   public FirebaseApp firebaseApp() throws IOException {
-    FileInputStream serviceAccount =
-        new FileInputStream("./firebase_config.json");
+    try (FileInputStream serviceAccount = new FileInputStream("./firebase_config.json")) {
+      FirebaseOptions options = new FirebaseOptions.Builder()
+          .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+          .setDatabaseUrl("https://swe-4156-service-default-rtdb.firebaseio.com")
+          .build();
 
-    FirebaseOptions options = new FirebaseOptions.Builder()
-        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-        .setDatabaseUrl("https://swe-4156-service-default-rtdb.firebaseio.com")
-        .build();
-
-    return FirebaseApp.initializeApp(options);
+      return FirebaseApp.initializeApp(options);
+    }
   }
 }

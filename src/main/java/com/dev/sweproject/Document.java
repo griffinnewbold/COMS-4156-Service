@@ -1,6 +1,5 @@
 package com.dev.sweproject;
 
-
 import com.google.firebase.database.annotations.NotNull;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,6 +25,7 @@ public class Document {
   private String title;
   private int wordCount;
   private ArrayList<Document> previousVersions;
+  private static final Random RANDOM = new Random();
 
   /**
    * A constant used for the prefix of the document id upon generation.
@@ -321,12 +321,17 @@ public class Document {
     }
     Document other = (Document) o;
 
-    return (this.getWordCount() == other.getWordCount())
-        && (this.getTitle().equals(other.getTitle()))
-        && (this.getDocId().equals(other.getDocId()))
-        && (this.getClientId().equals(other.getClientId()))
-        && (this.getUserId().equals(other.getUserId()))
-        && (this.getFileString().equals(other.getFileString()));
+    return this.getWordCount() == other.getWordCount()
+        && this.getTitle().equals(other.getTitle())
+        && this.getDocId().equals(other.getDocId())
+        && this.getClientId().equals(other.getClientId())
+        && this.getUserId().equals(other.getUserId())
+        && this.getFileString().equals(other.getFileString());
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode() + 1;
   }
 
   /**
@@ -339,14 +344,15 @@ public class Document {
     int wordCount = 0;
 
     try {
-      String text = new String(contents, StandardCharsets.UTF_8);
-      StringReader stringReader = new StringReader(text);
+      try (StringReader stringReader = new StringReader(
+          new String(contents, StandardCharsets.UTF_8));
+           BufferedReader reader = new BufferedReader(stringReader)) {
 
-      try (BufferedReader reader = new BufferedReader(stringReader)) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-          String[] words = line.split("\\s+"); //splits by spaces
+        String line = reader.readLine();
+        while (line != null) {
+          String[] words = line.split("\\s+"); // splits by spaces
           wordCount += words.length;
+          line = reader.readLine();
         }
       }
     } catch (IOException e) {
@@ -356,6 +362,7 @@ public class Document {
     return wordCount;
   }
 
+
   /**
    * Generates a document id.
    *
@@ -364,10 +371,9 @@ public class Document {
   public static String generateDocumentId() {
     String timestamp = String.valueOf(System.currentTimeMillis());
     StringBuilder netId = new StringBuilder();
-    Random random = new Random();
 
     for (int i = 0; i < DOC_ID_LENGTH; i++) {
-      netId.append("ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(random.nextInt(26)));
+      netId.append("ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(RANDOM.nextInt(26)));
     }
     return "doc" + netId + timestamp;
   }
@@ -421,8 +427,9 @@ public class Document {
   //private helper method for counting users expects '/' as delimiter.
   private int countUsers() {
     int users = 1;
+    char delimiter = '/';
     for (int i = 0; i < userId.length(); i++) {
-      if (userId.charAt(i) == '/') {
+      if (userId.charAt(i) == delimiter) {
         users += 1;
       }
     }
@@ -440,12 +447,12 @@ public class Document {
     String result = "";
     int wordCountDiff = this.wordCount - other.wordCount;
     int userCountDiff = this.countUsers() - other.countUsers();
+    String hasString = " has ";
 
-    //logic dealing with word counts
     if (wordCountDiff > 0) {
-      result += this.getTitle() + " has " + wordCountDiff + " more words than " + other.getTitle();
+      result += this.getTitle() + hasString + wordCountDiff + " more words than " + other.getTitle();
     } else if (wordCountDiff < 0) {
-      result += this.getTitle() + " has " + (-1 * wordCountDiff)
+      result += this.getTitle() + hasString + (-1 * wordCountDiff)
          + " less words than " + other.getTitle();
     } else {
       result += this.getTitle() + " has the same word count " + other.getTitle();
@@ -454,9 +461,9 @@ public class Document {
 
     //logic dealing with user counts
     if (userCountDiff > 0) {
-      result += this.getTitle() + " has " + userCountDiff + " more users than " + other.getTitle();
+      result += this.getTitle() + hasString + userCountDiff + " more users than " + other.getTitle();
     } else if (userCountDiff < 0) {
-      result += this.getTitle() + " has " + (-1 * userCountDiff) + " less users than "
+      result += this.getTitle() + hasString + (-1 * userCountDiff) + " less users than "
           + other.getTitle();
     } else {
       result += this.getTitle() + " has the same user count " + other.getTitle();
@@ -466,10 +473,10 @@ public class Document {
     //logic dealing with version counts
     int versionCountDiff = (this.previousVersions.size() - 1) - (other.previousVersions.size() - 1);
     if (versionCountDiff > 0) {
-      result += this.getTitle() + " has " + versionCountDiff + " more versions than "
+      result += this.getTitle() + hasString + versionCountDiff + " more versions than "
           + other.getTitle();
     } else if (versionCountDiff < 0) {
-      result += this.getTitle() + " has " + (-1 * versionCountDiff) + " less versions than "
+      result += this.getTitle() + hasString + (-1 * versionCountDiff) + " less versions than "
           + other.getTitle();
     } else {
       result += this.getTitle() + " has the same version count " + other.getTitle();

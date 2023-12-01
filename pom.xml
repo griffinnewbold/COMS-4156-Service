@@ -146,6 +146,7 @@
 				<configuration>
 					<printFailingErrors>true</printFailingErrors>
 					<verbose>true</verbose>
+					<minimumPriority>3</minimumPriority>
 					<rulesets>
 						<ruleset>/category/java/errorprone.xml</ruleset>
 						<ruleset>/rulesets/java/maven-pmd-plugin-default.xml</ruleset>

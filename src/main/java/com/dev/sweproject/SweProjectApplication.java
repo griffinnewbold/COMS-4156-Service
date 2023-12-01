@@ -35,6 +35,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class SweProjectApplication {
 
   private static FirebaseService firebaseDataService;
+  private static final String ERROR_MSG = "An unexpected error has occurred";
+  private static final String NETWORK_ID = "network-id";
+  private static final String DOCUMENT_NAME = "document-name";
+  private static final String YOUR_USER_ID = "your-user-id";
+  private static final String NO_DOCUMENT = "No such document exists.";
 
   /**
    * The main entry point for the application.
@@ -83,8 +88,7 @@ public class SweProjectApplication {
       return new ResponseEntity<>(new RegisterClientResponse(networkId), HttpStatus.OK);
     } catch (Exception e) {
       System.out.println(e.getMessage());
-      return new ResponseEntity<>("An unexpected error has occurred",
-          HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>(ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -100,10 +104,10 @@ public class SweProjectApplication {
    * @return A JSON response indicating whether the file was successfully uploaded.
    */
   @PostMapping(value = "/upload-doc")
-  public ResponseEntity<?> uploadDoc(@RequestParam(value = "network-id") String networkId,
-                          @RequestParam(value = "document-name") String documentName,
-                          @RequestParam(value = "user-id") String userId,
-                          @RequestBody MultipartFile contents) {
+  public ResponseEntity<?> uploadDoc(@RequestParam(value = NETWORK_ID) String networkId,
+                                     @RequestParam(value = DOCUMENT_NAME) String documentName,
+                                     @RequestParam(value = "user-id") String userId,
+                                     @RequestBody MultipartFile contents) {
     try {
       CompletableFuture<DataSnapshot> doesExist = firebaseDataService.searchForDocument(
           networkId, documentName);
@@ -138,9 +142,9 @@ public class SweProjectApplication {
    *         and the reason why.
    */
   @PatchMapping(value = "/share-document", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> shareDocument(@RequestParam(value = "network-id") String networkId,
-                              @RequestParam(value = "document-name") String documentName,
-                              @RequestParam(value = "your-user-id") String yourUserId,
+  public ResponseEntity<?> shareDocument(@RequestParam(value = NETWORK_ID) String networkId,
+                              @RequestParam(value = DOCUMENT_NAME) String documentName,
+                              @RequestParam(value = YOUR_USER_ID) String yourUserId,
                               @RequestParam(value = "their-user-id") String theirUserId) {
     CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(
         networkId, documentName);
@@ -166,11 +170,9 @@ public class SweProjectApplication {
         }
       }
     } catch (IOException e) {
-      return new ResponseEntity<>("An unexpected error has occurred.",
-          HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>(ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
     } catch (Exception e) {
-      return new ResponseEntity<>("No such document exists.",
-          HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(NO_DOCUMENT, HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<>("Service executed", HttpStatus.OK);
   }
@@ -185,9 +187,9 @@ public class SweProjectApplication {
    *         and providing a reason if it could not be deleted.
    */
   @DeleteMapping(value = "/delete-doc")
-  public ResponseEntity<?> deleteDoc(@RequestParam(value = "network-id") String networkId,
-                          @RequestParam(value = "document-name") String documentName,
-                          @RequestParam(value = "your-user-id")  String yourUserId) {
+  public ResponseEntity<?> deleteDoc(@RequestParam(value = NETWORK_ID) String networkId,
+                          @RequestParam(value = DOCUMENT_NAME) String documentName,
+                          @RequestParam(value = YOUR_USER_ID)  String yourUserId) {
     CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(
         networkId, documentName);
     try {
@@ -208,11 +210,9 @@ public class SweProjectApplication {
         }
       }
     } catch (IOException e) {
-      return new ResponseEntity<>("An unexpected error has occurred.",
-          HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>(ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
     } catch (Exception e) {
-      return new ResponseEntity<>("No such document exists.",
-          HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(NO_DOCUMENT, HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<>("Service executed", HttpStatus.OK);
   }
@@ -229,13 +229,13 @@ public class SweProjectApplication {
    * @throws JsonProcessingException If there's an issues processing JSON data.
    */
   @GetMapping(value = "/check-for-doc", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> checkForDoc(@RequestParam(value = "network-id") String networkId,
-                            @RequestParam(value = "document-name") String documentName,
-                            @RequestParam(value = "your-user-id")  String yourUserId)
+  public ResponseEntity<?> checkForDoc(@RequestParam(value = NETWORK_ID) String networkId,
+                            @RequestParam(value = DOCUMENT_NAME) String documentName,
+                            @RequestParam(value = YOUR_USER_ID)  String yourUserId)
                             throws JsonProcessingException {
     CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(
         networkId, documentName);
-    Object response = new Object();
+    Object response = null;
 
     try {
       DataSnapshot dataSnapshot = result.get();
@@ -248,8 +248,7 @@ public class SweProjectApplication {
         }
       }
     } catch (Exception e) {
-      return new ResponseEntity<>("No such document exists.",
-          HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(NO_DOCUMENT, HttpStatus.NOT_FOUND);
     }
     ObjectMapper om = new ObjectMapper();
     return new ResponseEntity<>(om.writeValueAsString(response), HttpStatus.OK);
@@ -268,14 +267,14 @@ public class SweProjectApplication {
    * @throws JsonProcessingException If there's an issue processing JSON data.
    */
   @GetMapping(value = "/see-previous-version", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> seePreviousVersion(@RequestParam(value = "network-id") String networkId,
-                                   @RequestParam(value = "document-name") String documentName,
-                                   @RequestParam(value = "your-user-id") String yourUserId,
+  public ResponseEntity<?> seePreviousVersion(@RequestParam(value = NETWORK_ID) String networkId,
+                                   @RequestParam(value = DOCUMENT_NAME) String documentName,
+                                   @RequestParam(value = YOUR_USER_ID) String yourUserId,
                                    @RequestParam(value = "revision-number") int revisionNumber)
                                    throws JsonProcessingException {
     CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(
         networkId, documentName);
-    Object response = new Object();
+    Object response = null;
 
     try {
       DataSnapshot dataSnapshot = result.get();
@@ -293,8 +292,7 @@ public class SweProjectApplication {
         response = myDocument.getPreviousVersions().get(revisionNumber);
       }
     } catch (Exception e) {
-      return new ResponseEntity<>("No such document exists.",
-          HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(NO_DOCUMENT, HttpStatus.NOT_FOUND);
     }
     ObjectMapper om = new ObjectMapper();
     return new ResponseEntity<>(om.writeValueAsString(response), HttpStatus.OK);
@@ -311,13 +309,13 @@ public class SweProjectApplication {
    * @throws JsonProcessingException If there's an issue processing JSON data.
    */
   @GetMapping(value = "/see-document-stats", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> seeDocumentStats(@RequestParam(value = "network-id") String networkId,
-                                 @RequestParam(value = "document-name") String documentName,
-                                 @RequestParam(value = "your-user-id") String yourUserId)
+  public ResponseEntity<?> seeDocumentStats(@RequestParam(value = NETWORK_ID) String networkId,
+                                 @RequestParam(value = DOCUMENT_NAME) String documentName,
+                                 @RequestParam(value = YOUR_USER_ID) String yourUserId)
                                  throws JsonProcessingException {
     CompletableFuture<DataSnapshot> result = firebaseDataService.searchForDocument(
         networkId, documentName);
-    Object response = new Object();
+    Object response = null;
     try {
       DataSnapshot dataSnapshot = result.get();
       if (dataSnapshot.exists()) {
@@ -332,11 +330,9 @@ public class SweProjectApplication {
         }
       }
     } catch (IOException e) {
-      return new ResponseEntity<>("An unexpected error has occurred.",
-          HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>(ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
     } catch (Exception e) {
-      response = "No such document exists";
-      return new ResponseEntity<>(new ObjectMapper().writeValueAsString(response),
+      return new ResponseEntity<>(new ObjectMapper().writeValueAsString(NO_DOCUMENT),
           HttpStatus.NOT_FOUND);
     }
     ObjectMapper om = new ObjectMapper();
@@ -354,10 +350,10 @@ public class SweProjectApplication {
    * @throws JsonProcessingException If there's an issue processing JSON data.
    */
   @GetMapping(value = "/generate-difference-summary", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> generateDiffSummary(@RequestParam(value = "network-id") String networkId,
+  public ResponseEntity<?> generateDiffSummary(@RequestParam(value = NETWORK_ID) String networkId,
                                           @RequestParam(value = "fst-doc-name") String fstDocName,
                                           @RequestParam(value = "snd-doc-name") String sndDocName,
-                                          @RequestParam(value = "your-user-id") String yourUserId)
+                                          @RequestParam(value = YOUR_USER_ID) String yourUserId)
                                           throws JsonProcessingException {
     CompletableFuture<DataSnapshot> resultOne = firebaseDataService.searchForDocument(
         networkId, fstDocName);
@@ -366,7 +362,7 @@ public class SweProjectApplication {
 
     DataSnapshot firstSnapshot = null;
     DataSnapshot secondSnapshot = null;
-    Object response = new Object();
+    Object response = null;
     boolean isError = false;
 
     try {
@@ -390,8 +386,7 @@ public class SweProjectApplication {
             response = fstDocument.compareTo(sndDocument);
           }
         } catch (IOException e) {
-          return new ResponseEntity<>("An unexpected error has occurred.",
-              HttpStatus.INTERNAL_SERVER_ERROR);
+          return new ResponseEntity<>(ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
         }
       }
     } catch (Exception e) {
@@ -415,9 +410,9 @@ public class SweProjectApplication {
    *         as the response body if available.
    */
   @GetMapping(value = "/download-doc", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-  public ResponseEntity<?> downloadDoc(@RequestParam(value = "network-id") String networkId,
-                                       @RequestParam(value = "document-name") String documentName,
-                                       @RequestParam(value = "your-user-id")  String yourUserId,
+  public ResponseEntity<?> downloadDoc(@RequestParam(value = NETWORK_ID) String networkId,
+                                       @RequestParam(value = DOCUMENT_NAME) String documentName,
+                                       @RequestParam(value = YOUR_USER_ID)  String yourUserId,
                                        @RequestBody(required = false) String jsonObject) {
     //Caller provided a JSON body
     if (jsonObject != null) {
@@ -458,10 +453,9 @@ public class SweProjectApplication {
         }
       }
     } catch (IOException e) {
-      return new ResponseEntity<>("An unexpected error has occurred",
-          HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>(ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
     } catch (Exception e) {
-      return new ResponseEntity<>("No such document exists", HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(NO_DOCUMENT, HttpStatus.NOT_FOUND);
     }
     return ResponseEntity.ok().headers(responseHeaders).body(resource);
   }
@@ -476,7 +470,7 @@ public class SweProjectApplication {
    *         or HttpStatus.INTERNAL_SERVER_ERROR with an error message if an error occurs.
    */
   @GetMapping(value = "/retrieve-docs", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-  public ResponseEntity<?> retrieveDocs(@RequestParam(value = "network-id") String networkId,
+  public ResponseEntity<?> retrieveDocs(@RequestParam(value = NETWORK_ID) String networkId,
                                        @RequestParam(value = "user-id")    String userId) {
     try {
       CompletableFuture<Object> result = firebaseDataService.collectEntries(networkId, userId);
@@ -494,8 +488,7 @@ public class SweProjectApplication {
       return new ResponseEntity<>(documents, headers, HttpStatus.OK);
 
     } catch (Exception e) {
-      return new ResponseEntity<>("An unexpected error has occurred",
-          HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>(ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -509,7 +502,7 @@ public class SweProjectApplication {
    *         or HttpStatus.INTERNAL_SERVER_ERROR with an error message if an error occurs.
    */
   @GetMapping(value = "/retrieve-doc-names", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-  public ResponseEntity<?> retrieveDocument(@RequestParam(value = "network-id") String networkId,
+  public ResponseEntity<?> retrieveDocument(@RequestParam(value = NETWORK_ID) String networkId,
                                             @RequestParam(value = "user-id")    String userId) {
     try {
       CompletableFuture<List<String>> result = firebaseDataService.getDocumentTitles(networkId,
@@ -531,8 +524,7 @@ public class SweProjectApplication {
       return new ResponseEntity<>(listStr.toString(), headers, HttpStatus.OK);
 
     } catch (Exception e) {
-      return new ResponseEntity<>("An unexpected error has occurred",
-          HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>(ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
