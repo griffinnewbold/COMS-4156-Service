@@ -27,13 +27,14 @@ For a short time you'll be able to reach our service by the magic of cloud compu
 ## Running Tests
 Our unit tests are located under the directory 'src/test'. To run our project's tests in IntelliJ using Java 17, you must first build the project.
 
-From there, you can right-click the 'DocumentTest' class from the IntelliJ Project View and click "Run 'DocumentTest'".
-Next, you can do the same thing with 'FirebaseServiceTest' to run the tests of the Firebase service.
+From there, you can right-click any of the classes present in the src/test directory and click run to see the results.
 
 To see our system-level tests, see the section "Postman Test Documentation" below.
 
 ## Postman Test Documentation
-View the list of API calls made over the network using post man fully documented with the received result and parameters: https://documenter.getpostman.com/view/30499865/2s9YR85tUY
+View the list of API calls made over the network using post man fully documented with the received result and parameters: [https://documenter.getpostman.com/view/30499865/2s9YR85tUY](https://documenter.getpostman.com/view/30499865/2s9YeHbBW9)
+
+Specific Tests confirming proper returning of HTTP status codes and content types are ran during Continuous Integration as well.
 
 ## Endpoints
 This section describes the endpoints that our service provides, as well as their inputs and outputs. See the
