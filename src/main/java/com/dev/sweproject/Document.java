@@ -450,7 +450,8 @@ public class Document {
     String hasString = " has ";
 
     if (wordCountDiff > 0) {
-      result += this.getTitle() + hasString + wordCountDiff + " more words than " + other.getTitle();
+      result += this.getTitle() + hasString + wordCountDiff + " more words than "
+          + other.getTitle();
     } else if (wordCountDiff < 0) {
       result += this.getTitle() + hasString + (-1 * wordCountDiff)
          + " less words than " + other.getTitle();
@@ -461,7 +462,8 @@ public class Document {
 
     //logic dealing with user counts
     if (userCountDiff > 0) {
-      result += this.getTitle() + hasString + userCountDiff + " more users than " + other.getTitle();
+      result += this.getTitle() + hasString + userCountDiff + " more users than "
+          + other.getTitle();
     } else if (userCountDiff < 0) {
       result += this.getTitle() + hasString + (-1 * userCountDiff) + " less users than "
           + other.getTitle();
