@@ -1,0 +1,864 @@
+Set Up job
+----------
+Current runner version: '2.311.0'
+Operating System
+  Ubuntu
+  22.04.3
+  LTS
+Runner Image
+  Image: ubuntu-22.04
+  Version: 20231126.1.0
+  Included Software: https://github.com/actions/runner-images/blob/ubuntu22/20231126.1/images/ubuntu/Ubuntu2204-Readme.md
+  Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu22%2F20231126.1
+Runner Image Provisioner
+  2.0.321.1
+GITHUB_TOKEN Permissions
+  Contents: read
+  Metadata: read
+  Packages: read
+Secret source: Actions
+Prepare workflow directory
+Prepare all required actions
+Getting action download info
+Download action repository 'actions/checkout@v3' (SHA:f43a0e5ff2bd294095638e18286ca9a3d1956744)
+Download action repository 'actions/setup-java@v3' (SHA:0ab4596768b603586c0de567f2430c30f5b0d2b0)
+Download action repository 'danielpalme/ReportGenerator-GitHub-Action@5.2.0' (SHA:4d510cbed8a05af5aefea46c7fd6e05b95844c89)
+Complete job name: build
+
+Run actions/checkout@v3
+-----------------------
+Run actions/checkout@v3
+  with:
+    repository: griffinnewbold/COMS-4156-Service
+    token: ***
+    ssh-strict: true
+    persist-credentials: true
+    clean: true
+    sparse-checkout-cone-mode: true
+    fetch-depth: 1
+    fetch-tags: false
+    lfs: false
+    submodules: false
+    set-safe-directory: true
+Syncing repository: griffinnewbold/COMS-4156-Service
+Getting Git version info
+  Working directory is '/home/runner/work/COMS-4156-Service/COMS-4156-Service'
+  /usr/bin/git version
+  git version 2.43.0
+Temporarily overriding HOME='/home/runner/work/_temp/1b59a32a-a951-41a4-9bfe-acde63c94850' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+/usr/bin/git config --global --add safe.directory /home/runner/work/COMS-4156-Service/COMS-4156-Service
+Deleting the contents of '/home/runner/work/COMS-4156-Service/COMS-4156-Service'
+Initializing the repository
+  /usr/bin/git init /home/runner/work/COMS-4156-Service/COMS-4156-Service
+  hint: Using 'master' as the name for the initial branch. This default branch name
+  hint: is subject to change. To configure the initial branch name to use in all
+  hint: of your new repositories, which will suppress this warning, call:
+  hint: 
+  hint: 	git config --global init.defaultBranch <name>
+  hint: 
+  hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+  hint: 'development'. The just-created branch can be renamed via this command:
+  hint: 
+  hint: 	git branch -m <name>
+  Initialized empty Git repository in /home/runner/work/COMS-4156-Service/COMS-4156-Service/.git/
+  /usr/bin/git remote add origin https://github.com/griffinnewbold/COMS-4156-Service
+Disabling automatic garbage collection
+  /usr/bin/git config --local gc.auto 0
+Setting up auth
+  /usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+  /usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+  /usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+  /usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+  /usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Fetching the repository
+  /usr/bin/git -c protocol.version=2 fetch --no-tags --prune --progress --no-recurse-submodules --depth=1 origin +053de8fd8102bff0b3e322a9305c74562105d7b9:refs/remotes/origin/main
+  remote: Enumerating objects: 52, done.        
+  remote: Counting objects:   1% (1/52)        
+  remote: Counting objects:   3% (2/52)        
+  remote: Counting objects:   5% (3/52)        
+  remote: Counting objects:   7% (4/52)        
+  remote: Counting objects:   9% (5/52)        
+  remote: Counting objects:  11% (6/52)        
+  remote: Counting objects:  13% (7/52)        
+  remote: Counting objects:  15% (8/52)        
+  remote: Counting objects:  17% (9/52)        
+  remote: Counting objects:  19% (10/52)        
+  remote: Counting objects:  21% (11/52)        
+  remote: Counting objects:  23% (12/52)        
+  remote: Counting objects:  25% (13/52)        
+  remote: Counting objects:  26% (14/52)        
+  remote: Counting objects:  28% (15/52)        
+  remote: Counting objects:  30% (16/52)        
+  remote: Counting objects:  32% (17/52)        
+  remote: Counting objects:  34% (18/52)        
+  remote: Counting objects:  36% (19/52)        
+  remote: Counting objects:  38% (20/52)        
+  remote: Counting objects:  40% (21/52)        
+  remote: Counting objects:  42% (22/52)        
+  remote: Counting objects:  44% (23/52)        
+  remote: Counting objects:  46% (24/52)        
+  remote: Counting objects:  48% (25/52)        
+  remote: Counting objects:  50% (26/52)        
+  remote: Counting objects:  51% (27/52)        
+  remote: Counting objects:  53% (28/52)        
+  remote: Counting objects:  55% (29/52)        
+  remote: Counting objects:  57% (30/52)        
+  remote: Counting objects:  59% (31/52)        
+  remote: Counting objects:  61% (32/52)        
+  remote: Counting objects:  63% (33/52)        
+  remote: Counting objects:  65% (34/52)        
+  remote: Counting objects:  67% (35/52)        
+  remote: Counting objects:  69% (36/52)        
+  remote: Counting objects:  71% (37/52)        
+  remote: Counting objects:  73% (38/52)        
+  remote: Counting objects:  75% (39/52)        
+  remote: Counting objects:  76% (40/52)        
+  remote: Counting objects:  78% (41/52)        
+  remote: Counting objects:  80% (42/52)        
+  remote: Counting objects:  82% (43/52)        
+  remote: Counting objects:  84% (44/52)        
+  remote: Counting objects:  86% (45/52)        
+  remote: Counting objects:  88% (46/52)        
+  remote: Counting objects:  90% (47/52)        
+  remote: Counting objects:  92% (48/52)        
+  remote: Counting objects:  94% (49/52)        
+  remote: Counting objects:  96% (50/52)        
+  remote: Counting objects:  98% (51/52)        
+  remote: Counting objects: 100% (52/52)        
+  remote: Counting objects: 100% (52/52), done.        
+  remote: Compressing objects:   2% (1/39)        
+  remote: Compressing objects:   5% (2/39)        
+  remote: Compressing objects:   7% (3/39)        
+  remote: Compressing objects:  10% (4/39)        
+  remote: Compressing objects:  12% (5/39)        
+  remote: Compressing objects:  15% (6/39)        
+  remote: Compressing objects:  17% (7/39)        
+  remote: Compressing objects:  20% (8/39)        
+  remote: Compressing objects:  23% (9/39)        
+  remote: Compressing objects:  25% (10/39)        
+  remote: Compressing objects:  28% (11/39)        
+  remote: Compressing objects:  30% (12/39)        
+  remote: Compressing objects:  33% (13/39)        
+  remote: Compressing objects:  35% (14/39)        
+  remote: Compressing objects:  38% (15/39)        
+  remote: Compressing objects:  41% (16/39)        
+  remote: Compressing objects:  43% (17/39)        
+  remote: Compressing objects:  46% (18/39)        
+  remote: Compressing objects:  48% (19/39)        
+  remote: Compressing objects:  51% (20/39)        
+  remote: Compressing objects:  53% (21/39)        
+  remote: Compressing objects:  56% (22/39)        
+  remote: Compressing objects:  58% (23/39)        
+  remote: Compressing objects:  61% (24/39)        
+  remote: Compressing objects:  64% (25/39)        
+  remote: Compressing objects:  66% (26/39)        
+  remote: Compressing objects:  69% (27/39)        
+  remote: Compressing objects:  71% (28/39)        
+  remote: Compressing objects:  74% (29/39)        
+  remote: Compressing objects:  76% (30/39)        
+  remote: Compressing objects:  79% (31/39)        
+  remote: Compressing objects:  82% (32/39)        
+  remote: Compressing objects:  84% (33/39)        
+  remote: Compressing objects:  87% (34/39)        
+  remote: Compressing objects:  89% (35/39)        
+  remote: Compressing objects:  92% (36/39)        
+  remote: Compressing objects:  94% (37/39)        
+  remote: Compressing objects:  97% (38/39)        
+  remote: Compressing objects: 100% (39/39)        
+  remote: Compressing objects: 100% (39/39), done.        
+  remote: Total 52 (delta 0), reused 30 (delta 0), pack-reused 0        
+  From https://github.com/griffinnewbold/COMS-4156-Service
+   * [new ref]         053de8fd8102bff0b3e322a9305c74562105d7b9 -> origin/main
+Determining the checkout info
+Checking out the ref
+  /usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+  Switched to a new branch 'main'
+  branch 'main' set up to track 'origin/main'.
+/usr/bin/git log -1 --format='%H'
+'053de8fd8102bff0b3e322a9305c74562105d7b9'
+
+Install Newman
+--------------
+Run npm install -g newman
+  npm install -g newman
+  shell: /usr/bin/bash -e {0}
+npm WARN deprecated har-validator@5.1.5: this library is no longer supported
+npm WARN deprecated uuid@3.4.0: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+
+changed 118 packages in 8s
+
+9 packages are looking for funding
+  run `npm fund` for details
+
+Set up JDK 17
+-------------
+Run actions/setup-java@v3
+  with:
+    java-version: 17
+    distribution: temurin
+    cache: maven
+    java-package: jdk
+    check-latest: false
+    server-id: github
+    server-username: GITHUB_ACTOR
+    server-password: GITHUB_TOKEN
+    overwrite-settings: true
+    job-status: success
+    token: ***
+Installed distributions
+  Resolved Java 17.0.9+9 from tool-cache
+  Setting Java 17.0.9+9 as the default
+  Creating toolchains.xml for JDK version 17 from temurin
+  Writing to /home/runner/.m2/toolchains.xml
+  
+  Java configuration:
+    Distribution: temurin
+    Version: 17.0.9+9
+    Path: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.9-9/x64
+  
+Creating settings.xml with server-id: github
+Writing to /home/runner/.m2/settings.xml
+Received 54525952 of 130585875 (41.8%), 52.0 MBs/sec
+Received 130585875 of 130585875 (100.0%), 86.1 MBs/sec
+Cache Size: ~125 MB (130585875 B)
+/usr/bin/tar -z -xf /home/runner/work/_temp/41c5446b-d5db-4a24-abac-7b97c3113d2a/cache.tgz -P -C /home/runner/work/COMS-4156-Service/COMS-4156-Service
+Cache restored successfully
+Cache restored from key: setup-java-Linux-maven-3d9a7e423064ad97f0f2a7f255b166411aa148da8336dc833abe1dd2caf9c4af
+
+Build with Maven
+----------------
+Run mvn -B package --file pom.xml
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.example:SWE_Project >-----------------------
+[INFO] Building SWE_Project 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:3.2.0:check (validate) @ SWE_Project ---
+[INFO] Starting audit...
+Audit done.
+[INFO] You have 0 Checkstyle violations.
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.8.11:prepare-agent (default-prepare-agent) @ SWE_Project ---
+[INFO] argLine set to -javaagent:/home/runner/.m2/repository/org/jacoco/org.jacoco.agent/0.8.11/org.jacoco.agent-0.8.11-runtime.jar=destfile=/home/runner/work/COMS-4156-Service/COMS-4156-Service/target/jacoco.exec,excludes=com/dev/sweproject/SweProjectApplication*:com/dev/sweproject/ByteArrayMultipart*
+[INFO] 
+[INFO] --- maven-resources-plugin:3.3.1:resources (default-resources) @ SWE_Project ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.11.0:compile (default-compile) @ SWE_Project ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 6 source files with javac [debug release 17] to target/classes
+[INFO] /home/runner/work/COMS-4156-Service/COMS-4156-Service/src/main/java/com/dev/sweproject/FirebaseConfig.java: /home/runner/work/COMS-4156-Service/COMS-4156-Service/src/main/java/com/dev/sweproject/FirebaseConfig.java uses or overrides a deprecated API.
+[INFO] /home/runner/work/COMS-4156-Service/COMS-4156-Service/src/main/java/com/dev/sweproject/FirebaseConfig.java: Recompile with -Xlint:deprecation for details.
+[INFO] /home/runner/work/COMS-4156-Service/COMS-4156-Service/src/main/java/com/dev/sweproject/Document.java: Some input files use unchecked or unsafe operations.
+[INFO] /home/runner/work/COMS-4156-Service/COMS-4156-Service/src/main/java/com/dev/sweproject/Document.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:3.3.1:testResources (default-testResources) @ SWE_Project ---
+[INFO] skip non existing resourceDirectory /home/runner/work/COMS-4156-Service/COMS-4156-Service/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.11.0:testCompile (default-testCompile) @ SWE_Project ---
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 4 source files with javac [debug release 17] to target/test-classes
+[INFO] /home/runner/work/COMS-4156-Service/COMS-4156-Service/src/test/java/com/dev/sweproject/FirebaseServiceTest.java: /home/runner/work/COMS-4156-Service/COMS-4156-Service/src/test/java/com/dev/sweproject/FirebaseServiceTest.java uses unchecked or unsafe operations.
+[INFO] /home/runner/work/COMS-4156-Service/COMS-4156-Service/src/test/java/com/dev/sweproject/FirebaseServiceTest.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.0.0:test (default-test) @ SWE_Project ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.dev.sweproject.DocumentTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.4)
+
+2023-12-01T01:59:30.331Z  INFO 1864 --- [           main] com.dev.sweproject.DocumentTest          : Starting DocumentTest using Java 17.0.9 with PID 1864 (started by runner in /home/runner/work/COMS-4156-Service/COMS-4156-Service)
+2023-12-01T01:59:30.342Z  INFO 1864 --- [           main] com.dev.sweproject.DocumentTest          : No active profile set, falling back to 1 default profile: "default"
+2023-12-01T01:59:32.883Z  INFO 1864 --- [           main] com.dev.sweproject.DocumentTest          : Started DocumentTest in 3.074 seconds (process running for 5.707)
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 28, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.358 s - in com.dev.sweproject.DocumentTest
+[INFO] Running com.dev.sweproject.FirebaseServiceTest
+Collection created successfully: testCollection
+Data added successfully.
+Data added successfully.
+Data removed successfully.
+Value was changed successfully: newTestValue
+The value has been successfully retrieved
+newTestValue
+Successfully caught: java.util.concurrent.ExecutionException: java.lang.RuntimeException: Value not found.
+element found: {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, previousVersions=[{clientId=, wordCount=0, docId=, title=, userId=, fileString=#}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}], title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}
+Data added successfully.
+Data added successfully.
+Data added successfully.
+Collection deleted successfully: testCollection
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.808 s - in com.dev.sweproject.FirebaseServiceTest
+[INFO] Running com.dev.sweproject.ExternalIntegrationFirebaseTest
+Data added successfully.
+The value has been successfully retrieved
+testValue
+Data added successfully.
+Value was changed successfully: newTestValue
+Data added successfully.
+Data removed successfully.
+Data added successfully.
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.285 s - in com.dev.sweproject.ExternalIntegrationFirebaseTest
+[INFO] Running com.dev.sweproject.ApiTest
+Simulated error
+Simulated error
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.813 s - in com.dev.sweproject.ApiTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 61, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.8.11:report (default-report) @ SWE_Project ---
+[INFO] Loading execution data file /home/runner/work/COMS-4156-Service/COMS-4156-Service/target/jacoco.exec
+[INFO] Analyzed bundle 'SWE_Project' with 8 classes
+[INFO] 
+[INFO] --- maven-jar-plugin:3.3.0:jar (default-jar) @ SWE_Project ---
+[INFO] Building jar: /home/runner/work/COMS-4156-Service/COMS-4156-Service/target/SWE_Project-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- maven-assembly-plugin:3.6.0:single (default) @ SWE_Project ---
+[INFO] Building jar: /home/runner/work/COMS-4156-Service/COMS-4156-Service/target/SWE_Project-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:3.1.4:repackage (repackage) @ SWE_Project ---
+[INFO] Replacing main artifact /home/runner/work/COMS-4156-Service/COMS-4156-Service/target/SWE_Project-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /home/runner/work/COMS-4156-Service/COMS-4156-Service/target/SWE_Project-0.0.1-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  32.173 s
+[INFO] Finished at: 2023-12-01T01:59:49Z
+[INFO] ------------------------------------------------------------------------
+
+Run JUnit tests with Maven
+--------------------------
+Run mvn test
+  mvn test
+  shell: /usr/bin/bash -e {0}
+  env:
+    JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.9-9/x64
+    JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.9-9/x64
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.example:SWE_Project >-----------------------
+[INFO] Building SWE_Project 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:3.2.0:check (validate) @ SWE_Project ---
+[INFO] Starting audit...
+Audit done.
+[INFO] You have 0 Checkstyle violations.
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.8.11:prepare-agent (default-prepare-agent) @ SWE_Project ---
+[INFO] argLine set to -javaagent:/home/runner/.m2/repository/org/jacoco/org.jacoco.agent/0.8.11/org.jacoco.agent-0.8.11-runtime.jar=destfile=/home/runner/work/COMS-4156-Service/COMS-4156-Service/target/jacoco.exec,excludes=com/dev/sweproject/SweProjectApplication*:com/dev/sweproject/ByteArrayMultipart*
+[INFO] 
+[INFO] --- maven-resources-plugin:3.3.1:resources (default-resources) @ SWE_Project ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.11.0:compile (default-compile) @ SWE_Project ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:3.3.1:testResources (default-testResources) @ SWE_Project ---
+[INFO] skip non existing resourceDirectory /home/runner/work/COMS-4156-Service/COMS-4156-Service/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.11.0:testCompile (default-testCompile) @ SWE_Project ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.0.0:test (default-test) @ SWE_Project ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.dev.sweproject.DocumentTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.4)
+
+2023-12-01T01:59:56.495Z  INFO 1977 --- [           main] com.dev.sweproject.DocumentTest          : Starting DocumentTest using Java 17.0.9 with PID 1977 (started by runner in /home/runner/work/COMS-4156-Service/COMS-4156-Service)
+2023-12-01T01:59:56.506Z  INFO 1977 --- [           main] com.dev.sweproject.DocumentTest          : No active profile set, falling back to 1 default profile: "default"
+2023-12-01T01:59:58.922Z  INFO 1977 --- [           main] com.dev.sweproject.DocumentTest          : Started DocumentTest in 2.988 seconds (process running for 5.068)
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 28, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.999 s - in com.dev.sweproject.DocumentTest
+[INFO] Running com.dev.sweproject.FirebaseServiceTest
+Collection created successfully: testCollection
+Data added successfully.
+Data added successfully.
+Data removed successfully.
+Value was changed successfully: newTestValue
+The value has been successfully retrieved
+newTestValue
+Successfully caught: java.util.concurrent.ExecutionException: java.lang.RuntimeException: Value not found.
+element found: {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, previousVersions=[{clientId=, wordCount=0, docId=, title=, userId=, fileString=#}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=4, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}, {clientId=testCollectionDocs, wordCount=3, docId=docIFR1700072551901, title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIGZpbGUgY29udGVudA==}], title=yourFileName, userId=yourUserId, fileString=#U2FtcGxlIHJlcGVhdGVkIGZpbGUgY29udGVudA==}
+Data added successfully.
+Data added successfully.
+Data added successfully.
+Collection deleted successfully: testCollection
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.365 s - in com.dev.sweproject.FirebaseServiceTest
+[INFO] Running com.dev.sweproject.ExternalIntegrationFirebaseTest
+Data added successfully.
+The value has been successfully retrieved
+testValue
+Data added successfully.
+Value was changed successfully: newTestValue
+Data added successfully.
+Data removed successfully.
+Data added successfully.
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.285 s - in com.dev.sweproject.ExternalIntegrationFirebaseTest
+[INFO] Running com.dev.sweproject.ApiTest
+Simulated error
+Simulated error
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.892 s - in com.dev.sweproject.ApiTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 61, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  13.645 s
+[INFO] Finished at: 2023-12-01T02:00:04Z
+[INFO] ------------------------------------------------------------------------
+
+Report Generator
+----------------
+Run danielpalme/ReportGenerator-GitHub-Action@5.2.0
+  with:
+    reports: target/site/jacoco/jacoco.xml
+    reporttypes: HtmlInline;Cobertura;TextSummary
+    sourcedirs: src/main/java/com/dev/sweproject
+    title: JaCoCo code coverage report
+    targetdir: coveragereport
+    toolpath: reportgeneratortool
+    assemblyfilters: +*
+    classfilters: +*
+    filefilters: +*
+    verbosity: Info
+    tag: 178_7054725732
+  env:
+    JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.9-9/x64
+    JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.9-9/x64
+Detecting .NET Core SDK
+/usr/bin/dotnet --version
+8.0.100
+Detected .NET Core SDK version '8.0.100
+'
+Installing ReportGenerator global tool (https://www.nuget.org/packages/dotnet-reportgenerator-globaltool)
+/usr/bin/dotnet tool install dotnet-reportgenerator-globaltool --tool-path reportgeneratortool --version 5.2.0 --ignore-failed-sources
+Skipping NuGet package signature verification.
+You can invoke the tool using the following command: reportgenerator
+Tool 'dotnet-reportgenerator-globaltool' (version '5.2.0') was successfully installed.
+Successfully installed ReportGenerator global tool
+Executing ReportGenerator
+/home/runner/work/COMS-4156-Service/COMS-4156-Service/reportgeneratortool/reportgenerator -reports:target/site/jacoco/jacoco.xml -targetdir:coveragereport -reporttypes:HtmlInline;Cobertura;TextSummary -sourcedirs:src/main/java/com/dev/sweproject -historydir: -plugins: -assemblyfilters:+* -classfilters:+* -filefilters:+* -verbosity:Info -title:JaCoCo code coverage report -tag:178_7054725732 -license:
+2023-12-01T02:00:12: Writing report file 'coveragereport/Cobertura.xml'
+2023-12-01T02:00:12: Writing report file 'coveragereport/index.html'
+2023-12-01T02:00:12: Writing report file 'coveragereport/Summary.txt'
+2023-12-01T02:00:12: Report generation took 0.2 seconds
+Successfully executed ReportGenerator
+
+
+JaCoCoSummary
+-------------
+Run cat coveragereport/Summary.txt
+  cat coveragereport/Summary.txt
+  shell: /usr/bin/bash -e {0}
+  env:
+    JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.9-9/x64
+    JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.9-9/x64
+Summary - JaCoCo code coverage report
+  Generated on: 12/01/2023 - 02:00:12
+  Coverage date: 12/01/2023 - 01:59:27
+  Parser: JaCoCo
+  Assemblies: 1
+  Classes: 4
+  Files: 4
+  Line coverage: 89.5%
+  Covered lines: 308
+  Uncovered lines: 36
+  Coverable lines: 344
+  Total lines: 983
+  Branch coverage: 85.7% (84 of 98)
+  Covered branches: 84
+  Total branches: 98
+  Method coverage: 98.2% (57 of 58)
+  Covered methods: 57
+  Total methods: 58
+  Tag: 178_7054725732
+
+com/dev/sweproject                            89.5%
+  com/dev/sweproject/Document                 97.0%
+  com/dev/sweproject/FirebaseConfig          100.0%
+  com/dev/sweproject/FirebaseService          81.8%
+  com/dev/sweproject/RegisterClientResponse   75.0%
+
+Run PMD Static Analysis
+-----------------------
+Run mvn pmd:check pmd:cpd-check || true
+  mvn pmd:check pmd:cpd-check || true
+  shell: /usr/bin/bash -e {0}
+  env:
+    JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.9-9/x64
+    JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.9-9/x64
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.example:SWE_Project >-----------------------
+[INFO] Building SWE_Project 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> maven-pmd-plugin:3.21.2:check (default-cli) > :pmd @ SWE_Project >>>
+[INFO] 
+[INFO] --- maven-pmd-plugin:3.21.2:pmd (pmd) @ SWE_Project ---
+Warning:  Unable to locate Source XRef to link to - DISABLED
+[INFO] PMD version: 6.55.0
+Warning:  Use Rule name category/java/errorprone.xml/DoNotTerminateVM instead of the deprecated Rule name /home/runner/work/COMS-4156-Service/COMS-4156-Service/target/pmd/rulesets/001-errorprone.xml/DoNotCallSystemExit. PMD 7.0.0 will remove support for this deprecated Rule name usage.
+Warning:  Use Rule name category/java/errorprone.xml/InvalidLogMessageFormat instead of the deprecated Rule name /home/runner/work/COMS-4156-Service/COMS-4156-Service/target/pmd/rulesets/001-errorprone.xml/InvalidSlf4jMessageFormat. PMD 7.0.0 will remove support for this deprecated Rule name usage.
+Warning:  Use Rule name category/java/errorprone.xml/DoNotTerminateVM instead of the deprecated Rule name /home/runner/work/COMS-4156-Service/COMS-4156-Service/target/pmd/rulesets/001-errorprone.xml/DoNotCallSystemExit. PMD 7.0.0 will remove support for this deprecated Rule name usage.
+Warning:  Use Rule name category/java/errorprone.xml/InvalidLogMessageFormat instead of the deprecated Rule name /home/runner/work/COMS-4156-Service/COMS-4156-Service/target/pmd/rulesets/001-errorprone.xml/InvalidSlf4jMessageFormat. PMD 7.0.0 will remove support for this deprecated Rule name usage.
+[INFO] Rendering content with org.apache.maven.skins:maven-default-skin:jar:1.3 skin.
+[INFO] 
+[INFO] <<< maven-pmd-plugin:3.21.2:check (default-cli) < :pmd @ SWE_Project <<<
+[INFO] 
+[INFO] 
+[INFO] --- maven-pmd-plugin:3.21.2:check (default-cli) @ SWE_Project ---
+[INFO] PMD version: 6.55.0
+[INFO] PMD Failure: com.dev.sweproject.Document:315 Rule:OverrideBothEqualsAndHashcode Priority:3 Ensure you override both equals() and hashCode().
+[INFO] PMD Failure: com.dev.sweproject.Document:315 Rule:OverrideBothEqualsAndHashcode Priority:3 Ensure you override both equals() and hashCode().
+[INFO] PMD Failure: com.dev.sweproject.Document:324 Rule:UselessParentheses Priority:4 Useless parentheses..
+[INFO] PMD Failure: com.dev.sweproject.Document:325 Rule:UselessParentheses Priority:4 Useless parentheses..
+[INFO] PMD Failure: com.dev.sweproject.Document:326 Rule:UselessParentheses Priority:4 Useless parentheses..
+[INFO] PMD Failure: com.dev.sweproject.Document:327 Rule:UselessParentheses Priority:4 Useless parentheses..
+[INFO] PMD Failure: com.dev.sweproject.Document:328 Rule:UselessParentheses Priority:4 Useless parentheses..
+[INFO] PMD Failure: com.dev.sweproject.Document:329 Rule:UselessParentheses Priority:4 Useless parentheses..
+[INFO] PMD Failure: com.dev.sweproject.Document:343 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'stringReader' (lines '343'-'357')..
+[INFO] PMD Failure: com.dev.sweproject.Document:347 Rule:AssignmentInOperand Priority:3 Avoid assignments in operands.
+[INFO] PMD Failure: com.dev.sweproject.Document:347 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'line' (lines '347'-'357')..
+[INFO] PMD Failure: com.dev.sweproject.Document:367 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'random' (lines '367'-'373')..
+[INFO] PMD Failure: com.dev.sweproject.Document:401 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'slashLocation' (lines '401'-'418')..
+[INFO] PMD Failure: com.dev.sweproject.Document:402 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'start' (lines '402'-'418')..
+[INFO] PMD Failure: com.dev.sweproject.Document:411 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'slashLocation' (lines '411'-'418')..
+[INFO] PMD Failure: com.dev.sweproject.Document:425 Rule:AvoidLiteralsInIfCondition Priority:3 Avoid using Literals in Conditional Statements.
+[INFO] PMD Failure: com.dev.sweproject.Document:446 Rule:AvoidDuplicateLiterals Priority:3 The String literal " has " appears 6 times in this file; the first occurrence is on line 446.
+[INFO] PMD Failure: com.dev.sweproject.FirebaseConfig:27 Rule:CloseResource Priority:3 Ensure that resources like this FileInputStream object are closed after use.
+[INFO] PMD Failure: com.dev.sweproject.FirebaseService:296 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'random' (lines '296'-'302')..
+[INFO] PMD Failure: com.dev.sweproject.FirebaseService:315 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'collectionReference' (lines '315'-'340')..
+[INFO] PMD Failure: com.dev.sweproject.FirebaseService:315 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'collectionReference' (lines '315'-'340')..
+[INFO] PMD Failure: com.dev.sweproject.FirebaseService:315 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'collectionReference' (lines '315'-'340')..
+[INFO] PMD Failure: com.dev.sweproject.FirebaseService:317 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'titleListener' (lines '317'-'340')..
+[INFO] PMD Failure: com.dev.sweproject.FirebaseService:317 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'titleListener' (lines '317'-'340')..
+[INFO] PMD Failure: com.dev.sweproject.FirebaseService:317 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'titleListener' (lines '317'-'340')..
+[INFO] PMD Failure: com.dev.sweproject.FirebaseService:358 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'previousDoc' (lines '358'-'363')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:86 Rule:AvoidDuplicateLiterals Priority:3 The String literal "An unexpected error has occurred" appears 4 times in this file; the first occurrence is on line 86.
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:103 Rule:AvoidDuplicateLiterals Priority:3 The String literal "network-id" appears 10 times in this file; the first occurrence is on line 103.
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:104 Rule:AvoidDuplicateLiterals Priority:3 The String literal "document-name" appears 7 times in this file; the first occurrence is on line 104.
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:143 Rule:AvoidDuplicateLiterals Priority:3 The String literal "your-user-id" appears 7 times in this file; the first occurrence is on line 143.
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:169 Rule:AvoidDuplicateLiterals Priority:3 The String literal "An unexpected error has occurred." appears 4 times in this file; the first occurrence is on line 169.
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:172 Rule:AvoidDuplicateLiterals Priority:3 The String literal "No such document exists." appears 4 times in this file; the first occurrence is on line 172.
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:238 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'response' (lines '238'-'243')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:238 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'response' (lines '238'-'256')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:278 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'response' (lines '278'-'283')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:278 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'response' (lines '278'-'301')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:293 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'response' (lines '293'-'301')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:320 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'response' (lines '320'-'324')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:320 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'response' (lines '320'-'344')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:331 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'response' (lines '331'-'344')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:367 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'firstSnapshot' (lines '367'-'373')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:368 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'secondSnapshot' (lines '368'-'374')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:369 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'response' (lines '369'-'386')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:369 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'response' (lines '369'-'390')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:369 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'response' (lines '369'-'398')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:390 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'response' (lines '390'-'405')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:441 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'responseHeaders' (lines '441'-'455')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:441 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'responseHeaders' (lines '441'-'467')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:442 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'resource' (lines '442'-'454')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:442 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'resource' (lines '442'-'467')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:454 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'resource' (lines '454'-'467')..
+[INFO] PMD Failure: com.dev.sweproject.Document:315 Rule:OverrideBothEqualsAndHashcode Priority:3 Ensure you override both equals() and hashCode().
+[INFO] PMD Failure: com.dev.sweproject.Document:315 Rule:OverrideBothEqualsAndHashcode Priority:3 Ensure you override both equals() and hashCode().
+[INFO] PMD Failure: com.dev.sweproject.Document:324 Rule:UselessParentheses Priority:4 Useless parentheses..
+[INFO] PMD Failure: com.dev.sweproject.Document:325 Rule:UselessParentheses Priority:4 Useless parentheses..
+[INFO] PMD Failure: com.dev.sweproject.Document:326 Rule:UselessParentheses Priority:4 Useless parentheses..
+[INFO] PMD Failure: com.dev.sweproject.Document:327 Rule:UselessParentheses Priority:4 Useless parentheses..
+[INFO] PMD Failure: com.dev.sweproject.Document:328 Rule:UselessParentheses Priority:4 Useless parentheses..
+[INFO] PMD Failure: com.dev.sweproject.Document:329 Rule:UselessParentheses Priority:4 Useless parentheses..
+[INFO] PMD Failure: com.dev.sweproject.Document:343 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'stringReader' (lines '343'-'357')..
+[INFO] PMD Failure: com.dev.sweproject.Document:347 Rule:AssignmentInOperand Priority:3 Avoid assignments in operands.
+[INFO] PMD Failure: com.dev.sweproject.Document:347 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'line' (lines '347'-'357')..
+[INFO] PMD Failure: com.dev.sweproject.Document:367 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'random' (lines '367'-'373')..
+[INFO] PMD Failure: com.dev.sweproject.Document:401 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'slashLocation' (lines '401'-'418')..
+[INFO] PMD Failure: com.dev.sweproject.Document:402 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'start' (lines '402'-'418')..
+[INFO] PMD Failure: com.dev.sweproject.Document:411 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'slashLocation' (lines '411'-'418')..
+[INFO] PMD Failure: com.dev.sweproject.Document:425 Rule:AvoidLiteralsInIfCondition Priority:3 Avoid using Literals in Conditional Statements.
+[INFO] PMD Failure: com.dev.sweproject.Document:446 Rule:AvoidDuplicateLiterals Priority:3 The String literal " has " appears 6 times in this file; the first occurrence is on line 446.
+[INFO] PMD Failure: com.dev.sweproject.FirebaseConfig:27 Rule:CloseResource Priority:3 Ensure that resources like this FileInputStream object are closed after use.
+[INFO] PMD Failure: com.dev.sweproject.FirebaseService:296 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'random' (lines '296'-'302')..
+[INFO] PMD Failure: com.dev.sweproject.FirebaseService:315 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'collectionReference' (lines '315'-'340')..
+[INFO] PMD Failure: com.dev.sweproject.FirebaseService:315 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'collectionReference' (lines '315'-'340')..
+[INFO] PMD Failure: com.dev.sweproject.FirebaseService:315 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'collectionReference' (lines '315'-'340')..
+[INFO] PMD Failure: com.dev.sweproject.FirebaseService:317 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'titleListener' (lines '317'-'340')..
+[INFO] PMD Failure: com.dev.sweproject.FirebaseService:317 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'titleListener' (lines '317'-'340')..
+[INFO] PMD Failure: com.dev.sweproject.FirebaseService:317 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'titleListener' (lines '317'-'340')..
+[INFO] PMD Failure: com.dev.sweproject.FirebaseService:358 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'previousDoc' (lines '358'-'363')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:86 Rule:AvoidDuplicateLiterals Priority:3 The String literal "An unexpected error has occurred" appears 4 times in this file; the first occurrence is on line 86.
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:103 Rule:AvoidDuplicateLiterals Priority:3 The String literal "network-id" appears 10 times in this file; the first occurrence is on line 103.
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:104 Rule:AvoidDuplicateLiterals Priority:3 The String literal "document-name" appears 7 times in this file; the first occurrence is on line 104.
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:143 Rule:AvoidDuplicateLiterals Priority:3 The String literal "your-user-id" appears 7 times in this file; the first occurrence is on line 143.
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:169 Rule:AvoidDuplicateLiterals Priority:3 The String literal "An unexpected error has occurred." appears 4 times in this file; the first occurrence is on line 169.
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:172 Rule:AvoidDuplicateLiterals Priority:3 The String literal "No such document exists." appears 4 times in this file; the first occurrence is on line 172.
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:238 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'response' (lines '238'-'243')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:238 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'response' (lines '238'-'256')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:278 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'response' (lines '278'-'283')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:278 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'response' (lines '278'-'301')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:293 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'response' (lines '293'-'301')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:320 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'response' (lines '320'-'324')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:320 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'response' (lines '320'-'344')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:331 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'response' (lines '331'-'344')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:367 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'firstSnapshot' (lines '367'-'373')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:368 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'secondSnapshot' (lines '368'-'374')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:369 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'response' (lines '369'-'386')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:369 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'response' (lines '369'-'390')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:369 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'response' (lines '369'-'398')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:390 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'response' (lines '390'-'405')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:441 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'responseHeaders' (lines '441'-'455')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:441 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'responseHeaders' (lines '441'-'467')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:442 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DD'-anomaly for variable 'resource' (lines '442'-'454')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:442 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'resource' (lines '442'-'467')..
+[INFO] PMD Failure: com.dev.sweproject.SweProjectApplication:454 Rule:DataflowAnomalyAnalysis Priority:5 Found 'DU'-anomaly for variable 'resource' (lines '454'-'467')..
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.658 s
+[INFO] Finished at: 2023-12-01T02:00:18Z
+[INFO] ------------------------------------------------------------------------
+Error:  Failed to execute goal org.apache.maven.plugins:maven-pmd-plugin:3.21.2:check (default-cli) on project SWE_Project: You have 51 PMD violations. For more details see: /home/runner/work/COMS-4156-Service/COMS-4156-Service/target/pmd.xml -> [Help 1]
+Error:  
+Error:  To see the full stack trace of the errors, re-run Maven with the -e switch.
+Error:  Re-run Maven using the -X switch to enable full debug logging.
+Error:  
+Error:  For more information about the errors and possible solutions, please read the following articles:
+Error:  [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+
+
+Run Postman Tests
+-----------------
+Run cd postman
+  cd postman
+  newman run postman_tests.json
+  shell: /usr/bin/bash -e {0}
+  env:
+    JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.9-9/x64
+    JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.9-9/x64
+newman
+
+Final API Test Suite
+
+→ Register Client Success
+  POST http://34.86.161.172:8080/register-client [200 OK, 196B, 159ms]
+  ✓  Status code is 200 OK
+  ✓  Response should be JSON
+  ✓  Response should contain networkId
+
+→ Upload Document Success Client 1
+  POST http://34.86.161.172:8080/upload-doc?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&user-id=griffinnewbold/mohsin/jeannie [200 OK, 184B, 143ms]
+  ✓  Status code is 200 OK
+  ✓  Response should be JSON
+
+→ Upload Document Success Client 2
+  POST http://34.86.161.172:8080/upload-doc?network-id=testCollectionDocs&document-name=postman%20upload%20test&user-id=griffinnewbold/mohsin/jeannie [200 OK, 191B, 152ms]
+  ✓  Status code is 200 OK
+  ✓  Response should be JSON
+
+→ Share Document Success Client 1
+  PATCH http://34.86.161.172:8080/share-document?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&your-user-id=griffinnewbold&their-user-id=michael [200 OK, 215B, 76ms]
+  ✓  Status code is 200 OK
+  ✓  Response should be JSON
+
+→ Share Document Failure Client 1
+  PATCH http://34.86.161.172:8080/share-document?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&your-user-id=abenezer&their-user-id=michael [403 Forbidden, 206B, 83ms]
+  ✓  Status code is 403 Forbidden
+  ✓  Response should be JSON
+
+→ Share Document Failure Client 2
+  PATCH http://34.86.161.172:8080/share-document?network-id=testCollectionDocs&document-name=postman%20upload%20tests&your-user-id=abenezer&their-user-id=michael [404 Not Found, 187B, 84ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response should be JSON
+
+→ Delete Document Failure Client 1
+  DELETE http://34.86.161.172:8080/delete-doc?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&your-user-id=randomuser [403 Forbidden, 221B, 76ms]
+  ✓  Status code is 403 Forbidden
+  ✓  Response should be JSON
+
+→ Delete Document Failure 2 Client 1
+  DELETE http://34.86.161.172:8080/delete-doc?network-id=demoEndtoEndTest&document-name=postman%20upload%20tests&your-user-id=griffinnewbold [404 Not Found, 195B, 77ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response should be JSON
+
+→ Delete Document Success Client 2
+  DELETE http://34.86.161.172:8080/delete-doc?network-id=testCollectionDocs&document-name=postman%20upload%20test&your-user-id=griffinnewbold [200 OK, 202B, 86ms]
+  ✓  Status code is 200 OK
+  ✓  Response should be JSON
+
+→ Retrieve Documents Success Client 2
+  GET http://34.86.161.172:8080/retrieve-docs?network-id=demoEndtoEndTest&user-id=testdummy [200 OK, 16.55kB, 115ms]
+  ✓  Status code is 200 OK
+  ✓  Response should be JSON
+
+→ Retrieve Document Names Success Client 2
+  GET http://34.86.161.172:8080/retrieve-doc-names?network-id=demoEndtoEndTest&user-id=testdummy [200 OK, 226B, 76ms]
+  ✓  Status code is 200 OK
+  ✓  Response should be JSON
+
+→ Retrieve Document Stats Success Client 1
+  GET http://34.86.161.172:8080/see-document-stats?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&your-user-id=griffinnewbold [200 OK, 469B, 76ms]
+  ✓  Status code is 200 OK
+  ✓  Response should be JSON
+
+→ Retrieve Document Stats Failure 1 Client 1
+  GET http://34.86.161.172:8080/see-document-stats?network-id=demoEndtoEndTest&document-name=postman%20upload%20test&your-user-id=griffinnewboldsds [403 Forbidden, 212B, 76ms]
+  ✓  Status code is 403 Forbidden
+  ✓  Response should be JSON
+
+→ Retrieve Document Stats Failure Client 2
+  GET http://34.86.161.172:8080/see-document-stats?network-id=testCollectionDocs&document-name=postman%20upload%20tests&your-user-id=griffinnewbold [404 Not Found, 188B, 83ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response should be JSON
+
+→ Retrieve Document Difference Success Client 1
+  GET http://34.86.161.172:8080/generate-difference-summary?network-id=demoEndtoEndTest&fst-doc-name=Sixth&snd-doc-name=Seventh&your-user-id=testdummy [200 OK, 276B, 76ms]
+  ✓  Status code is 200 OK
+  ✓  Response should be JSON
+
+→ Retrieve Document Difference Failure Client 1
+  GET http://34.86.161.172:8080/generate-difference-summary?network-id=demoEndtoEndTest&fst-doc-name=Sixth5&snd-doc-name=Seventh&your-user-id=testdummy [404 Not Found, 208B, 77ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response should be JSON
+
+→ Retrieve Document Difference Failure 2 Client 1
+  GET http://34.86.161.172:8080/generate-difference-summary?network-id=demoEndtoEndTest&fst-doc-name=Sixth&snd-doc-name=Seventh&your-user-id=testdummys [403 Forbidden, 219B, 76ms]
+  ✓  Status code is 403 Forbidden
+  ✓  Response should be JSON
+
+→ Retrieve Previous Version Success Client 2
+  GET http://34.86.161.172:8080/see-previous-version?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserId&revision-number=2 [200 OK, 336B, 86ms]
+  ✓  Status code is 200 OK
+  ✓  Response should be JSON
+
+→ Retrieve Previous Version Failure 1 Client 2
+  GET http://34.86.161.172:8080/see-previous-version?network-id=testCollectionDocs&document-name=my%20first%20docs&your-user-id=user01&revision-number=2 [404 Not Found, 187B, 87ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response should be JSON
+
+→ Retrieve Previous Version Failure 2 Client 2
+  GET http://34.86.161.172:8080/see-previous-version?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserId2&revision-number=2 [403 Forbidden, 210B, 85ms]
+  ✓  Status code is 403 Forbidden
+  ✓  Response should be JSON
+
+→ Retrieve Previous Version Failure 3 Client 2
+  GET http://34.86.161.172:8080/see-previous-version?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserId&revision-number=-1 [400 Bad Request, 171B, 86ms]
+  ✓  Status code is 400 Bad Request
+  ✓  Response should be JSON
+
+→ Retrieve Document Success Client 2
+  GET http://34.86.161.172:8080/check-for-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserId [200 OK, 56.98kB, 213ms]
+  ✓  Status code is 200 OK
+  ✓  Response should be JSON
+
+→ Retrieve Document Failure 1 Client 2
+  GET http://34.86.161.172:8080/check-for-doc?network-id=testCollectionDocs&document-name=yourFileNames&your-user-id=yourUserId [404 Not Found, 187B, 86ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response should be JSON
+
+→ Retrieve Document Failure 2 Client 2
+  GET http://34.86.161.172:8080/check-for-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserIds [403 Forbidden, 213B, 88ms]
+  ✓  Status code is 403 Forbidden
+  ✓  Response should be JSON
+
+→ Retrieve Document Contents Success 1 Client 2
+  GET http://34.86.161.172:8080/download-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserId [200 OK, 290B, 85ms]
+  ✓  Status code is 200 OK
+  ✓  Response should be JSON
+
+→ Retrieve Document Contents Success 2 Client 2
+  GET http://34.86.161.172:8080/download-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=user06 [200 OK, 290B, 93ms]
+  ✓  Status code is 200 OK
+  ✓  Response should be JSON
+
+→ Retrieve Document Contents Failure 1 Client 2
+  GET http://34.86.161.172:8080/download-doc?network-id=testCollectionDocs&document-name=yourFileNames&your-user-id=yourUserId [404 Not Found, 194B, 84ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response should be JSON
+
+→ Retrieve Document Contents Failure 2 Client 2
+  GET http://34.86.161.172:8080/download-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=yourUserIds [403 Forbidden, 213B, 85ms]
+  ✓  Status code is 403 Forbidden
+  ✓  Response should be JSON
+
+→ Retrieve Document Contents Failure 3 Client 2
+  GET http://34.86.161.172:8080/download-doc?network-id=testCollectionDocs&document-name=yourFileName&your-user-id=user06 [400 Bad Request, 173B, 48ms]
+  ✓  Status code is 400 Bad Request
+  ✓  Response should be JSON
+
+┌─────────────────────────┬───────────────────┬───────────────────┐
+│                         │          executed │            failed │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              iterations │                 1 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│                requests │                29 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│            test-scripts │                29 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│      prerequest-scripts │                 0 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              assertions │                59 │                 0 │
+├─────────────────────────┴───────────────────┴───────────────────┤
+│ total run duration: 3.2s                                        │
+├─────────────────────────────────────────────────────────────────┤
+│ total data received: 74.72kB (approx)                           │
+├─────────────────────────────────────────────────────────────────┤
+│ average response time: 93ms [min: 48ms, max: 213ms, s.d.: 32ms] │
+└─────────────────────────────────────────────────────────────────┘
+
+
+Post Set up JDK 17
+------------------
+Post job cleanup.
+Cache hit occurred on the primary key setup-java-Linux-maven-3d9a7e423064ad97f0f2a7f255b166411aa148da8336dc833abe1dd2caf9c4af, not saving cache.
+
+Post Run actions/checkout@v3
+----------------------------
+Post job cleanup.
+/usr/bin/git version
+git version 2.43.0
+Temporarily overriding HOME='/home/runner/work/_temp/15b7dd1e-eb2b-4c7c-b91f-ff7db944bde3' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+/usr/bin/git config --global --add safe.directory /home/runner/work/COMS-4156-Service/COMS-4156-Service
+/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+http.https://github.com/.extraheader
+/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+
+Complete job
+------------
+Cleaning up orphan processes
