@@ -328,14 +328,12 @@ class DocumentTest {
    */
   @Test
   public void testCompareTo() throws IOException {
-    Document doc = new Document("userId", "clientId", null, "docId",
-            "Title", 100);
-    Document doc2 = new Document("userId/userId", "clientId", null, "docId",
-            "Title", 100);
+    Document doc = new Document("userId", "clientId", null, "docId", "Title", 100);
     StringBuilder expectedBuilder = new StringBuilder();
     expectedBuilder.append("The following statistics are available for the first document: \n");
     expectedBuilder.append(doc.generateUsageStatistics()).append("\n");
     expectedBuilder.append("The following statistics are available for the second document: \n");
+    Document doc2 = new Document("userId/userId", "clientId", null, "docId", "Title", 100);
     expectedBuilder.append(doc2.generateUsageStatistics()).append("\n");
     expectedBuilder.append(doc.getTitle()).append(" has the same word count ")
         .append(doc2.getTitle()).append("\n");
@@ -353,14 +351,12 @@ class DocumentTest {
    */
   @Test
   public void testCompareToUserDiff() throws IOException {
-    Document doc = new Document("userId/userId", "clientId", null, "docId",
-            "Title", 100);
-    Document doc2 = new Document("userId/userId", "clientId", null, "docId",
-            "Title", 100);
+    Document doc = new Document("userId/userId", "clientId", null, "docId", "Title", 100);
     StringBuilder expectedBuilder = new StringBuilder();
     expectedBuilder.append("The following statistics are available for the first document: \n");
     expectedBuilder.append(doc.generateUsageStatistics()).append("\n");
     expectedBuilder.append("The following statistics are available for the second document: \n");
+    Document doc2 = new Document("userId/userId", "clientId", null, "docId", "Title", 100);
     expectedBuilder.append(doc2.generateUsageStatistics()).append("\n");
     expectedBuilder.append(doc.getTitle()).append(" has the same word count ")
         .append(doc2.getTitle()).append("\n");
@@ -378,21 +374,19 @@ class DocumentTest {
    */
   @Test
   public void testCompareToWordDiff() throws IOException {
-    Document doc = new Document("userId", "clientId", null, "docId",
-            "Title", 80);
-    Document doc2 = new Document("userId/userId", "clientId", null, "docId",
-            "Title", 100);
-    int diff = doc2.getWordCount() - doc.getWordCount();
+    Document doc = new Document("userId", "clientId", null, "docId", "Title", 80);
     StringBuilder expectedOneBuilder = new StringBuilder();
-    StringBuilder expectedTwoBuilder = new StringBuilder();
     expectedOneBuilder.append("The following statistics are available for the first document: \n");
     expectedOneBuilder.append(doc.generateUsageStatistics()).append("\n");
     expectedOneBuilder.append("The following statistics are available for the second document: \n");
+    Document doc2 = new Document("userId/userId", "clientId", null, "docId", "Title", 100);
     expectedOneBuilder.append(doc2.generateUsageStatistics()).append("\n");
+    StringBuilder expectedTwoBuilder = new StringBuilder();
     expectedTwoBuilder.append("The following statistics are available for the first document: \n");
     expectedTwoBuilder.append(doc2.generateUsageStatistics()).append("\n");
     expectedTwoBuilder.append("The following statistics are available for the second document: \n");
     expectedTwoBuilder.append(doc.generateUsageStatistics()).append("\n");
+    int diff = doc2.getWordCount() - doc.getWordCount();
     expectedOneBuilder.append(doc.getTitle()).append(" has ").append(diff)
         .append(" less words than ")
             .append(doc2.getTitle()).append("\n");
@@ -419,21 +413,17 @@ class DocumentTest {
    */
   @Test
   public void testCompareToVersionCount() throws IOException {
-    Document doc = new Document("userId", "clientId", null, "docId",
-            "Title", 80);
-    Document docPrev = new Document("userId", "clientId", null, "docId",
-            "Title", 80);
+    Document doc = new Document("userId", "clientId", null, "docId", "Title", 80);
+    Document docPrev = new Document("userId", "clientId", null, "docId", "Title", 80);
     doc.addPreviousVersion(docPrev);
 
-    Document doc2 = new Document("userId/userId", "clientId", null, "docId",
-            "Title", 80);
-
     StringBuilder expectedOneBuilder = new StringBuilder();
-    StringBuilder expectedTwoBuilder = new StringBuilder();
     expectedOneBuilder.append("The following statistics are available for the first document: \n");
     expectedOneBuilder.append(doc.generateUsageStatistics()).append("\n");
     expectedOneBuilder.append("The following statistics are available for the second document: \n");
+    Document doc2 = new Document("userId/userId", "clientId", null, "docId", "Title", 80);
     expectedOneBuilder.append(doc2.generateUsageStatistics()).append("\n");
+    StringBuilder expectedTwoBuilder = new StringBuilder();
     expectedTwoBuilder.append("The following statistics are available for the first document: \n");
     expectedTwoBuilder.append(doc2.generateUsageStatistics()).append("\n");
     expectedTwoBuilder.append("The following statistics are available for the second document: \n");
@@ -444,7 +434,6 @@ class DocumentTest {
         .append(doc2.getTitle()).append("\n");
     expectedOneBuilder.append(doc.getTitle()).append(" has 1 more versions than ")
         .append(doc2.getTitle());
-
     expectedTwoBuilder.append(doc2.getTitle()).append(" has the same word count ")
         .append(doc.getTitle()).append("\n");
     expectedTwoBuilder.append(doc2.getTitle()).append(" has 1 more users than ")
@@ -473,8 +462,7 @@ class DocumentTest {
    */
   @Test
   public void testGenerateUsageStatistics() throws IOException {
-    Document doc = new Document("userId", "clientId", null, "docId",
-            "Title", 100);
+    Document doc = new Document("userId", "clientId", null, "docId", "Title", 100);
 
     StringBuilder result = new StringBuilder();
     result.append("This document belongs to the following network: ").append(doc.getClientId())
@@ -496,8 +484,7 @@ class DocumentTest {
     result2.append("userId\notherUserId\n");
     result2.append("There is/are 0 previous versions on record");
 
-    Document doc2 = new Document("userId/otherUserId", "clientId", null, "docId",
-            "Title", 100);
+    Document doc2 = new Document("userId/otherUserId", "clientId", null, "docId", "Title", 100);
 
     assertEquals(result.toString(), doc.generateUsageStatistics());
     assertEquals(result2.toString(), doc2.generateUsageStatistics());
