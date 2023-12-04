@@ -337,9 +337,12 @@ class DocumentTest {
     expectedBuilder.append(doc.generateUsageStatistics()).append("\n");
     expectedBuilder.append("The following statistics are available for the second document: \n");
     expectedBuilder.append(doc2.generateUsageStatistics()).append("\n");
-    expectedBuilder.append(doc.getTitle()).append(" has the same word count ").append(doc2.getTitle()).append("\n");
-    expectedBuilder.append(doc.getTitle()).append(" has 1 less users than ").append(doc2.getTitle()).append("\n");
-    expectedBuilder.append(doc.getTitle()).append(" has the same version count ").append(doc2.getTitle()).append("\n");
+    expectedBuilder.append(doc.getTitle()).append(" has the same word count ")
+        .append(doc2.getTitle()).append("\n");
+    expectedBuilder.append(doc.getTitle()).append(" has 1 less users than ")
+        .append(doc2.getTitle()).append("\n");
+    expectedBuilder.append(doc.getTitle()).append(" has the same version count ")
+        .append(doc2.getTitle());
     assertEquals(expectedBuilder.toString(), doc.compareTo(doc2));
   }
 
@@ -359,9 +362,12 @@ class DocumentTest {
     expectedBuilder.append(doc.generateUsageStatistics()).append("\n");
     expectedBuilder.append("The following statistics are available for the second document: \n");
     expectedBuilder.append(doc2.generateUsageStatistics()).append("\n");
-    expectedBuilder.append(doc.getTitle()).append(" has the same word count ").append(doc2.getTitle()).append("\n");
-    expectedBuilder.append(doc.getTitle()).append(" has the same user count ").append(doc2.getTitle()).append("\n");
-    expectedBuilder.append(doc.getTitle()).append(" has the same version count ").append(doc2.getTitle()).append("\n");
+    expectedBuilder.append(doc.getTitle()).append(" has the same word count ")
+        .append(doc2.getTitle()).append("\n");
+    expectedBuilder.append(doc.getTitle()).append(" has the same user count ")
+        .append(doc2.getTitle()).append("\n");
+    expectedBuilder.append(doc.getTitle()).append(" has the same version count ")
+        .append(doc2.getTitle());
     assertEquals(expectedBuilder.toString(), doc.compareTo(doc2));
   }
 
@@ -387,16 +393,20 @@ class DocumentTest {
     expectedTwoBuilder.append(doc2.generateUsageStatistics()).append("\n");
     expectedTwoBuilder.append("The following statistics are available for the second document: \n");
     expectedTwoBuilder.append(doc.generateUsageStatistics()).append("\n");
-    expectedOneBuilder.append(doc.getTitle()).append(" has ").append(diff).append(" less words than ")
+    expectedOneBuilder.append(doc.getTitle()).append(" has ").append(diff)
+        .append(" less words than ")
             .append(doc2.getTitle()).append("\n");
-    expectedTwoBuilder.append(doc2.getTitle()).append(" has ").append(diff).append(" more words than ")
+    expectedTwoBuilder.append(doc2.getTitle()).append(" has ").append(diff)
+        .append(" more words than ")
             .append(doc.getTitle()).append("\n");
 
-    expectedOneBuilder.append(doc.getTitle()).append(" has 1 less users than ").append(doc2.getTitle()).append("\n")
-            .append(doc.getTitle()).append(" has the same version count ").append(doc2.getTitle());
+    expectedOneBuilder.append(doc.getTitle()).append(" has 1 less users than ")
+        .append(doc2.getTitle()).append("\n").append(doc.getTitle())
+        .append(" has the same version count ").append(doc2.getTitle());
 
-    expectedTwoBuilder.append(doc.getTitle()).append(" has 1 more users than ").append(doc2.getTitle()).append("\n")
-            .append(doc.getTitle()).append(" has the same version count ").append(doc2.getTitle());
+    expectedTwoBuilder.append(doc.getTitle()).append(" has 1 more users than ")
+        .append(doc2.getTitle()).append("\n").append(doc.getTitle())
+        .append(" has the same version count ").append(doc2.getTitle());
 
     assertEquals(expectedOneBuilder.toString(), doc.compareTo(doc2));
     assertEquals(expectedTwoBuilder.toString(), doc2.compareTo(doc));
@@ -428,13 +438,19 @@ class DocumentTest {
     expectedTwoBuilder.append(doc2.generateUsageStatistics()).append("\n");
     expectedTwoBuilder.append("The following statistics are available for the second document: \n");
     expectedTwoBuilder.append(doc.generateUsageStatistics()).append("\n");
-    expectedOneBuilder.append(doc.getTitle()).append(" has the same word count ").append(doc2.getTitle()).append("\n");
-    expectedOneBuilder.append(doc.getTitle()).append(" has 1 less users than ").append(doc2.getTitle()).append("\n");
-    expectedOneBuilder.append(doc.getTitle()).append(" has 1 more versions than ").append(doc2.getTitle());
+    expectedOneBuilder.append(doc.getTitle()).append(" has the same word count ")
+        .append(doc2.getTitle()).append("\n");
+    expectedOneBuilder.append(doc.getTitle()).append(" has 1 less users than ")
+        .append(doc2.getTitle()).append("\n");
+    expectedOneBuilder.append(doc.getTitle()).append(" has 1 more versions than ")
+        .append(doc2.getTitle());
 
-    expectedTwoBuilder.append(doc2.getTitle()).append(" has the same word count ").append(doc.getTitle()).append("\n");
-    expectedTwoBuilder.append(doc2.getTitle()).append(" has 1 more users than ").append(doc.getTitle()).append("\n");
-    expectedTwoBuilder.append(doc2.getTitle()).append(" has 1 less versions than ").append(doc.getTitle());
+    expectedTwoBuilder.append(doc2.getTitle()).append(" has the same word count ")
+        .append(doc.getTitle()).append("\n");
+    expectedTwoBuilder.append(doc2.getTitle()).append(" has 1 more users than ")
+        .append(doc.getTitle()).append("\n");
+    expectedTwoBuilder.append(doc2.getTitle()).append(" has 1 less versions than ")
+        .append(doc.getTitle());
     assertEquals(expectedOneBuilder.toString(), doc.compareTo(doc2));
     assertEquals(expectedTwoBuilder.toString(), doc2.compareTo(doc));
   }
@@ -461,7 +477,8 @@ class DocumentTest {
             "Title", 100);
 
     StringBuilder result = new StringBuilder();
-    result.append("This document belongs to the following network: ").append(doc.getClientId()).append("\n");
+    result.append("This document belongs to the following network: ").append(doc.getClientId())
+        .append("\n");
     result.append("The creator of the document is: userId").append("\n");
     result.append("The word count is: ").append(doc.getWordCount()).append("\n");
     result.append("There are 1 able to see the document.\n");
@@ -470,7 +487,8 @@ class DocumentTest {
     result.append("There is/are 0 previous versions on record");
 
     StringBuilder result2 = new StringBuilder();
-    result2.append("This document belongs to the following network: ").append(doc.getClientId()).append("\n");
+    result2.append("This document belongs to the following network: ").append(doc.getClientId())
+        .append("\n");
     result2.append("The creator of the document is: userId").append("\n");
     result2.append("The word count is: ").append(doc.getWordCount()).append("\n");
     result2.append("There are 2 able to see the document.\n");

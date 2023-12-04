@@ -458,10 +458,11 @@ public class Document {
       resultBuilder.append(this.getTitle()).append(hasString).append(wordCountDiff)
               .append(" more words than ").append(other.getTitle());
     } else if (wordCountDiff < 0) {
-      resultBuilder.append(this.getTitle()).append(hasString).append(wordCountDiff)
+      resultBuilder.append(this.getTitle()).append(hasString).append(Math.abs(wordCountDiff))
               .append(" less words than ").append(other.getTitle());
     } else {
-      resultBuilder.append(this.getTitle()).append(" has the same word count ").append(other.getTitle());
+      resultBuilder.append(this.getTitle()).append(" has the same word count ")
+          .append(other.getTitle());
     }
     resultBuilder.append("\n");
 
@@ -470,10 +471,11 @@ public class Document {
       resultBuilder.append(this.getTitle()).append(hasString).append(userCountDiff)
               .append(" more users than ").append(other.getTitle());
     } else if (userCountDiff < 0) {
-      resultBuilder.append(this.getTitle()).append(hasString).append(Math.abs(userCountDiff))
+      resultBuilder.append(this.getTitle()).append(hasString).append((Math.abs(userCountDiff)))
               .append(" less users than ").append(other.getTitle());
     } else {
-      resultBuilder.append(this.getTitle()).append(" has the same user count ").append(other.getTitle());
+      resultBuilder.append(this.getTitle()).append(" has the same user count ")
+          .append(other.getTitle());
     }
     resultBuilder.append("\n");
 
@@ -483,10 +485,11 @@ public class Document {
       resultBuilder.append(this.getTitle()).append(hasString).append(versionCountDiff)
               .append(" more versions than ").append(other.getTitle());
     } else if (versionCountDiff < 0) {
-      resultBuilder.append(this.getTitle()).append(hasString).append(Math.abs(versionCountDiff))
+      resultBuilder.append(this.getTitle()).append(hasString).append((Math.abs(versionCountDiff)))
               .append(" less versions than ").append(other.getTitle());
     } else {
-      resultBuilder.append(this.getTitle()).append(" has the same version count ").append(other.getTitle());
+      resultBuilder.append(this.getTitle()).append(" has the same version count ")
+          .append(other.getTitle());
     }
     return resultBuilder.toString();
   }
