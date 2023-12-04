@@ -444,46 +444,51 @@ public class Document {
    *         two documents
    */
   public String compareTo(@NotNull Document other) {
-    String result = "";
+    StringBuilder resultBuilder = new StringBuilder();
+    resultBuilder.append("The following statistics are available for the first document: \n");
+    resultBuilder.append(this.generateUsageStatistics()).append("\n");
+    resultBuilder.append("The following statistics are available for the second document: \n");
+    resultBuilder.append(other.generateUsageStatistics()).append("\n");
+
     int wordCountDiff = this.wordCount - other.wordCount;
     int userCountDiff = this.countUsers() - other.countUsers();
     String hasString = " has ";
 
     if (wordCountDiff > 0) {
-      result += this.getTitle() + hasString + wordCountDiff + " more words than "
-          + other.getTitle();
+      resultBuilder.append(this.getTitle()).append(hasString).append(wordCountDiff)
+              .append(" more words than ").append(other.getTitle());
     } else if (wordCountDiff < 0) {
-      result += this.getTitle() + hasString + (-1 * wordCountDiff)
-         + " less words than " + other.getTitle();
+      resultBuilder.append(this.getTitle()).append(hasString).append(wordCountDiff)
+              .append(" less words than ").append(other.getTitle());
     } else {
-      result += this.getTitle() + " has the same word count " + other.getTitle();
+      resultBuilder.append(this.getTitle()).append(" has the same word count ").append(other.getTitle());
     }
-    result += "\n";
+    resultBuilder.append("\n");
 
     //logic dealing with user counts
     if (userCountDiff > 0) {
-      result += this.getTitle() + hasString + userCountDiff + " more users than "
-          + other.getTitle();
+      resultBuilder.append(this.getTitle()).append(hasString).append(userCountDiff)
+              .append(" more users than ").append(other.getTitle());
     } else if (userCountDiff < 0) {
-      result += this.getTitle() + hasString + (-1 * userCountDiff) + " less users than "
-          + other.getTitle();
+      resultBuilder.append(this.getTitle()).append(hasString).append(Math.abs(userCountDiff))
+              .append(" less users than ").append(other.getTitle());
     } else {
-      result += this.getTitle() + " has the same user count " + other.getTitle();
+      resultBuilder.append(this.getTitle()).append(" has the same user count ").append(other.getTitle());
     }
-    result += "\n";
+    resultBuilder.append("\n");
 
     //logic dealing with version counts
     int versionCountDiff = (this.previousVersions.size() - 1) - (other.previousVersions.size() - 1);
     if (versionCountDiff > 0) {
-      result += this.getTitle() + hasString + versionCountDiff + " more versions than "
-          + other.getTitle();
+      resultBuilder.append(this.getTitle()).append(hasString).append(versionCountDiff)
+              .append(" more versions than ").append(other.getTitle());
     } else if (versionCountDiff < 0) {
-      result += this.getTitle() + hasString + (-1 * versionCountDiff) + " less versions than "
-          + other.getTitle();
+      resultBuilder.append(this.getTitle()).append(hasString).append(Math.abs(versionCountDiff))
+              .append(" less versions than ").append(other.getTitle());
     } else {
-      result += this.getTitle() + " has the same version count " + other.getTitle();
+      resultBuilder.append(this.getTitle()).append(" has the same version count ").append(other.getTitle());
     }
-    return result;
+    return resultBuilder.toString();
   }
 
   private String getOriginalUser() {
