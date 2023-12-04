@@ -330,11 +330,11 @@ class DocumentTest {
   public void testCompareTo() throws IOException {
     Document doc = new Document("userId", "clientId", null, "docId", "Title", 100);
     StringBuilder expectedBuilder = new StringBuilder();
-    expectedBuilder.append("The following statistics are available for the first document: \n");
-    expectedBuilder.append(doc.generateUsageStatistics()).append("\n");
-    expectedBuilder.append("The following statistics are available for the second document: \n");
+    expectedBuilder.append("The following statistics are available for the first document: \n\n");
+    expectedBuilder.append(doc.generateUsageStatistics()).append("\n\n");
+    expectedBuilder.append("The following statistics are available for the second document: \n\n");
     Document doc2 = new Document("userId/userId", "clientId", null, "docId", "Title", 100);
-    expectedBuilder.append(doc2.generateUsageStatistics()).append("\n");
+    expectedBuilder.append(doc2.generateUsageStatistics()).append("\n\n");
     expectedBuilder.append(doc.getTitle()).append(" has the same word count ")
         .append(doc2.getTitle()).append("\n");
     expectedBuilder.append(doc.getTitle()).append(" has 1 less users than ")
@@ -353,11 +353,11 @@ class DocumentTest {
   public void testCompareToUserDiff() throws IOException {
     Document doc = new Document("userId/userId", "clientId", null, "docId", "Title", 100);
     StringBuilder expectedBuilder = new StringBuilder();
-    expectedBuilder.append("The following statistics are available for the first document: \n");
-    expectedBuilder.append(doc.generateUsageStatistics()).append("\n");
-    expectedBuilder.append("The following statistics are available for the second document: \n");
+    expectedBuilder.append("The following statistics are available for the first document: \n\n");
+    expectedBuilder.append(doc.generateUsageStatistics()).append("\n\n");
+    expectedBuilder.append("The following statistics are available for the second document: \n\n");
     Document doc2 = new Document("userId/userId", "clientId", null, "docId", "Title", 100);
-    expectedBuilder.append(doc2.generateUsageStatistics()).append("\n");
+    expectedBuilder.append(doc2.generateUsageStatistics()).append("\n\n");
     expectedBuilder.append(doc.getTitle()).append(" has the same word count ")
         .append(doc2.getTitle()).append("\n");
     expectedBuilder.append(doc.getTitle()).append(" has the same user count ")
@@ -376,16 +376,20 @@ class DocumentTest {
   public void testCompareToWordDiff() throws IOException {
     Document doc = new Document("userId", "clientId", null, "docId", "Title", 80);
     StringBuilder expectedOneBuilder = new StringBuilder();
-    expectedOneBuilder.append("The following statistics are available for the first document: \n");
-    expectedOneBuilder.append(doc.generateUsageStatistics()).append("\n");
-    expectedOneBuilder.append("The following statistics are available for the second document: \n");
+    expectedOneBuilder.append("The following statistics are available for the first document: "
+        + "\n\n");
+    expectedOneBuilder.append(doc.generateUsageStatistics()).append("\n\n");
+    expectedOneBuilder.append("The following statistics are available for the second document: "
+        + "\n\n");
     Document doc2 = new Document("userId/userId", "clientId", null, "docId", "Title", 100);
-    expectedOneBuilder.append(doc2.generateUsageStatistics()).append("\n");
+    expectedOneBuilder.append(doc2.generateUsageStatistics()).append("\n\n");
     StringBuilder expectedTwoBuilder = new StringBuilder();
-    expectedTwoBuilder.append("The following statistics are available for the first document: \n");
-    expectedTwoBuilder.append(doc2.generateUsageStatistics()).append("\n");
-    expectedTwoBuilder.append("The following statistics are available for the second document: \n");
-    expectedTwoBuilder.append(doc.generateUsageStatistics()).append("\n");
+    expectedTwoBuilder.append("The following statistics are available for the first document: "
+        + "\n\n");
+    expectedTwoBuilder.append(doc2.generateUsageStatistics()).append("\n\n");
+    expectedTwoBuilder.append("The following statistics are available for the second document: "
+        + "\n\n");
+    expectedTwoBuilder.append(doc.generateUsageStatistics()).append("\n\n");
     int diff = doc2.getWordCount() - doc.getWordCount();
     expectedOneBuilder.append(doc.getTitle()).append(" has ").append(diff)
         .append(" less words than ")
@@ -418,16 +422,20 @@ class DocumentTest {
     doc.addPreviousVersion(docPrev);
 
     StringBuilder expectedOneBuilder = new StringBuilder();
-    expectedOneBuilder.append("The following statistics are available for the first document: \n");
-    expectedOneBuilder.append(doc.generateUsageStatistics()).append("\n");
-    expectedOneBuilder.append("The following statistics are available for the second document: \n");
+    expectedOneBuilder.append("The following statistics are available for the first document: "
+        + "\n\n");
+    expectedOneBuilder.append(doc.generateUsageStatistics()).append("\n\n");
+    expectedOneBuilder.append("The following statistics are available for the second document: "
+        + "\n\n");
     Document doc2 = new Document("userId/userId", "clientId", null, "docId", "Title", 80);
-    expectedOneBuilder.append(doc2.generateUsageStatistics()).append("\n");
+    expectedOneBuilder.append(doc2.generateUsageStatistics()).append("\n\n");
     StringBuilder expectedTwoBuilder = new StringBuilder();
-    expectedTwoBuilder.append("The following statistics are available for the first document: \n");
-    expectedTwoBuilder.append(doc2.generateUsageStatistics()).append("\n");
-    expectedTwoBuilder.append("The following statistics are available for the second document: \n");
-    expectedTwoBuilder.append(doc.generateUsageStatistics()).append("\n");
+    expectedTwoBuilder.append("The following statistics are available for the first document: "
+        + "\n\n");
+    expectedTwoBuilder.append(doc2.generateUsageStatistics()).append("\n\n");
+    expectedTwoBuilder.append("The following statistics are available for the second document: "
+        + "\n\n");
+    expectedTwoBuilder.append(doc.generateUsageStatistics()).append("\n\n");
     expectedOneBuilder.append(doc.getTitle()).append(" has the same word count ")
         .append(doc2.getTitle()).append("\n");
     expectedOneBuilder.append(doc.getTitle()).append(" has 1 less users than ")

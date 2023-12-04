@@ -445,10 +445,10 @@ public class Document {
    */
   public String compareTo(@NotNull Document other) {
     StringBuilder resultBuilder = new StringBuilder();
-    resultBuilder.append("The following statistics are available for the first document: \n");
-    resultBuilder.append(this.generateUsageStatistics()).append("\n");
-    resultBuilder.append("The following statistics are available for the second document: \n");
-    resultBuilder.append(other.generateUsageStatistics()).append("\n");
+    resultBuilder.append("The following statistics are available for the first document: \n\n");
+    resultBuilder.append(this.generateUsageStatistics()).append("\n\n");
+    resultBuilder.append("The following statistics are available for the second document: \n\n");
+    resultBuilder.append(other.generateUsageStatistics()).append("\n\n");
 
     int wordCountDiff = this.wordCount - other.wordCount;
     int userCountDiff = this.countUsers() - other.countUsers();
