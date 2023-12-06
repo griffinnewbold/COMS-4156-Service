@@ -39,7 +39,7 @@ Specific Tests confirming proper returning of HTTP status codes and content type
 ## Endpoints
 This section describes the endpoints that our service provides, as well as their inputs and outputs. See the
 "Postman Test Documentation" section for in-depth examples of use cases and inputs/outputs, especially for file
-uploads and downloads. To see more information on the method level specific api via javadoc and also to access what exceptions could be thrown visit: https://griffinnewbold.github.io/javaindex 
+uploads and downloads. To see more information on the method level specific api via javadoc and also to access what exceptions could be thrown visit: [https://griffinnewbold.github.io/javaindex ](https://griffinnewbold.github.io/servicejavadoc/index.html)
 Any malformed request such that there is an error in your wording i.e. you do not use %20 for a space, or such that the API endpoint structure does not match what you are attempting to send you will receive a <code>HTTP 400 Bad Request</code> in response.
 
 #### POST /register-client
