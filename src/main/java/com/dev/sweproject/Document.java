@@ -351,7 +351,7 @@ public class Document {
         String line = reader.readLine();
         while (line != null) {
           String[] words = line.split("\\s+"); // splits by spaces
-          wordCount += words.length;
+          wordCount += countNonEmpty(words);
           line = reader.readLine();
         }
       }
@@ -362,6 +362,15 @@ public class Document {
     return wordCount;
   }
 
+  private static int countNonEmpty(String[] words) {
+    int count = 0;
+    for (String word : words) {
+      if (!word.isEmpty()) {
+        count++;
+      }
+    }
+    return count;
+  }
 
   /**
    * Generates a document id.
